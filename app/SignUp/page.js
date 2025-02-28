@@ -1,103 +1,197 @@
-// app/SignUp/page.js
-'use client';
+"use client"; // Mark as a Client Component
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation"; // Note the change from 'next/router' to 'next/navigation'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function SignUpPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignUpPage = () => {
   const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real app, you would handle registration here
-    console.log("Sign up attempt with:", { name, email, password });
-    
-    // Redirect to login page after successful signup
-    router.push("/Login");
+    setError('');
+    setIsLoading(true);
+
+    // Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+        credentials: 'include', // Include credentials for cookies
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Optional: Store token if your API returns one
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
+        
+        alert('Signup successful');
+        router.push('/login'); // Redirect to login page
+      } else {
+        setError(data.error || 'Signup failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred during signup');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
-        <div>
-          <Link href="/" className="flex justify-center">
-            <h2 className="text-2xl font-bold text-blue-600">Resume Builder</h2>
-          </Link>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
+    <div className="min-h-screen bg-gradient-to-r from-blue-600 to-indigo-600 py-16 px-4">
+      <div className="max-w-md mx-auto">
+        <div className="text-center mb-8">
+          <button
+            onClick={() => router.push('/')}
+            className="text-3xl font-bold text-white hover:text-blue-100 transition"
+          >
+            Resume Builder
+          </button>
+          <p className="mt-2 text-blue-100">Create your account to get started</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+
+        <div className="bg-white rounded-xl shadow-xl p-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Sign Up</h2>
+          
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="name" className="sr-only">Full name</label>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+              </label>
               <input
-                id="name"
-                name="name"
                 type="text"
-                autoComplete="name"
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                disabled={isLoading}
               />
             </div>
             <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email Address
+              </label>
               <input
-                id="email-address"
-                name="email"
                 type="email"
-                autoComplete="email"
+                id="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">Password</label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
               <input
-                id="password"
-                name="password"
                 type="password"
-                autoComplete="new-password"
+                id="password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
               />
+            </div>
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+                disabled={isLoading}
+              />
+            </div>
+            <button
+              type="submit"
+              className={`w-full bg-blue-600 text-white py-3 rounded-lg font-semibold ${
+                isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-blue-700'
+              } transition`}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Creating Account...' : 'Create Account'}
+            </button>
+          </form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <button 
+                type="button"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center justify-center"
+                disabled={isLoading}
+              >
+                <span className="mr-2">G</span> Google
+              </button>
+              <button 
+                type="button"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center justify-center"
+                disabled={isLoading}
+              >
+                <span className="mr-2">f</span> Facebook
+              </button>
             </div>
           </div>
 
-          <div>
+          <p className="mt-8 text-center text-sm text-gray-600">
+            Already have an account?{' '}
             <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              type="button"
+              onClick={() => router.push('/Login')}
+              className="text-blue-600 hover:text-blue-500 font-semibold"
+              disabled={isLoading}
             >
-              Sign up
+              Sign in
             </button>
-          </div>
-        </form>
-        <div className="text-center mt-4">
-          <p className="text-sm text-gray-600">
-            Already have an account?{" "}
-            <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              Log in
-            </Link>
           </p>
         </div>
       </div>
-      <Link href="/" className="mt-8 text-sm text-gray-600 hover:text-blue-500">
-        ← Back to home
-      </Link>
     </div>
   );
-}
+};
+
+export default SignUpPage;
