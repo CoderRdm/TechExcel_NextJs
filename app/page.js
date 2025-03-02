@@ -77,7 +77,7 @@ export default function Home() {
             Stand out from the crowd with our AI-powered resume builder. Choose from expert-designed templates and get hired faster.
           </p>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-            <Link href="/signup" className="w-full md:w-auto px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition">
+            <Link href="/SignUp" className="w-full md:w-auto px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition">
               Build Your Resume →
             </Link>
             <Link href="/examples" className="w-full md:w-auto px-8 py-4 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">
