@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSignUp } from '@clerk/nextjs'; // Remove Captcha import
 
 const SignUpPage = () => {
   const router = useRouter();
+  const { signUp } = useSignUp();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -27,33 +29,29 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-        credentials: 'include', // Include credentials for cookies
+      // Start the OTP sign-up process
+      await signUp.create({
+        emailAddress: formData.email, // Use email for OTP
+        password: formData.password,
+        firstName: formData.name, // Optional: Add first name
       });
 
-      const data = await response.json();
+      // Prompt the user to enter the OTP
+      const otp = prompt('Enter the OTP sent to your email:');
+      const result = await signUp.attempt({
+        strategy: 'otp',
+        code: otp,
+      });
 
-      if (response.ok) {
-        // Optional: Store token if your API returns one
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-        }
-        
+      if (result.status === 'complete') {
         alert('Signup successful');
         router.push('/login'); // Redirect to login page
       } else {
-        setError(data.error || 'Signup failed');
+        setError('Signup failed');
       }
-    } catch (error) {
-      console.error('Error:', error);
-      setError('An error occurred during signup');
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err.errors?.[0]?.message || 'An error occurred during signup');
     } finally {
       setIsLoading(false);
     }
@@ -138,6 +136,7 @@ const SignUpPage = () => {
                 disabled={isLoading}
               />
             </div>
+
             <button
               type="submit"
               className={`w-full bg-blue-600 text-white py-3 rounded-lg font-semibold ${
