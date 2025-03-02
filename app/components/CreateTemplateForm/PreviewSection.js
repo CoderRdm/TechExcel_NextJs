@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Template1 from "../templates/Template1";
 import Template2 from "../templates/Template2"; // Import other templates
 import Template3 from "../templates/Template3"; // Import other templates
+import html2pdf from "html2pdf.js"; // Library to convert HTML to PDF
 
 const PreviewSection = ({
   about,
@@ -20,9 +21,46 @@ const PreviewSection = ({
   // State to track the selected template
   const [selectedTemplate, setSelectedTemplate] = useState("Template1");
 
+  // State to track if the template is fully rendered
+  const [isTemplateReady, setIsTemplateReady] = useState(false);
+
+  // Ref to the template container
+  const templateRef = useRef(null);
+
+  // Effect to check if the template is fully rendered
+  useEffect(() => {
+    if (templateRef.current) {
+      // Simulate a check for template readiness (e.g., after rendering)
+      setIsTemplateReady(true);
+    }
+  }, [selectedTemplate]); // Re-run when the template changes
+
   // Function to handle template selection
   const handleTemplateChange = (template) => {
     setSelectedTemplate(template);
+    setIsTemplateReady(false); // Reset readiness when template changes
+  };
+
+  // Function to handle the download of the selected template
+  const handleDownload = () => {
+    if (!isTemplateReady) {
+      alert("Please wait until the template is fully generated.");
+      return;
+    }
+
+    const element = templateRef.current;
+
+    // Options for the PDF generation
+    const options = {
+      margin: 10,
+      filename: `${selectedTemplate}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+
+    // Generate PDF from the template content
+    html2pdf().from(element).set(options).save();
   };
 
   // Render the selected template dynamically
@@ -120,8 +158,28 @@ const PreviewSection = ({
         </div>
 
         {/* Render the Selected Template */}
-        <div className="border border-gray-300 p-6 rounded-lg bg-white h-full overflow-y-auto max-h-screen">
+        <div
+          ref={templateRef}
+          className="border border-gray-300 p-6 rounded-lg bg-white h-full overflow-y-auto max-h-screen"
+        >
           {renderSelectedTemplate()}
+        </div>
+
+        {/* Download Button */}
+        <div className="mt-4">
+          <button
+            onClick={handleDownload}
+            disabled={!isTemplateReady}
+            className={`px-4 py-2 ${
+              isTemplateReady
+                ? "bg-green-500 hover:bg-green-600"
+                : "bg-gray-400 cursor-not-allowed"
+            } text-white rounded`}
+          >
+            {isTemplateReady
+              ? `Download ${selectedTemplate} as PDF`
+              : "Generating Template..."}
+          </button>
         </div>
       </div>
     </div>
