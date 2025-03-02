@@ -21,7 +21,7 @@ const LoginPage = () => {
    // Replace your fetch code with this
 try {
   // Store your API base URL in a variable for easy modification
-  const API_BASE_URL = 'http://localhost:3000'; // Change this to match your backend URL
+  const API_BASE_URL = 'http://localhost:3001'; // Change this to match your backend URL
   
   console.log('Attempting to connect to:', `${API_BASE_URL}/api/auth/login`);
   
