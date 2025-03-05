@@ -27,7 +27,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
+      const response = await fetch('http://localhost:3002/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -47,7 +47,7 @@ const SignUpPage = () => {
         }
         
         alert('Signup successful');
-        router.push('/login'); // Redirect to login page
+        router.push('/Login'); // Redirect to login page
       } else {
         setError(data.error || 'Signup failed');
       }

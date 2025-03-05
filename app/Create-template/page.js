@@ -162,7 +162,7 @@ const CreateTemplateForm = () => {
     console.log("formData:", formData); // Debugging
   
     try {
-      const response = await fetch("http://localhost:3000/api/templates/createtemplate", {
+      const response = await fetch("http://localhost:3004/api/templates/createtemplate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
