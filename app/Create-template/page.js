@@ -6,7 +6,7 @@ import EducationSection from "../components/CreateTemplateForm/EducationSection"
 import ExperienceSection from "../components/CreateTemplateForm/ExperienceSection";
 import AboutSection from "../components/CreateTemplateForm/AboutSection";
 import PreviewSection from "../components/CreateTemplateForm/PreviewSection";
-import VolunterringSection from "../components/CreateTemplateForm/VolunterringSection";
+import VolunteeringSection from "../components/CreateTemplateForm/VolunteeringSection";
 import AchievementsSection from "../components/CreateTemplateForm/AchievementsSection";
 import InterestsSection from "../components/CreateTemplateForm/InterestsSection";
 import CertificatesSection from "../components/CreateTemplateForm/CerticatesSection";
@@ -40,7 +40,7 @@ const CreateTemplateForm = () => {
         graduationyear: "",
       },
     ],
-    Volunterring: [
+    volunteering: [
       {
         institute: "",
         location: "",
@@ -110,11 +110,11 @@ const CreateTemplateForm = () => {
     });
   };
 
-  const addVolunterring = () => {
+  const addvolunteering = () => {
     setFormData({
       ...formData,
-      Volunterring: [
-        ...formData.Volunterring,
+      volunteering: [
+        ...formData.volunteering,
         { institute: "", location: "", duration: "" },
       ],
     });
@@ -221,10 +221,10 @@ const CreateTemplateForm = () => {
                 <HeaderSection header={formData.header} handleChange={handleChange} />
                 <ExperienceSection experiences={formData.experiences} handleChange={handleChange} addExperience={addExperience} />
                 <EducationSection educations={formData.educations} handleChange={handleChange} addEducation={addEducation} />
-                <VolunterringSection
-                  volunteering={formData.Volunterring}
+                <volunteeringSection
+                  volunteering={formData.volunteering}
                   handleChange={handleChange}
-                  addVolunteering={addVolunterring}
+                  addVolunteering={addvolunteering}
                 />
                 <AchievementsSection
                   achievements={formData.achievements}
@@ -261,8 +261,8 @@ const CreateTemplateForm = () => {
           </div>
           
           {/* Preview Section */}
-          <PreviewSection about={formData.about}  header={formData.header} experiences={formData.experiences} educations={formData.educations} volunteering={formData.Volunterring} achievements={formData.achievements} interests={formData.Interests}  certificates={formData.Certificates} skills={formData.skills}   formData={formData} formatDuration={formatDuration} />
-           {/* <Template1 about={formData.about}  header={formData.header} experiences={formData.experiences} educations={formData.educations} volunteering={formData.Volunterring} achievements={formData.achievements} interests={formData.Interests}  certificates={formData.Certificates} skills={formData.skills}   formData={formData} formatDuration={formatDuration} /> */}
+          <PreviewSection about={formData.about}  header={formData.header} experiences={formData.experiences} educations={formData.educations} volunteering={formData.volunteering} achievements={formData.achievements} interests={formData.Interests}  certificates={formData.Certificates} skills={formData.skills}   formData={formData} formatDuration={formatDuration} />
+           {/* <Template1 about={formData.about}  header={formData.header} experiences={formData.experiences} educations={formData.educations} volunteering={formData.volunteering} achievements={formData.achievements} interests={formData.Interests}  certificates={formData.Certificates} skills={formData.skills}   formData={formData} formatDuration={formatDuration} /> */}
         </div>
       </div>
      
