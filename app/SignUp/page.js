@@ -52,7 +52,7 @@ const SignUpPage = () => {
         setError(data.error || 'Signup failed');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error.message);
       setError('An error occurred during signup');
     } finally {
       setIsLoading(false);
