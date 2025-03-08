@@ -212,7 +212,7 @@
 // export default LoginPage;
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -225,6 +225,11 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -250,12 +255,12 @@ const LoginPage = () => {
         localStorage.setItem('user', JSON.stringify(user));
       }
 
-      router.push('/Create-template');
+      router.push('/show');
 
     } catch (error) {
       const errorMessage = error.response?.data?.error || 
-                           error.message || 
-                           'Login failed. Please try again.';
+                          error.message || 
+                          'Login failed. Please try again.';
       
       setError(errorMessage);
     } finally {
@@ -264,27 +269,44 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 py-8 px-4 flex items-center justify-center overflow-hidden relative">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-20 right-0 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-0 left-20 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {error && (
-              <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <span className="block sm:inline">{error}</span>
-              </div>
-            )}
+      <div className={`max-w-md w-full transition-all duration-1000 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className="text-center mb-8">
+          <button
+            onClick={() => router.push('/')}
+            className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 hover:from-pink-200 hover:to-indigo-200 transition-all duration-300 transform hover:scale-105"
+          >
+            Resume Builder
+          </button>
+          <p className="mt-2 text-blue-100 text-lg font-light">Welcome back to your career journey</p>
+        </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+        <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl border border-white border-opacity-20 p-8 relative overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute -top-6 -right-6 w-20 h-20 bg-purple-500 rounded-full opacity-20"></div>
+          <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-indigo-500 rounded-full opacity-10"></div>
+          
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">Sign In</h2>
+          
+          {error && (
+            <div className="mb-6 p-4 bg-red-500 bg-opacity-20 border border-red-400 border-opacity-30 text-red-100 rounded-lg text-center">
+              {error}
+            </div>
+          )}
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="group">
+              <label htmlFor="email" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+                Email Address
               </label>
-              <div className="mt-1">
+              <div className="relative">
                 <input
                   id="email"
                   name="email"
@@ -293,17 +315,19 @@ const LoginPage = () => {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
                   placeholder="you@example.com"
+                  disabled={isLoading}
                 />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
               </div>
             </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            
+            <div className="group">
+              <label htmlFor="password" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
                 Password
               </label>
-              <div className="mt-1 relative">
+              <div className="relative">
                 <input
                   id="password"
                   name="password"
@@ -312,16 +336,18 @@ const LoginPage = () => {
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Enter your password"
+                  className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                  placeholder="••••••••"
+                  disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-indigo-100 hover:text-white transition-colors duration-200"
                 >
                   {showPassword ? 'Hide' : 'Show'}
                 </button>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
               </div>
             </div>
 
@@ -331,70 +357,90 @@ const LoginPage = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-indigo-300 rounded bg-opacity-20 bg-white"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-indigo-100">
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Forgot your password?
+                <a href="#" className="font-medium text-pink-300 hover:text-pink-200 transition-colors duration-200">
+                  Forgot password?
                 </a>
               </div>
             </div>
-
-            <div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-              >
-                {isLoading ? 'Signing in...' : 'Sign in'}
-              </button>
-            </div>
+            
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`w-full mt-8 bg-gradient-to-r from-purple-600 to-pink-600 py-4 px-6 rounded-xl text-white font-bold text-lg shadow-lg transform transition-all duration-300 ${
+                isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:from-purple-700 hover:to-pink-700 hover:shadow-xl hover:-translate-y-1'
+              }`}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Signing in...
+                </div>
+              ) : (
+                'Sign In'
+              )}
+            </button>
           </form>
 
-          <div className="mt-6">
+          <div className="mt-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-white border-opacity-10"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  Or continue with
-                </span>
+                <span className="px-3 bg-white bg-opacity-5 text-indigo-100 rounded-md">Or continue with</span>
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-3 gap-3">
-              <div>
-                <a
-                  href="#"
-                  className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                >
-                  Google
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                >
-                  GitHub
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                >
-                  Facebook
-                </a>
-              </div>
+              <button 
+                type="button"
+                className="group relative px-4 py-3 border border-white border-opacity-20 rounded-xl text-white hover:bg-white hover:bg-opacity-5 transition flex items-center justify-center overflow-hidden"
+                disabled={isLoading}
+              >
+                <span className="relative z-10">Google</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+              </button>
+              <button 
+                type="button"
+                className="group relative px-4 py-3 border border-white border-opacity-20 rounded-xl text-white hover:bg-white hover:bg-opacity-5 transition flex items-center justify-center overflow-hidden"
+                disabled={isLoading}
+              >
+                <span className="relative z-10">GitHub</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+              </button>
+              <button 
+                type="button"
+                className="group relative px-4 py-3 border border-white border-opacity-20 rounded-xl text-white hover:bg-white hover:bg-opacity-5 transition flex items-center justify-center overflow-hidden"
+                disabled={isLoading}
+              >
+                <span className="relative z-10">Facebook</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+              </button>
             </div>
           </div>
+
+          <p className="mt-10 text-center text-indigo-100">
+            Don't have an account?{' '}
+            <button
+              type="button"
+              onClick={() => router.push('/signup')}
+              className="text-pink-300 hover:text-pink-200 font-semibold ml-1 transition-colors duration-200"
+              disabled={isLoading}
+            >
+              Sign up
+            </button>
+          </p>
         </div>
       </div>
     </div>

@@ -143,7 +143,7 @@ export default function Home() {
             </a>
           </div>
           <div className="flex items-center space-x-4">
-            <Link href="/login" className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 hover:from-purple-700 hover:to-yellow-600 text-white font-black shadow-lg shadow-purple-500/50 hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-110 animate-pulse hover:animate-none">
+            <Link href="/Login" className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 hover:from-purple-700 hover:to-yellow-600 text-white font-black shadow-lg shadow-purple-500/50 hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-110 animate-pulse hover:animate-none">
               START MAGIC 🪄💥
             </Link>
           </div>
@@ -185,7 +185,7 @@ export default function Home() {
           </div>
 
           <div className="flex justify-center">
-            <Link href="/builder" className="px-10 py-6 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/50 hover:shadow-pink-500/50 flex items-center group relative overflow-hidden animate-pulse hover:animate-none">
+            <Link href="/show" className="px-10 py-6 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/50 hover:shadow-pink-500/50 flex items-center group relative overflow-hidden animate-pulse hover:animate-none">
               <span className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 via-white/20 to-cyan-400/0 -translate-x-full group-hover:translate-x-full transition-all duration-1000"></span>
               🧙‍♂️ CREATE YOUR MIND-BENDING RESUME 
               <span className="ml-2 group-hover:rotate-180 transition-transform duration-500">✨</span>

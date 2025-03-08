@@ -235,7 +235,8 @@ const CreateTemplateForm = () => {
         backgroundSize: `40px 40px`
       }}></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+      {/* Increase container width by changing max-w-7xl to max-w-full with padding */}
+      <div className="max-w-full mx-auto px-8 sm:px-12 lg:px-16 py-12 relative z-10">
         {/* Glowing Header */}
         <div className="text-center mb-16 animate-pulse">
           <h1 className="text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-4">
@@ -244,9 +245,10 @@ const CreateTemplateForm = () => {
           <p className="text-xl text-purple-200 font-mono">Forge Your Digital Identity</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Builder Panel - Neon Border Effect */}
-          <div className="relative bg-gray-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-purple-500/30 shadow-2xl hover:shadow-purple-500/20 transition-all">
+        {/* Increase width of grid components by using lg:grid-cols-2 with more width */}
+        <div className="grid lg:grid-cols-2 gap-12 max-w-[1920px] mx-auto">
+          {/* Builder Panel - Neon Border Effect - Increased width */}
+          <div className="relative bg-gray-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-purple-500/30 shadow-2xl hover:shadow-purple-500/20 transition-all w-full">
             <div className="absolute inset-0 rounded-3xl border-2 border-purple-500/20 animate-border-pulse pointer-events-none"></div>
             
             <div className="mb-8 flex items-center justify-between border-b border-purple-500/30 pb-6">
@@ -260,195 +262,175 @@ const CreateTemplateForm = () => {
             </div>
             
             <CyberpunkSectionTabs 
-  activeSection={activeSection} 
-  setActiveSection={setActiveSection} 
-/>
-
+              activeSection={activeSection} 
+              setActiveSection={setActiveSection} 
+            />
 
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Section Cards with Hover Effects */}
               <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
               {activeSection === "about" && (
-  <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
-    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-    <AboutSection about={formData.about} handleChange={handleChange} />
-  </div>
-)}
+                <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <AboutSection about={formData.about} handleChange={handleChange} />
+                </div>
+              )}
               </div>
               
-
               {activeSection === "header" && (
-  <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
-    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-    <HeaderSection header={formData.header} handleChange={handleChange} />
-  </div>
-)}
-
-             
+                <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <HeaderSection header={formData.header} handleChange={handleChange} />
+                </div>
+              )}
 
               {/* Experience Section with Glowing Add Button */}
-
-              
-              
               {activeSection === "experiences" && (
-  <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
-    <ExperienceSection
-      experiences={formData.experiences}
-      handleChange={handleChange}
-      addExperience={() => {
-        addExperience();
-        document.querySelector('.experience-section').classList.add('animate-highlight');
-      }}
-    />
-    <button
-      type="button"
-      onClick={addExperience}
-      className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
-               font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
-    >
-      <span className="mr-2">+</span>ADD EXPERIENCE MODULE
-    </button>
-  </div>
-)}
-              {/* Repeat similar styled sections for other components */}
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                  <ExperienceSection
+                    experiences={formData.experiences}
+                    handleChange={handleChange}
+                    addExperience={() => {
+                      addExperience();
+                      document.querySelector('.experience-section').classList.add('animate-highlight');
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addExperience}
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
+                             font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
+                  >
+                    <span className="mr-2">+</span>ADD EXPERIENCE MODULE
+                  </button>
+                </div>
+              )}
               
               {activeSection === "educations" && (
-  <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
-                <EducationSection 
-                  educations={formData.educations} 
-                  handleChange={handleChange} 
-                  addEducation={() => {
-                    addEducation();
-                    document.querySelector('.experience-section').classList.add('animate-highlight');}} 
-                />
-           
-                <button
-                  type="button"
-                  onClick={addEducation}
-                  className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
-                           font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
-                >
-                  <span className="mr-2">+</span>ADD Education MODULE
-                </button>
-  </div>
-)}
-              
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                  <EducationSection 
+                    educations={formData.educations} 
+                    handleChange={handleChange} 
+                    addEducation={() => {
+                      addEducation();
+                      document.querySelector('.experience-section').classList.add('animate-highlight');
+                    }} 
+                  />
+                  <button
+                    type="button"
+                    onClick={addEducation}
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
+                             font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
+                  >
+                    <span className="mr-2">+</span>ADD Education MODULE
+                  </button>
+                </div>
+              )}
 
               {activeSection === "volunteering" && (
-  <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
-               <VolunteeringSection
-                  volunteering={formData.volunteering}
-                  handleChange={handleChange}
-                  addVolunteering={() => {
-                    addVolunteering();
-                    document.querySelector('.experience-section').classList.add('animate-highlight');}}
-                />
-             
-           
-                <button
-                  type="button"
-                  onClick={addVolunteering}
-                  className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
-                           font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
-                >
-                  <span className="mr-2">+</span>ADD Volunteering MODULE
-                </button>
-  </div>
-)}
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                  <VolunteeringSection
+                    volunteering={formData.volunteering}
+                    handleChange={handleChange}
+                    addVolunteering={() => {
+                      addVolunteering();
+                      document.querySelector('.experience-section').classList.add('animate-highlight');
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addVolunteering}
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
+                             font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
+                  >
+                    <span className="mr-2">+</span>ADD Volunteering MODULE
+                  </button>
+                </div>
+              )}
 
-
-              
-
-              
-                
-{activeSection === "achievements" && (
-  <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
-    <AchievementsSection
-      achievements={formData.achievements}
-      handleChange={handleChange}
-      addAchievement={() => {
-        addAchievement();
-        document.querySelector('.experience-section').classList.add('animate-highlight');
-      }}
-    />
-    
-    <button
-      type="button"
-      onClick={addAchievement}
-      className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
-               font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
-    >
-      <span className="mr-2">+</span>ADD ACHIEVEMENT MODULE
-    </button>
-  </div>
-)}
-              
+              {activeSection === "achievements" && (
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                  <AchievementsSection
+                    achievements={formData.achievements}
+                    handleChange={handleChange}
+                    addAchievement={() => {
+                      addAchievement();
+                      document.querySelector('.experience-section').classList.add('animate-highlight');
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addAchievement}
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
+                             font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
+                  >
+                    <span className="mr-2">+</span>ADD ACHIEVEMENT MODULE
+                  </button>
+                </div>
+              )}
 
               {activeSection === "interests" && (
-  <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
-    <InterestsSection
-      interests={formData.Interests}
-      handleChange={handleChange}
-      addInterest={() => {
-        addInterests();
-        document.querySelector('.experience-section').classList.add('animate-highlight');
-      }}
-    />
-    
-    <button
-      type="button"
-      onClick={addInterests}
-      className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
-               font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
-    >
-      <span className="mr-2">+</span>ADD INTERESTS MODULE
-    </button>
-  </div>)}
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                  <InterestsSection
+                    interests={formData.Interests}
+                    handleChange={handleChange}
+                    addInterest={() => {
+                      addInterests();
+                      document.querySelector('.experience-section').classList.add('animate-highlight');
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addInterests}
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
+                             font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
+                  >
+                    <span className="mr-2">+</span>ADD INTERESTS MODULE
+                  </button>
+                </div>
+              )}
 
-{activeSection === "certificates" && (
-  <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
-    <CertificatesSection
-      certificates={formData.Certificates}
-      handleChange={handleChange}
-      addCertificate={() => {
-        addCertificates();
-        document.querySelector('.experience-section').classList.add('animate-highlight');
-      }}
-    />
-    
-    <button
-      type="button"
-      onClick={addCertificates}
-      className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
-               font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
-    >
-      <span className="mr-2">+</span>ADD CERTIFICATES MODULE
-    </button>
-  </div>
-)}
+              {activeSection === "certificates" && (
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                  <CertificatesSection
+                    certificates={formData.Certificates}
+                    handleChange={handleChange}
+                    addCertificate={() => {
+                      addCertificates();
+                      document.querySelector('.experience-section').classList.add('animate-highlight');
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addCertificates}
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
+                             font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
+                  >
+                    <span className="mr-2">+</span>ADD CERTIFICATES MODULE
+                  </button>
+                </div>
+              )}
                 
-               
-                {activeSection === "skills" && (
-  <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
-    <SkillsSection
-      skills={formData.skills}
-      handleChange={handleChange}
-      addSkill={() => {
-        addSkill();
-        document.querySelector('.experience-section').classList.add('animate-highlight');
-      }}
-    />
-    
-    <button
-      type="button"
-      onClick={addSkill}
-      className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
-               font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
-    >
-      <span className="mr-2">+</span>ADD SKILLS MODULE
-    </button>
-  </div>
-)}
+              {activeSection === "skills" && (
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                  <SkillsSection
+                    skills={formData.skills}
+                    handleChange={handleChange}
+                    addSkill={() => {
+                      addSkill();
+                      document.querySelector('.experience-section').classList.add('animate-highlight');
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addSkill}
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
+                             font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
+                  >
+                    <span className="mr-2">+</span>ADD SKILLS MODULE
+                  </button>
+                </div>
+              )}
               <button
                 type="submit"
                 className="w-full py-4 px-6 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 
@@ -462,8 +444,8 @@ const CreateTemplateForm = () => {
             </form>
           </div>
 
-          {/* Holographic Preview Panel */}
-          <div className="sticky top-8 transform transition-transform hover:scale-[1.005]">
+          {/* Holographic Preview Panel - Increased width */}
+          <div className="sticky top-8 transform transition-transform hover:scale-[1.005] w-full">
             <div className="relative bg-gray-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-cyan-400/30 
                           shadow-2xl hover:shadow-cyan-400/20 transition-all">
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500/10 to-cyan-500/10"></div>
@@ -486,7 +468,7 @@ const CreateTemplateForm = () => {
               </div>
 
               <div id="resumePreview" className="relative bg-gray-50 rounded-xl p-6 shadow-inner-xl overflow-y-auto 
-                scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-100 max-h-[800px] neon-box">
+                scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-100 max-h-[800px] neon-box w-full">
                 <PreviewSection
                   about={formData.about}
                   header={formData.header}
