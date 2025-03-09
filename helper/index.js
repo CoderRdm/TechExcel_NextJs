@@ -1,250 +1,166 @@
-"use client";
-
-import { useEffect, useState } from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { deleteTemplate } from '@/apiService';
-import { useParams } from 'next/navigation'; 
-import { Camera, Edit2, Trash2, Eye } from "lucide-react";
-import Link from 'next/link';
+import html2canvas from "html2canvas";
+import PreviewSection from '@/app/components/CreateTemplateForm/PreviewSection';
+import jsPDF from "jspdf";
+import Link from "next/link";
+import { Camera } from 'lucide-react';
 
-const UserPage = () => {
-  const [templates, setTemplates] = useState([]);
-  const [loading, setLoading] = useState(true);
+const TemplateDetail = ({ id }) => {
+  const [template, setTemplate] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const params = useParams(); // For Next.js App Router
 
-  
- 
+  // Reuse the formatDuration function from CreateTemplateForm
+  const formatDuration = (months) => {
+    if (!months) return "0 months";
+    const years = Math.floor(months / 12);
+    const remainingMonths = months % 12;
+    let result = "";
+    if (years > 0) result += `${years} year${years > 1 ? "s" : ""}`;
+    if (remainingMonths > 0) result += `${years > 0 ? " " : ""}${remainingMonths} month${remainingMonths > 1 ? "s" : ""}`;
+    return result;
+  };
 
-  const templateId = params.id;
+  const handleDownload = async () => {
+    const input = document.getElementById("resumePreview");
+    const clone = input.cloneNode(true);
+    clone.style.position = "absolute";
+    clone.style.left = "-9999px";
+    document.body.appendChild(clone);
+    
+    const canvas = await html2canvas(clone, { scale: 2 });
+    document.body.removeChild(clone);
+    
+    const pdf = new jsPDF("p", "mm", "a4");
+    const imgWidth = pdf.internal.pageSize.getWidth();
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.save("cyber-resume.pdf");
+  };
+
   useEffect(() => {
-    const fetchTemplates = async () => {
+    if (!id) {
+      setError('No template ID provided');
+      setLoading(false);
+      return;
+    }
+
+    const fetchSingleTemplate = async () => {
       try {
         const token = localStorage.getItem('token');
-        const userId = localStorage.getItem('userId');
+        if (!token) throw new Error('No authentication found');
 
-        if (!token || !userId) {
-          throw new Error('No authentication found');
-        }
-
-        const response = await axios.get(`http://localhost:3000/api/templates/user/${userId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        const response = await axios.get(`http://localhost:3000/api/templates/${id}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        console.log('API Response:', response.data); // De bugging
-        setTemplates(response.data);
-
+        if (!response.data) throw new Error('Empty response from server');
+        setTemplate(response.data);
       } catch (error) {
-        console.error('Fetch Error:', error.response?.data || error.message);
-        
-        if (error.response?.status === 401) {
-          localStorage.clear();
-          router.push('/login');
-        } else {
-          setError(error.response?.data?.error || 'Failed to fetch templates');
-        }
-      }
-    };
-
-    fetchTemplates();
-  }, [router]);
-
-
- 
-  const handleShow = (templateId) => {
-    router.push(`/templates/show/${templateId}`);
-  };
-
-  const handleEdit = (templateId) => {
-    router.push(`/templates/edit/${templateId}`);
-  };
-
-  const handleDelete = async (templateId) => {
-    if (window.confirm('Are you sure you want to delete this template?')) {
-      try {
-        const token = localStorage.getItem('token');
-        
-        // Update the API endpoint to match your backend route
-        await axios.delete(`http://localhost:3000/api/deletetemplate/${templateId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        
-        // Update the templates state to remove the deleted template
-        setTemplates(prev => prev.filter(t => t.id !== templateId));
-        
-        // if (response.status === 200) {
-        //   setTemplates(prev => prev.filter(t => t.id !== templateId));
-        // }
-        
-
-      } catch (error) {
-        console.error('Delete Error:', error);
+        console.error('Error:', error);
         const errorMessage = error.response?.data?.error || error.message;
         
         if (error.response?.status === 401) {
           localStorage.clear();
-          router.push('/Login');
-        } else {
-          alert(`Deletion failed: ${errorMessage}`);
+          router.push('/login');
+          return;
         }
+
+        setError(error.response?.status === 404 ? 'Template not found' : `Failed to load template: ${errorMessage}`);
+      } finally {
+        setLoading(false);
       }
-    }
-  };
+    };
 
+    fetchSingleTemplate();
+  }, [id, router]);
 
-  if (error) return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-        <div className="text-red-500 text-xl font-semibold mb-2">Error</div>
-        <p>{error}</p>
-        <button 
-          onClick={() => router.push('/login')}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-        >
-          Go to Login
-        </button>
-      </div>
-    </div>
-  );
-    // Motion animations
-    const [hoverState, setHoverState] = useState({});
-
+  if (error) {
     return (
-      <>
-        {/* Animated background */}
-        <div className="absolute inset-0 overflow-hidden">
-        <div className="fixed inset-0 -z-10 h-screen w-screen bg-gradient-to-r from-purple-900 via-indigo-800 to-blue-900 opacity-40"></div>
-          
-          <div className="absolute top-0 left-0 w-64 h-64 bg-purple-600 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
-          <div className="absolute top-0 right-0 w-72 h-72 bg-blue-600 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-pink-600 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="text-center p-8 bg-red-900/50 rounded-xl border border-red-500/30">
+          <h3 className="text-2xl text-red-400 mb-4">SYSTEM ERROR</h3>
+          <p className="text-red-300 mb-6">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full transition-all"
+          >
+            TRY AGAIN
+          </button>
         </div>
-        
-        <div className="max-w-6xl mx-auto relative z-10">
-          <header className="mb-16 text-center relative">
-            <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-64 h-64 bg-gradient-to-r from-purple-400 to-pink-600 rounded-full opacity-10 filter blur-2xl"></div>
-            
-            <h1 className="text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">
-              RESUME UNIVERSE
-            </h1>
-            <p className="text-gray-300 max-w-2xl mx-auto text-lg">
-              Create mind-blowing profiles that stand out in a digital world
-            </p>
-          s  
-            <button 
-              className="mt-10 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-pink-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 flex items-center mx-auto group"
-            >
-              <span className="absolute w-12 h-12 -left-2 rounded-full bg-white mix-blend-overlay group-hover:w-full transition-all duration-300 ease-out opacity-20"></span>
-              <span className="relative flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                CREATE NEW TEMPLATE
-              </span>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="loading-spinner mx-auto"></div>
+          <p className="text-purple-400 mt-4">DECRYPTING TEMPLATE...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+      {/* Animated Grid Background */}
+      <div className="absolute inset-0 opacity-20" style={{
+        backgroundImage: `linear-gradient(to right, rgba(192, 132, 252, 0.1) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(192, 132, 252, 0.1) 1px, transparent 1px)`,
+        backgroundSize: `40px 40px`
+      }}></div>
+
+      <div className="max-w-full mx-auto px-8 sm:px-12 lg:px-16 py-12 relative z-10">
+        <div className="flex justify-between items-center mb-8">
+          <Link href="/show">
+            <button className="px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-500 transition-all">
+              ← BACK TO TEMPLATES
             </button>
-          </header>
-          
-          {templates.length === 0 ? (
-            <div className="bg-gray-900 bg-opacity-60 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl p-16 text-center border border-gray-800">
-              <div className="text-pink-400 text-8xl mb-8 animate-pulse">📄</div>
-              <h2 className="text-3xl font-bold text-white mb-4">Empty Canvas</h2>
-              <p className="text-gray-300 mb-10 text-lg">Your professional journey starts with your first template creation</p>
-              <button 
-                className="px-10 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-500 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                <span className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                  Start Creating
-                </span>
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-16">
-              {templates.map((template, idx) => (
-                <div 
-                  key={template.id} 
-                  className="bg-gray-900 bg-opacity-70 rounded-3xl overflow-hidden shadow-2xl border border-gray-800 transform transition-all duration-300 hover:shadow-purple-500/40 relative group"
-                  onMouseEnter={() => setHoverState({...hoverState, [template.id]: true})}
-                  onMouseLeave={() => setHoverState({...hoverState, [template.id]: false})}
-                >
-                  {/* Neon glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-pink-500/30 via-purple-500/20 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
-                  
-                  {/* Floating particles */}
-                  {hoverState[template.id] && Array.from({length: 15}).map((_, i) => (
-                    <div 
-                      key={i}
-                      className="absolute w-2 h-2 bg-white rounded-full transform transition-all"
-                      style={{
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`,
-                        opacity: Math.random() * 0.5,
-                        animation: `float-up ${2 + Math.random() * 3}s linear infinite`,
-                        animationDelay: `${Math.random() * 2}s`
-                      }}
-                    ></div>
-                  ))}
-                  
-                  {/* Template Header with Action Buttons */}
-                  <div className="bg-gradient-to-r from-purple-900/80 to-indigo-900/80 p-8 border-b border-gray-800 relative overflow-hidden">
-                    <div className="flex justify-between items-start relative z-10">
-                      <div>
-                        <h2 className="text-3xl font-extrabold text-white mb-2 flex items-center">
-                          <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400">
-                            {template.about || `Template #${template.id}`}
-                          </span>
-                          <span className="ml-3 text-xs py-1 px-3 rounded-full bg-purple-900 text-purple-200 uppercase tracking-wider">
-                            Premium
-                          </span>
-                        </h2>
-                        <p className="text-gray-400 mt-2">
-                          Created: {new Date(template.metadata?.created).toLocaleDateString()}
-                        </p>
-                        <p className="text-xs bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text font-mono">ID: {template.id}</p>
-                      </div>
-                      <div className="flex space-x-4">
-                      <Link
-  href={{pathname: "/SingleTemplate", query: {id: template.id}}}
-  className="px-4 py-2 bg-yellow-700 text-white rounded-md hover:bg-red-600 transition-all duration-300 flex items-center shadow-md hover:shadow-red-400/30 text-sm font-medium"
->
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-  More info
-</Link>
-                        <Link
-                          href={{pathname :"/SingleTemplate", query :{id:template.id}}}
-                          className="px-6 py-3 bg-indigo-900 text-indigo-100 rounded-full hover:bg-indigo-700 transition-all duration-300 flex items-center shadow-md hover:shadow-indigo-500/50 transform hover:scale-105"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 0L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                          Edit
-                        </Link>
-                        {/* delete button */}
-                        <Link
-                          href={{pathname :"/SingleTemplate", query :{id:template.id}}}
-                          className="px-6 py-3 bg-red-900 text-red-100 rounded-full hover:bg-red-700 transition-all duration-300 flex items-center shadow-md hover:shadow-red-500/50 transform hover:scale-105"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                          Delete
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-  
-                  {/* Template Content */}
-                  <div className="p-8">
+          </Link>
+          <button
+            onClick={handleDownload}
+            className="bg-gradient-to-r from-cyan-400 to-purple-500 text-gray-900 px-6 py-3 rounded-xl 
+                     font-bold hover:scale-105 transition-transform shadow-lg hover:shadow-cyan-400/30
+                     flex items-center gap-2"
+          >
+            <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            DOWNLOAD .CYBER
+          </button>
+        </div>
+
+        {/* Preview Panel */}
+        <div className="relative bg-gray-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-cyan-400/30 shadow-2xl">
+          <div className="mb-8 border-b border-cyan-400/30 pb-6">
+            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-mono">
+              TEMPLATE PREVIEW - ID: {template.id}
+            </h2>
+          </div>
+
+          {/* <div id="resumePreview" className="relative bg-gray-50 rounded-xl p-6 shadow-inner-xl overflow-y-auto 
+            scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-100 max-h-[800px] neon-box w-full">
+            <PreviewSection
+              about={template.about}
+              header={template.header}
+              experiences={template.experiences}
+              educations={template.educations}
+              volunteering={template.volunteering}
+              achievements={template.achievements}
+              interests={template.interests}
+              certificates={template.certificates}
+              skills={template.skills}
+              formData={template}
+              formatDuration={formatDuration}
+            />
+          </div> */}
+          <div className="p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {/* Header Section */}
                       <div className="bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30 hover:-translate-y-1">
@@ -468,13 +384,22 @@ const UserPage = () => {
                       
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
-      </>
-    );
-  };
-  
-  export default UserPage;
+      </div>
+
+      {/* Animated Cyber Grid Overlay */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(50)].map((_, i) => (
+          <div key={i} className="absolute w-0.5 h-0.5 bg-cyan-400 rounded-full animate-flicker"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${i * 0.1}s`
+            }}></div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default TemplateDetail;
