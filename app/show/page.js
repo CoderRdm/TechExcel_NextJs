@@ -12,6 +12,9 @@ const UserPage = () => {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [hoverState, setHoverState] = useState({});
+
+  
   const router = useRouter();
   const params = useParams(); // For Next.js App Router
 
@@ -43,7 +46,7 @@ const UserPage = () => {
         
         if (error.response?.status === 401) {
           localStorage.clear();
-          router.push('/login');
+          router.push('/Login');
         } else {
           setError(error.response?.data?.error || 'Failed to fetch templates');
         }
@@ -55,48 +58,137 @@ const UserPage = () => {
 
 
  
-  const handleShow = (templateId) => {
-    router.push(`/templates/show/${templateId}`);
-  };
+  // const handleShow = (templateId) => {
+  //   router.push(`/templates/show/${templateId}`);
+  // };
 
   const handleEdit = (templateId) => {
-    router.push(`/templates/edit/${templateId}`);
+    router.push(`/edit/${templateId}`);
   };
 
+
+
+  
+
+  // const handleDelete = async (templateId) => {
+  //   try {
+  //     if (!window.confirm('Permanently delete this template?')) return;
+  
+  //     const token = localStorage.getItem('token');
+  //     if (!token) throw new Error('Authentication token missing');
+  
+  //     // Convert and validate ID
+  //     const id = Number(templateId);
+  //     if (isNaN(id)) throw new Error('Invalid template ID format');
+  
+  //     // Detailed request config
+  //     const response = await axios.delete(
+  //       `http://localhost:3000/api/templates/deletetemplate/${id}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           'X-Request-ID': crypto.randomUUID() // For server tracking
+  //         },
+  //         timeout: 10000 // 10 second timeout
+  //       }
+  //     );
+  
+  //     // Handle different status codes
+  //     switch (response.status) {
+  //       case 200:
+  //         setTemplates(prev => prev.filter(t => t.id === id));
+  //         alert('Template deleted successfully');
+  //         break;
+  //       case 404:
+  //         alert('Template not found - refreshing list');
+  //         setTemplates(prev => prev.filter(t => t.id === id));
+  //         break;
+  //       default:
+  //         throw new Error(`Unexpected status: ${response.status}`);
+  //     }
+  //   } catch (error) {
+  //     // Detailed error diagnostics
+  //     const errorDetails = {
+  //       name: error.name,
+  //       message: error.message,
+  //       stack: error.stack,
+  //       responseStatus: error.response?.status,
+  //       responseData: error.response?.data,
+  //       requestConfig: error.config
+  //     };
+  
+  //     console.error('DELETE ERROR DIAGNOSTICS:', errorDetails);
+      
+  //     // Special handling for network errors
+  //     if (error.code === 'ECONNABORTED') {
+  //       alert('Connection timeout - please try again');
+  //       return;
+  //     }
+  
+  //     // Auth handling
+  //     if (error.response?.status === 401) {
+  //       localStorage.clear();
+  //       router.push('/Login');
+  //       return;
+  //     }
+  
+  //     // Show user-friendly message
+  //     alert(error.response?.data?.error || 'Deletion failed. Check console for details.');
+  //   }
+  // };
   const handleDelete = async (templateId) => {
     if (window.confirm('Are you sure you want to delete this template?')) {
       try {
         const token = localStorage.getItem('token');
         
-        // Update the API endpoint to match your backend route
-        await axios.delete(`http://localhost:3000/api/deletetemplate/${templateId}`, {
+        const response = await axios.delete(`http://localhost:3000/api/templates/deletetemplate/${templateId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
         
-        // Update the templates state to remove the deleted template
-        setTemplates(prev => prev.filter(t => t.id !== templateId));
+        if (response.status === 200) {
+          setTemplates(prev => prev.filter(t => t.id !== templateId));
+          // Add a success notification
+          alert("Template deleted successfully");
+        }
         
-        // if (response.status === 200) {
-        //   setTemplates(prev => prev.filter(t => t.id !== templateId));
-        // }
-        
-
       } catch (error) {
         console.error('Delete Error:', error);
-        const errorMessage = error.response?.data?.error || error.message;
         
-        if (error.response?.status === 401) {
-          localStorage.clear();
-          router.push('/Login');
+        // Improved error handling
+        let errorMessage = "An unexpected error occurred";
+        
+        if (error.response) {
+          // The server responded with an error status code
+          errorMessage = error.response.data?.detail || error.response.data?.error || `Server error: ${error.response.status}`;
+          
+          if (error.response.status === 401) {
+            localStorage.clear();
+            router.push('/Login');
+            return;
+          }
+        } else if (error.request) {
+          // The request was made but no response was received
+          errorMessage = "No response from server. Please check your connection.";
         } else {
-          alert(`Deletion failed: ${errorMessage}`);
+          // Something happened in setting up the request
+          errorMessage = error.message;
         }
+        
+        alert(`Deletion failed: ${errorMessage}`);
       }
     }
-  };
+};
 
+
+
+
+
+
+const handleCreateNew = () => {
+  router.push('/Create-template');
+};
 
   if (error) return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -104,7 +196,7 @@ const UserPage = () => {
         <div className="text-red-500 text-xl font-semibold mb-2">Error</div>
         <p>{error}</p>
         <button 
-          onClick={() => router.push('/login')}
+          onClick={() => router.push('/Login')}
           className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
         >
           Go to Login
@@ -113,7 +205,6 @@ const UserPage = () => {
     </div>
   );
     // Motion animations
-    const [hoverState, setHoverState] = useState({});
 
     return (
       <>
@@ -138,7 +229,7 @@ const UserPage = () => {
             </p>
           s  
             <button 
-              className="mt-10 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-pink-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 flex items-center mx-auto group"
+              className="mt-10 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-pink-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 flex items-center mx-auto group"  onClick={handleCreateNew}
             >
               <span className="absolute w-12 h-12 -left-2 rounded-full bg-white mix-blend-overlay group-hover:w-full transition-all duration-300 ease-out opacity-20"></span>
               <span className="relative flex items-center">
@@ -221,7 +312,7 @@ const UserPage = () => {
   More info
 </Link>
                         <Link
-                          href={{pathname :"/SingleTemplate", query :{id:template.id}}}
+                          href={{pathname :"/edit", query :{id:template.id}}}
                           className="px-6 py-3 bg-indigo-900 text-indigo-100 rounded-full hover:bg-indigo-700 transition-all duration-300 flex items-center shadow-md hover:shadow-indigo-500/50 transform hover:scale-105"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -230,15 +321,13 @@ const UserPage = () => {
                           Edit
                         </Link>
                         {/* delete button */}
-                        <Link
-                          href={{pathname :"/SingleTemplate", query :{id:template.id}}}
-                          className="px-6 py-3 bg-red-900 text-red-100 rounded-full hover:bg-red-700 transition-all duration-300 flex items-center shadow-md hover:shadow-red-500/50 transform hover:scale-105"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                          Delete
-                        </Link>
+                        <button 
+    onClick={() => handleDelete(template.id)}
+    className="px-6 py-3 bg-red-900 text-red-100 rounded-full hover:bg-red-700 transition-all duration-300 flex items-center shadow-md hover:shadow-red-500/50 transform hover:scale-105"
+>
+    <Trash2 className="h-4 w-4 mr-2" />
+    Delete
+</button>
                       </div>
                     </div>
                   </div>
