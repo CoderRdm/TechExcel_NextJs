@@ -54,7 +54,7 @@ const TemplateDetail = ({ id }) => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No authentication found');
 
-        const response = await axios.get(`http://localhost:3000/api/templates/${id}`, {
+        const response = await axios.get(`http://localhost:3001/api/templates/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -106,7 +106,7 @@ const TemplateDetail = ({ id }) => {
       </div>
     );
   }
-
+  console.log(template.skills[0]);
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 relative overflow-hidden">
       {/* Animated Grid Background */}
@@ -168,16 +168,12 @@ const TemplateDetail = ({ id }) => {
                           <Camera className="h-5 w-5 mr-2 text-pink-400" />
                           Personal Information
                         </h3>
-                        {template.header?.length > 0 ? (
-                          <ul className="space-y-4">
-                            {template.header.map((hdr, index) => (
-                              <li key={index} className="bg-gray-900 bg-opacity-60 p-5 rounded-xl shadow-md border-l-4 border-pink-500">
-                                <p className="font-medium text-lg text-white">{hdr.name}</p>
-                                <p className="text-gray-300">{hdr.city}, {hdr.country}</p>
-                                <p className="text-gray-300">{hdr.email}</p>
-                              </li>
-                            ))}
-                          </ul>
+                        {template.header ? (
+                          <div className="bg-gray-900 bg-opacity-60 p-5 rounded-xl shadow-md border-l-4 border-pink-500">
+                            <p className="font-medium text-lg text-white">{template.header.name}</p>
+                            <p className="text-gray-300">{template.header.city}, {template.header.country}</p>
+                            <p className="text-gray-300">{template.header.email}</p>
+                          </div>
                         ) : (
                           <p className="text-gray-500 italic p-4 bg-gray-900 bg-opacity-60 rounded-xl border border-gray-700">No personal information added</p>
                         )}
@@ -191,20 +187,19 @@ const TemplateDetail = ({ id }) => {
                           </svg>
                           Skills
                         </h3>
-                        {template.sections?.skills?.length > 0 ? (
+                        {template.skills && template.skills.length > 0 ? (
                           <div className="flex flex-wrap gap-3 p-4 bg-gray-900 bg-opacity-60 rounded-xl shadow-md">
-                            {template.sections.skills.map((skill, index) => (
-                              <span 
-                                key={index}
-                                className="bg-gradient-to-r from-green-900 to-green-700 text-green-200 px-4 py-2 rounded-full text-sm font-medium border border-green-700 transform transition-all hover:scale-110 shadow-md"
-                              >
-                                {skill.name}
-                              </span>
+                            {template.skills.map((skillObj, i) => (
+                              <div key={i}>{skillObj.skill?.name || ""}</div>
                             ))}
                           </div>
                         ) : (
-                          <p className="text-gray-500 italic p-4 bg-gray-900 bg-opacity-60 rounded-xl border border-gray-700">No skills added</p>
+                          <p className="text-gray-500 italic p-4 bg-gray-900 bg-opacity-60 rounded-xl border border-gray-700">
+                            No skills added
+                          </p>
                         )}
+
+
                       </div>
   
                       {/* Experiences Section */}

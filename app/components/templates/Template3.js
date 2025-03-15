@@ -7,12 +7,13 @@ const Template3 = ({
   header,
   experiences = [],
   educations = [],
-  Volunterring = [],
+  volunteering = [],
   achievements = [],
   Interests = [],
   skills = [],
   Certificates = [],
 }) => {
+  console.log(Interests);
   return (
     <div className="bg-white p-6 shadow-lg rounded-lg">
       {/* Header */}
@@ -86,16 +87,27 @@ const Template3 = ({
       {/* Volunteering */}
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-3">Volunteering</h2>
-        {Volunterring.map((vol, index) => (
-          <div key={index} className="mb-4">
+        {volunteering && volunteering.map((vol, index) => (
+          <div key={index} className="mb-4 p-4 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
             <div className="flex justify-between items-baseline">
-              <h3 className="text-xl font-medium text-gray-800">{vol.institute}</h3>
+              <h3 className="text-xl font-medium text-gray-800">{vol.organization || vol.institute}</h3>
               <span className="text-gray-600">{vol.duration}</span>
             </div>
-            <span className="text-gray-500">{vol.location}</span>
+            {vol.role && (
+              <div className="text-gray-700 font-medium mt-1">{vol.role}</div>
+            )}
+            <div className="text-gray-500 mt-1">{vol.location}</div>
+            {vol.description && (
+              <div className="text-gray-600 mt-2 text-sm">{vol.description}</div>
+            )}
           </div>
         ))}
+        {(!volunteering || volunteering.length === 0) && (
+          <div className="text-gray-500 italic">No volunteering experience added</div>
+        )}
       </div>
+
+      
 
       {/* Certificates */}
       <div className="mb-6">
@@ -138,11 +150,20 @@ const Template3 = ({
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-3">Achievements</h2>
         <ul className="list-disc pl-5">
-          {achievements.map((ach, index) => (
-            <li key={index} className="mb-1 text-gray-600">
-              {ach.name}
-            </li>
-          ))}
+        {achievements.map((ach, index) => (
+                <li key={index} className="flex flex-col">
+                  <div className="flex items-center">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span className="font-semibold">{ach.title}</span>
+                  </div>
+                  {ach.description && (
+                    <p className="ml-6 text-gray-600">{ach.description}</p>
+                  )}
+                  {ach.date && (
+                    <p className="ml-6 text-gray-400 text-sm">{ach.date}</p>
+                  )}
+                </li>
+              ))}
         </ul>
       </div>
 
@@ -155,7 +176,7 @@ const Template3 = ({
               key={index}
               className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full"
             >
-              {interest.interests}
+              {interest.name}
             </span>
           ))}
         </div>

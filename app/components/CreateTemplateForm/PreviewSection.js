@@ -142,16 +142,16 @@ const PreviewSection = ({
   educations = [],
   volunteering = [],
   achievements = [],
-  Interests = [],
+  interests = [],
   skills = [],
-  Certificates = [],
+  certificates = [],
   formData,
   formatDuration,
+  selectedTemplate,
+  onTemplateChange
 }) => {
-  const [selectedTemplate, setSelectedTemplate] = useState("Template1");
-
   const handleTemplateChange = (template) => {
-    setSelectedTemplate(template);
+    onTemplateChange(template);
   };
 
   const renderSelectedTemplate = () => {
@@ -162,9 +162,9 @@ const PreviewSection = ({
       educations,
       volunteering,
       achievements,
-      Interests,
+      interests,
       skills,
-      Certificates,
+      certificates,
     };
 
     const templates = {

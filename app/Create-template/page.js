@@ -19,6 +19,12 @@ import Link from "next/link";
 
 
 const CreateTemplateForm = () => {
+  const [selectedTemplate, setSelectedTemplate] = useState("Template1");
+
+  const handleTemplateChange = (template) => {
+    setSelectedTemplate(template);
+  };
+
   const [formData, setFormData] = useState({
     about: "",
     header: {
@@ -30,7 +36,7 @@ const CreateTemplateForm = () => {
     },
     experiences: [
       {
-        jobtitle: "",
+        jobTitle: "", 
         company: "",
         country: "",
         months: 0,
@@ -42,30 +48,38 @@ const CreateTemplateForm = () => {
         location: "",
         degree: "",
         field: "",
-        graduationyear: "",
+        graduationYear: "", 
       },
     ],
     volunteering: [
       {
-        institute: "",
-        location: "",
+        organization: "", 
+        role: "", 
         duration: "",
+        description: "", 
       },
     ],
     achievements: [
       {
-        name: "",
+        title: "", 
+        description: "", 
+        date: "", 
       },
     ],
-    Interests: [
+    interests: [ 
       {
-        interests: "",
+        name: "", 
       },
     ],
-    Certificates: [{
-      name: "",
-      link: ""
-    }],
+    certificates: [ 
+      {
+        name: "",
+        issuingOrganization: "", 
+        issueDate: "", 
+        credentialId: "", 
+        credentialUrl: "" 
+      }
+    ],
     skills: [{ name: "" }],
   });
 
@@ -96,57 +110,57 @@ const CreateTemplateForm = () => {
       ...formData,
       experiences: [
         ...formData.experiences,
-        { jobtitle: "", company: "", country: "", months: 0 },
+        { jobTitle: "", company: "", country: "", months: 0 },
       ],
     });
   };
-
+  
   const addEducation = () => {
     setFormData({
       ...formData,
       educations: [
         ...formData.educations,
-        { institute: "", location: "", degree: "", field: "", graduationyear: "" },
+        { institute: "", location: "", degree: "", field: "", graduationYear: "" },
       ],
     });
   };
-
+  
   const addVolunteering = () => {
     setFormData({
       ...formData,
       volunteering: [
         ...formData.volunteering,
-        { institute: "", location: "", duration: "" },
+        { organization: "", role: "", duration: "", description: "" },
       ],
     });
   };
-
+  
   const addAchievement = () => {
     setFormData({
       ...formData,
       achievements: [
         ...formData.achievements,
+        { title: "", description: "", date: "" },
+      ],
+    });
+  };
+  
+  const addInterest = () => {
+    setFormData({
+      ...formData,
+      interests: [
+        ...formData.interests,
         { name: "" },
       ],
     });
   };
   
-  const addCertificates = () => {
+  const addCertificate = () => {
     setFormData({
       ...formData,
-      Certificates: [
-        ...formData.Certificates,
-        { name: "", link: "" },
-      ],
-    });
-  };
-  
-  const addInterests = () => {
-    setFormData({
-      ...formData,
-      Interests: [
-        ...formData.Interests,
-        { interests: "" },
+      certificates: [
+        ...formData.certificates,
+        { name: "", issuingOrganization: "", issueDate: "", credentialId: "", credentialUrl: "" },
       ],
     });
   };
@@ -154,7 +168,10 @@ const CreateTemplateForm = () => {
   const addSkill = () => {
     setFormData({
       ...formData,
-      skills: [...formData.skills, { name: "" }],
+      skills: [
+        ...formData.skills,
+        { name: "" },
+      ],
     });
   };
 
@@ -162,7 +179,7 @@ const CreateTemplateForm = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch("http://localhost:3000/api/templates/createtemplate", {
+      const response = await fetch("http://localhost:3001/api/templates/createtemplate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -203,20 +220,108 @@ const CreateTemplateForm = () => {
   };
 
   const handleDownload = async () => {
-    const input = document.getElementById("resumePreview");
-    const clone = input.cloneNode(true);
-    clone.style.position = "absolute";
-    clone.style.left = "-9999px";
-    document.body.appendChild(clone);
+    const templateElement = document.getElementById("holographic-display");
     
-    const canvas = await html2canvas(clone, { scale: 2 });
-    document.body.removeChild(clone);
+    if (!templateElement) {
+      alert("Template element not found");
+      return;
+    }
+  
+    // Create optimized print container
+    const container = document.createElement("div");
+    container.style.cssText = `
+      position: absolute;
+      left: -9999px;
+      width: 8.5in;
+      min-height: 11in;
+      background: white;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.5;
+    `;
+  
+    // Clone and prepare content
+    const clone = templateElement.cloneNode(true);
     
-    const pdf = new jsPDF("p", "mm", "a4");
-    const imgWidth = pdf.internal.pageSize.getWidth();
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, imgWidth, imgHeight);
-    pdf.save("cyber-resume.pdf");
+    // Apply print-specific styles
+    clone.style.cssText = `
+      width: 100% !important;
+      padding: 0.5in !important;
+      font-size: 12pt !important;
+      color: #000000 !important;
+      box-shadow: none !important;
+    `;
+  
+    // Remove problematic elements
+    const selectorsToRemove = [
+      'button', 'a', '.shadow-lg', '.rounded-lg', 
+      '.hover\\:shadow-md', 'svg', 'img'
+    ];
+    
+    selectorsToRemove.forEach(selector => {
+      clone.querySelectorAll(selector).forEach(el => el.remove());
+    });
+  
+    // Convert complex layouts to block format
+    ['flex', 'grid'].forEach(layout => {
+      clone.querySelectorAll(`.${layout}`).forEach(el => {
+        el.style.display = 'block';
+        el.style.gap = '0';
+      });
+    });
+  
+    // Force web-safe fonts
+    clone.querySelectorAll('*').forEach(el => {
+      el.style.fontFamily = 'Arial, sans-serif';
+      el.style.letterSpacing = 'normal !important';
+    });
+  
+    container.appendChild(clone);
+    document.body.appendChild(container);
+  
+    try {
+      const canvas = await html2canvas(clone, {
+        scale: 2,
+        logging: true,
+        useCORS: true,
+        backgroundColor: "#FFFFFF",
+        onclone: (clonedDoc) => {
+          clonedDoc.body.style.zoom = "100%";
+        }
+      });
+  
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter",
+        hotfixes: ["px_scaling"]
+      });
+  
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgRatio = Math.min(pageWidth / canvas.width, 1);
+  
+      pdf.addImage(canvas, 'PNG', 0, 0, pageWidth, canvas.height * imgRatio);
+      
+      // Handle multi-page content
+      let heightLeft = canvas.height * imgRatio;
+      let position = 0;
+      
+      while (heightLeft > 0) {
+        position = heightLeft - pageHeight;
+        pdf.addPage();
+        pdf.addImage(canvas, 'PNG', 0, -position, pageWidth, canvas.height * imgRatio);
+        heightLeft -= pageHeight;
+      }
+  
+      pdf.deletePage(1); // Remove initial blank page
+      pdf.save("professional-resume.pdf");
+  
+    } catch (error) {
+      console.error("PDF Generation Error:", error);
+      alert("Failed to generate PDF. Please check the console.");
+    } finally {
+      document.body.removeChild(container);
+    }
   };
   const [activeSection, setActiveSection] = useState("about");
 
@@ -225,10 +330,10 @@ const CreateTemplateForm = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 relative overflow-hidden">
       {/* Animated Grid Background */}
       <Link href="/show">
-      <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-        Show Templates
-      </button>
-    </Link>
+        <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          Show Templates
+        </button>
+      </Link>
       <div className="absolute inset-0 opacity-20" style={{
         backgroundImage: `linear-gradient(to right, rgba(192, 132, 252, 0.1) 1px, transparent 1px),
                         linear-gradient(to bottom, rgba(192, 132, 252, 0.1) 1px, transparent 1px)`,
@@ -267,16 +372,15 @@ const CreateTemplateForm = () => {
             />
 
             <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Section Cards with Hover Effects */}
-              <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
+              {/* About Section */}
               {activeSection === "about" && (
                 <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <AboutSection about={formData.about} handleChange={handleChange} />
                 </div>
               )}
-              </div>
               
+              {/* Header Section */}
               {activeSection === "header" && (
                 <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -286,14 +390,10 @@ const CreateTemplateForm = () => {
 
               {/* Experience Section with Glowing Add Button */}
               {activeSection === "experiences" && (
-                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in experience-section">
                   <ExperienceSection
                     experiences={formData.experiences}
                     handleChange={handleChange}
-                    addExperience={() => {
-                      addExperience();
-                      document.querySelector('.experience-section').classList.add('animate-highlight');
-                    }}
                   />
                   <button
                     type="button"
@@ -306,15 +406,12 @@ const CreateTemplateForm = () => {
                 </div>
               )}
               
+              {/* Education Section */}
               {activeSection === "educations" && (
-                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in education-section">
                   <EducationSection 
                     educations={formData.educations} 
-                    handleChange={handleChange} 
-                    addEducation={() => {
-                      addEducation();
-                      document.querySelector('.experience-section').classList.add('animate-highlight');
-                    }} 
+                    handleChange={handleChange}
                   />
                   <button
                     type="button"
@@ -322,20 +419,17 @@ const CreateTemplateForm = () => {
                     className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
                              font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
                   >
-                    <span className="mr-2">+</span>ADD Education MODULE
+                    <span className="mr-2">+</span>ADD EDUCATION MODULE
                   </button>
                 </div>
               )}
 
+              {/* Volunteering Section */}
               {activeSection === "volunteering" && (
-                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in volunteering-section">
                   <VolunteeringSection
                     volunteering={formData.volunteering}
                     handleChange={handleChange}
-                    addVolunteering={() => {
-                      addVolunteering();
-                      document.querySelector('.experience-section').classList.add('animate-highlight');
-                    }}
                   />
                   <button
                     type="button"
@@ -343,20 +437,17 @@ const CreateTemplateForm = () => {
                     className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
                              font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
                   >
-                    <span className="mr-2">+</span>ADD Volunteering MODULE
+                    <span className="mr-2">+</span>ADD VOLUNTEERING MODULE
                   </button>
                 </div>
               )}
 
+              {/* Achievements Section */}
               {activeSection === "achievements" && (
-                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in achievements-section">
                   <AchievementsSection
                     achievements={formData.achievements}
                     handleChange={handleChange}
-                    addAchievement={() => {
-                      addAchievement();
-                      document.querySelector('.experience-section').classList.add('animate-highlight');
-                    }}
                   />
                   <button
                     type="button"
@@ -369,57 +460,48 @@ const CreateTemplateForm = () => {
                 </div>
               )}
 
+              {/* Interests Section - FIXED */}
               {activeSection === "interests" && (
-                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in interests-section">
                   <InterestsSection
-                    interests={formData.Interests}
+                    interests={formData.interests}
                     handleChange={handleChange}
-                    addInterest={() => {
-                      addInterests();
-                      document.querySelector('.experience-section').classList.add('animate-highlight');
-                    }}
                   />
                   <button
                     type="button"
-                    onClick={addInterests}
+                    onClick={addInterest}
                     className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
                              font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
                   >
-                    <span className="mr-2">+</span>ADD INTERESTS MODULE
+                    <span className="mr-2">+</span>ADD INTEREST MODULE
                   </button>
                 </div>
               )}
 
+              {/* Certificates Section - FIXED */}
               {activeSection === "certificates" && (
-                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in certificates-section">
                   <CertificatesSection
-                    certificates={formData.Certificates}
+                    certificates={formData.certificates}
                     handleChange={handleChange}
-                    addCertificate={() => {
-                      addCertificates();
-                      document.querySelector('.experience-section').classList.add('animate-highlight');
-                    }}
                   />
                   <button
                     type="button"
-                    onClick={addCertificates}
+                    onClick={addCertificate}
                     className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
                              font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
                   >
-                    <span className="mr-2">+</span>ADD CERTIFICATES MODULE
+                    <span className="mr-2">+</span>ADD CERTIFICATE MODULE
                   </button>
                 </div>
               )}
                 
+              {/* Skills Section */}
               {activeSection === "skills" && (
-                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in">
+                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in skills-section">
                   <SkillsSection
                     skills={formData.skills}
                     handleChange={handleChange}
-                    addSkill={() => {
-                      addSkill();
-                      document.querySelector('.experience-section').classList.add('animate-highlight');
-                    }}
                   />
                   <button
                     type="button"
@@ -427,7 +509,7 @@ const CreateTemplateForm = () => {
                     className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-full 
                              font-bold transition-all shadow-lg hover:scale-105 hover:shadow-purple-500/40 flex items-center"
                   >
-                    <span className="mr-2">+</span>ADD SKILLS MODULE
+                    <span className="mr-2">+</span>ADD SKILL MODULE
                   </button>
                 </div>
               )}
@@ -455,33 +537,35 @@ const CreateTemplateForm = () => {
                   HOLO-PREVIEW ™
                 </h2>
                 <button
-                  onClick={handleDownload}
-                  className="bg-gradient-to-r from-cyan-400 to-purple-500 text-gray-900 px-6 py-3 rounded-xl 
-                           font-bold hover:scale-105 transition-transform shadow-lg hover:shadow-cyan-400/30
-                           flex items-center gap-2"
-                >
-                  <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                  </svg>
-                  DOWNLOAD .CYBER
-                </button>
+                onClick={handleDownload}
+                className="bg-gradient-to-r from-cyan-400 to-purple-500 text-gray-900 px-6 py-3 rounded-xl 
+                        font-bold hover:scale-105 transition-transform shadow-lg hover:shadow-cyan-400/30
+                        flex items-center gap-2"
+              >
+                <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                DOWNLOAD {selectedTemplate.replace("Template", "PROTOCOL ")}
+              </button>
               </div>
 
-              <div id="resumePreview" className="relative bg-gray-50 rounded-xl p-6 shadow-inner-xl overflow-y-auto 
-                scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-100 max-h-[800px] neon-box w-full">
-                <PreviewSection
-                  about={formData.about}
-                  header={formData.header}
-                  experiences={formData.experiences}
-                  educations={formData.educations}
-                  volunteering={formData.volunteering}
-                  achievements={formData.achievements}
-                  interests={formData.Interests}
-                  certificates={formData.Certificates}
-                  skills={formData.skills}
-                  formData={formData}
-                  formatDuration={formatDuration}
-                />
+              <div id="resumePreview" className="relative bg-white rounded-none p-6 overflow-y-auto 
+                 scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-100 max-h-[800px] w-full">
+               <PreviewSection
+                about={formData.about}
+                header={formData.header}
+                experiences={formData.experiences}
+                educations={formData.educations}
+                volunteering={formData.volunteering}
+                achievements={formData.achievements}
+                interests={formData.interests}
+                certificates={formData.certificates}
+                skills={formData.skills}
+                formData={formData}
+                formatDuration={formatDuration}
+                selectedTemplate={selectedTemplate}
+                onTemplateChange={handleTemplateChange}
+              />
               </div>
             </div>
 

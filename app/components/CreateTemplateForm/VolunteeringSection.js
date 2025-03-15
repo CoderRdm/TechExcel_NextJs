@@ -18,32 +18,32 @@ const VolunteeringSection = ({ volunteering, handleChange, addVolunteering }) =>
               <div className="relative neon-input-group">
                 <input
                   type="text"
-                  id={`volunteer-institute-${index}`}
-                  name="institute"
-                  value={volunteer.institute}
+                  id={`volunteer-organization-${index}`}
+                  name="organization"
+                  value={volunteer.organization}
                   onChange={(e) => handleChange(e, "volunteering", index)}
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                            focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                  placeholder="SYNDICATE"
+                  placeholder="ORGANIZATION"
                 />
                 <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                   <span className="text-purple-400/60 text-sm font-mono">▼</span>
                 </div>
               </div>
 
-              {/* Location */}
+              {/* Role */}
               <div className="relative neon-input-group">
                 <input
                   type="text"
-                  id={`volunteer-location-${index}`}
-                  name="location"
-                  value={volunteer.location}
+                  id={`volunteer-role-${index}`}
+                  name="role"
+                  value={volunteer.role}
                   onChange={(e) => handleChange(e, "volunteering", index)}
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                            focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                  placeholder="ZONE"
+                  placeholder="ROLE"
                 />
                 <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                   <span className="text-purple-400/60 text-sm font-mono">▼</span>
@@ -61,7 +61,25 @@ const VolunteeringSection = ({ volunteering, handleChange, addVolunteering }) =>
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                            focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                  placeholder="SERVICE PERIOD"
+                  placeholder="DURATION"
+                />
+                <div className="absolute top-0 right-0 h-full flex items-center pr-3">
+                  <span className="text-purple-400/60 text-sm font-mono">▼</span>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="relative neon-input-group col-span-1 sm:col-span-2">
+                <textarea
+                  id={`volunteer-description-${index}`}
+                  name="description"
+                  value={volunteer.description}
+                  onChange={(e) => handleChange(e, "volunteering", index)}
+                  className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
+                           text-cyan-200 font-mono placeholder-gray-500 focus:outline-none resize-none
+                           focus:border-purple-400 focus:bg-gray-900/90 transition-all"
+                  placeholder="DESCRIPTION"
+                  rows="3"
                 />
                 <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                   <span className="text-purple-400/60 text-sm font-mono">▼</span>
@@ -77,6 +95,7 @@ const VolunteeringSection = ({ volunteering, handleChange, addVolunteering }) =>
             }}></div>
           </div>
         ))}
+        
   
         {/* Main Cybernetic Pattern */}
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{

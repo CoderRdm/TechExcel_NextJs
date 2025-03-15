@@ -32,18 +32,26 @@ const UserPage = () => {
           throw new Error('No authentication found');
         }
 
-        const response = await axios.get(`http://localhost:3000/api/templates/user/${userId}`, {
+        const response = await axios.get(`http://localhost:3001/api/templates/user/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
 
         console.log('API Response:', response.data); // De bugging
-        setTemplates(response.data);
+        if(response.data){
 
+        }
+        if(response.data.message==="No templates found"){
+          setTemplates([]);
+        }else{
+          setTemplates(response.data);
+        }
+        
+        console.log(templates.skills);
       } catch (error) {
         console.error('Fetch Error:', error.response?.data || error.message);
-        
+        console.log(error);
         if (error.response?.status === 401) {
           localStorage.clear();
           router.push('/Login');
@@ -141,12 +149,12 @@ const UserPage = () => {
       try {
         const token = localStorage.getItem('token');
         
-        const response = await axios.delete(`http://localhost:3000/api/templates/deletetemplate/${templateId}`, {
+        const response = await axios.delete(`http://localhost:3001/api/templates/deletetemplate/${templateId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        
+
         if (response.status === 200) {
           setTemplates(prev => prev.filter(t => t.id !== templateId));
           // Add a success notification
@@ -205,6 +213,7 @@ const handleCreateNew = () => {
     </div>
   );
     // Motion animations
+    
 
     return (
       <>
@@ -227,7 +236,7 @@ const handleCreateNew = () => {
             <p className="text-gray-300 max-w-2xl mx-auto text-lg">
               Create mind-blowing profiles that stand out in a digital world
             </p>
-          s  
+            
             <button 
               className="mt-10 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-pink-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg hover:shadow-purple-500/50 flex items-center mx-auto group"  onClick={handleCreateNew}
             >
@@ -241,7 +250,7 @@ const handleCreateNew = () => {
             </button>
           </header>
           
-          {templates.length === 0 ? (
+          {templates.length == 0 ? (
             <div className="bg-gray-900 bg-opacity-60 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl p-16 text-center border border-gray-800">
               <div className="text-pink-400 text-8xl mb-8 animate-pulse">📄</div>
               <h2 className="text-3xl font-bold text-white mb-4">Empty Canvas</h2>
@@ -303,14 +312,14 @@ const handleCreateNew = () => {
                       </div>
                       <div className="flex space-x-4">
                       <Link
-  href={{pathname: "/SingleTemplate", query: {id: template.id}}}
-  className="px-4 py-2 bg-yellow-700 text-white rounded-md hover:bg-red-600 transition-all duration-300 flex items-center shadow-md hover:shadow-red-400/30 text-sm font-medium"
->
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-  More info
-</Link>
+                          href={{pathname: "/SingleTemplate", query: {id: template.id}}}
+                          className="px-4 py-2 bg-yellow-700 text-white rounded-md hover:bg-red-600 transition-all duration-300 flex items-center shadow-md hover:shadow-red-400/30 text-sm font-medium"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          More info
+                        </Link>
                         <Link
                           href={{pathname :"/edit", query :{id:template.id}}}
                           className="px-6 py-3 bg-indigo-900 text-indigo-100 rounded-full hover:bg-indigo-700 transition-all duration-300 flex items-center shadow-md hover:shadow-indigo-500/50 transform hover:scale-105"
@@ -341,15 +350,15 @@ const handleCreateNew = () => {
                           <Camera className="h-5 w-5 mr-2 text-pink-400" />
                           Personal Information
                         </h3>
-                        {template.header?.length > 0 ? (
+                        {template.header? (
                           <ul className="space-y-4">
-                            {template.header.map((hdr, index) => (
-                              <li key={index} className="bg-gray-900 bg-opacity-60 p-5 rounded-xl shadow-md border-l-4 border-pink-500">
-                                <p className="font-medium text-lg text-white">{hdr.name}</p>
-                                <p className="text-gray-300">{hdr.city}, {hdr.country}</p>
-                                <p className="text-gray-300">{hdr.email}</p>
+                            
+                              <li  className="bg-gray-900 bg-opacity-60 p-5 rounded-xl shadow-md border-l-4 border-pink-500">
+                                <p className="font-medium text-lg text-white">{template.header.name}</p>
+                                <p className="text-gray-300">{template.header.city}, {template.header.country}</p>
+                                <p className="text-gray-300">{template.header.email}</p>
                               </li>
-                            ))}
+                            
                           </ul>
                         ) : (
                           <p className="text-gray-500 italic p-4 bg-gray-900 bg-opacity-60 rounded-xl border border-gray-700">No personal information added</p>
@@ -364,21 +373,21 @@ const handleCreateNew = () => {
                           </svg>
                           Skills
                         </h3>
-                        {template.sections?.skills?.length > 0 ? (
-                          <div className="flex flex-wrap gap-3 p-4 bg-gray-900 bg-opacity-60 rounded-xl shadow-md">
-                            {template.sections.skills.map((skill, index) => (
-                              <span 
-                                key={index}
-                                className="bg-gradient-to-r from-green-900 to-green-700 text-green-200 px-4 py-2 rounded-full text-sm font-medium border border-green-700 transform transition-all hover:scale-110 shadow-md"
-                              >
-                                {skill.name}
-                              </span>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-gray-500 italic p-4 bg-gray-900 bg-opacity-60 rounded-xl border border-gray-700">No skills added</p>
-                        )}
-                      </div>
+                        {template.skills && template.skills.length > 0 ? (
+                        <div className="flex flex-wrap gap-3 p-4 bg-gray-900 bg-opacity-60 rounded-xl shadow-md">
+                          {template.skills.map((skillObj, i) => (
+                            <div key={i}>{skillObj.skill?.name || "No skills added"}</div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-gray-500 italic p-4 bg-gray-900 bg-opacity-60 rounded-xl border border-gray-700">
+                          No skills added
+                        </p>
+                      )}
+
+  
+</div>
+
   
                       {/* Experiences Section */}
                       {template.experiences?.length > 0 && (

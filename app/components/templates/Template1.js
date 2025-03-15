@@ -8,9 +8,9 @@ const Template1 = ({
   educations = [],
   Volunterring = [],
   achievements = [],
-  Interests = [],
+  interests = [],
   skills = [],
-  Certificates = [],
+  certificates = [],
 }) => {
   return (
     <div className="bg-white p-8 max-w-4xl mx-auto shadow-xl rounded-sm font-[Arial] text-gray-700">
@@ -87,7 +87,7 @@ const Template1 = ({
 
           {/* Certifications */}
           <Section title="Certifications">
-            {Certificates.map((cert, index) => (
+            {certificates.map((cert, index) => (
               <div key={index} className="mb-3">
                 <h4 className="font-semibold text-blue-700">{cert.name}</h4>
                 <a href={cert.link} className="text-sm text-gray-500 hover:underline">
@@ -99,15 +99,24 @@ const Template1 = ({
 
           {/* Achievements */}
           <Section title="Key Achievements">
-            <ul className="space-y-2">
+            <ul className="space-y-4">
               {achievements.map((ach, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="text-blue-600 mr-2">•</span>
-                  {ach.name}
+                <li key={index} className="flex flex-col">
+                  <div className="flex items-center">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span className="font-semibold">{ach.title}</span>
+                  </div>
+                  {ach.description && (
+                    <p className="ml-6 text-gray-600">{ach.description}</p>
+                  )}
+                  {ach.date && (
+                    <p className="ml-6 text-gray-400 text-sm">{ach.date}</p>
+                  )}
                 </li>
               ))}
             </ul>
           </Section>
+
 
           {/* Volunteering */}
           <Section title="Volunteer Experience">
@@ -123,12 +132,12 @@ const Template1 = ({
           {/* Interests */}
           <Section title="Interests">
             <div className="flex flex-wrap gap-2">
-              {Interests.map((interest, index) => (
+              {interests.map((interest, index) => (
                 <span 
                   key={index}
                   className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full"
                 >
-                  {interest.interests}
+                  {interest.name}
                 </span>
               ))}
             </div>

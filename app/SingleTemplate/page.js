@@ -1,20 +1,23 @@
+'use client';
+
 import React from 'react'
+import { useSearchParams } from 'next/navigation';
 import TemplateDetail from '@/helper';
 
-const Page = ({ searchParams }) => {
-  console.log(searchParams);
-  const _idtoString = searchParams?._id;
-  const _id =Number(_idtoString);
+const Page = () => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+  const _idtoString = searchParams.get('_id');
+  const _id = _idtoString ? Number(_idtoString) : null;
   
   return (
     <div>
-      {/* Show TemplateDetail if ID exists in searchParams */}
-      {searchParams?.id ? (
-        <TemplateDetail id={searchParams.id} />
+      {id ? (
+        <TemplateDetail id={id} />
       ) : (
         <div>
           <h1>Templates Page</h1>
-          <p>whjbefd</p>
+          <p>Welcome to Templates</p>
           <p>No template selected - Add ID parameter to URL (?id=YOUR_TEMPLATE_ID)</p>
         </div>
       )}

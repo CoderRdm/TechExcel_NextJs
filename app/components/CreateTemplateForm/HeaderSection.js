@@ -13,11 +13,11 @@ const HeaderSection = ({ header, handleChange }) => {
         
         <div className="grid grid-cols-1 gap-5">
           {[
-            { id: 'header-name', name: 'name', label: 'CALLSIGN', value: header.name },
-            { id: 'header-city', name: 'city', label: 'ZONE', value: header.city },
-            { id: 'header-country', name: 'country', label: 'SECTOR', value: header.country },
-            { id: 'header-phone', name: 'phone', label: 'COM-LINK', value: header.phone },
-            { id: 'header-email', name: 'email', label: 'DATA-PIPE', value: header.email }
+            { id: 'header-name', name: 'name', label: 'NAME', value: header.name },
+            { id: 'header-city', name: 'city', label: 'CITY', value: header.city },
+            { id: 'header-country', name: 'country', label: 'COUNTRY', value: header.country },
+            { id: 'header-phone', name: 'phone', label: 'PHONE NO.', value: header.phone },
+            { id: 'header-email', name: 'email', label: 'EMAIL', value: header.email }
           ].map((field) => (
             <div key={field.id} className="relative neon-input-group">
               <input

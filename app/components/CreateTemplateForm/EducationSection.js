@@ -25,7 +25,7 @@ const EducationSection = ({ educations, handleChange, addEducation }) => {
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                            focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                  placeholder="ENTER ACADEMY"
+                  placeholder="ENTER INSTITUTE"
                 />
                 <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                   <span className="text-purple-400/60 text-sm font-mono">▼</span>
@@ -43,7 +43,7 @@ const EducationSection = ({ educations, handleChange, addEducation }) => {
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                            focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                  placeholder="ENTER ZONE"
+                  placeholder="ENTER LOCATION"
                 />
                 <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                   <span className="text-purple-400/60 text-sm font-mono">▼</span>
@@ -61,7 +61,7 @@ const EducationSection = ({ educations, handleChange, addEducation }) => {
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                            focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                  placeholder="CERTIFICATION LEVEL"
+                  placeholder="DEGREE"
                 />
                 <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                   <span className="text-purple-400/60 text-sm font-mono">▼</span>
@@ -79,7 +79,7 @@ const EducationSection = ({ educations, handleChange, addEducation }) => {
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                            focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                  placeholder="SPECIALIZATION"
+                  placeholder="ENTER SPECIALIZATION"
                 />
                 <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                   <span className="text-purple-400/60 text-sm font-mono">▼</span>
@@ -97,7 +97,7 @@ const EducationSection = ({ educations, handleChange, addEducation }) => {
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                            focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                  placeholder="TERMINATION YEAR"
+                  placeholder="GRADUATION YEAR"
                 />
                 <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                   <span className="text-purple-400/60 text-sm font-mono">▼</span>

@@ -17,13 +17,13 @@ const InterestsSection = ({ interests, handleChange, addInterest }) => {
               <input
                 type="text"
                 id={`interest-${index}`}
-                name="interests"
-                value={interest.interests}
+                name="name"
+                value={interest.name}
                 onChange={(e) => handleChange(e, "interests", index)}
                 className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                          text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
                          focus:border-purple-400 focus:bg-gray-900/90 transition-all"
-                placeholder="NEURAL PROGRAMMING"
+                placeholder="INTEREST"
               />
               <div className="absolute top-0 right-0 h-full flex items-center pr-3">
                 <span className="text-purple-400/60 text-sm font-mono">▼</span>

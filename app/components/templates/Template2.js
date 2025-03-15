@@ -114,11 +114,20 @@ const Template1 = ({
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-3">Achievements</h2>
         <ul className="list-disc pl-5">
-          {achievements.map((ach, index) => (
-            <li key={index} className="mb-1">
-              {ach.name}
-            </li>
-          ))}
+        {achievements.map((ach, index) => (
+                <li key={index} className="flex flex-col">
+                  <div className="flex items-center">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span className="font-semibold">{ach.title}</span>
+                  </div>
+                  {ach.description && (
+                    <p className="ml-6 text-gray-600">{ach.description}</p>
+                  )}
+                  {ach.date && (
+                    <p className="ml-6 text-gray-400 text-sm">{ach.date}</p>
+                  )}
+                </li>
+              ))}
         </ul>
       </div>
 

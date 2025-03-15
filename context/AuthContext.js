@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     if (token) {
       // Fetch user data using the token (replace with your API)
-      fetch('http://localhost:3001/api/me', {
+      fetch('http://localhost:3001/api/user/me', {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
