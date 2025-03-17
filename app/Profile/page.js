@@ -60,7 +60,7 @@ export default function ProfilePage() {
   });
 
   // Configuration
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001';
   const API_PATHS = ['/api/user/me'];
   const AUTH_METHOD = 'token';
 
@@ -82,6 +82,7 @@ export default function ProfilePage() {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
               })
             };
+            
 
             response = await fetch(`${API_BASE_URL}${path}`, {
               method: 'GET',
@@ -253,7 +254,7 @@ export default function ProfilePage() {
         });
 
         if (!response.ok) throw new Error(`Deletion failed: ${response.status}`);
-        router.push('/login');
+        router.push('/Login');
       } catch (err) {
         setError({ message: err.message });
       }
@@ -295,13 +296,11 @@ export default function ProfilePage() {
     </div>
   );
 
-  if (loading && !user) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/Login');
+    }
+  }, [loading, user, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 py-8 px-4 sm:px-6 lg:px-8">

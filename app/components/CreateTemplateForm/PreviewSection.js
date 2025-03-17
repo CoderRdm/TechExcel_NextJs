@@ -134,6 +134,9 @@ import React, { useState } from "react";
 import Template1 from "../templates/Template1";
 import Template2 from "../templates/Template2";
 import Template3 from "../templates/Template3";
+import Template4 from "../templates/Template4";
+import Template5 from "../templates/Template5";
+import Template6 from "../templates/Template6";
 
 const PreviewSection = ({
   about = "",
@@ -171,31 +174,37 @@ const PreviewSection = ({
       Template1: <Template1 {...commonProps} />,
       Template2: <Template2 {...commonProps} />,
       Template3: <Template3 {...commonProps} />,
+      Template4: <Template4 {...commonProps} />,
+      Template5: <Template5 {...commonProps} />,
+      Template6: <Template6 {...commonProps} />
+
+
+
     };
 
     return templates[selectedTemplate] || <Template1 {...commonProps} />;
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-black rounded-lg">
       {/* Cyberpunk Template Selector */}
       <div className="mb-6 relative group">
-        <div className="absolute inset-0 bg-purple-500/10 blur-xl rounded-xl animate-pulse-slow"></div>
-        <div className="relative z-10 p-1 rounded-xl bg-gradient-to-r from-purple-900/50 to-cyan-900/50 border border-purple-500/30">
-          <div className="flex flex-wrap gap-2 p-2 bg-gray-900/80 rounded-lg backdrop-blur-sm">
-            {["Template1", "Template2", "Template3"].map((template) => (
+        <div className="absolute inset-0 bg-indigo-500/10 blur-xl rounded-xl animate-pulse-slow"></div>
+        <div className="relative z-10 p-1 rounded-xl bg-gradient-to-r from-indigo-900/50 to-cyan-900/50 border border-slate-500/30">
+          <div className="flex flex-wrap gap-2 p-2 bg-indigo-900/80 rounded-lg backdrop-blur-sm">
+            {["Template1", "Template2", "Template3","Template4","Template5","Template6"].map((template) => (
               <button
                 key={template}
                 onClick={() => handleTemplateChange(template)}
                 className={`px-4 py-2 text-sm font-mono font-bold rounded-lg transition-all duration-300
                   ${
                     selectedTemplate === template
-                      ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-cyber"
+                      ? "bg-gradient-to-r from-purple-600 to-indigo-500 text-white shadow-cyber"
                       : "bg-gray-800 text-gray-400 hover:bg-gray-700/50 hover:text-cyan-400"
                   }
                   hover:scale-105 hover:shadow-cyber-hover`}
               >
-                <span className="text-cyan-400">▷</span> {template.replace("Template", "PROTOCOL ")}
+                <span className="text-cyan-400">▷</span> {template.replace("Template", " Template ")}
               </button>
             ))}
           </div>

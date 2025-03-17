@@ -19,12 +19,20 @@ const SignUpPage = () => {
     setAnimate(true);
   }, []);
 
+  // Unified handleChange function
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
-    // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       setIsLoading(false);
@@ -32,7 +40,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
+      const response = await fetch('http://localhost:3001/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -46,12 +54,9 @@ const SignUpPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-        }
-        
+        localStorage.setItem('token', data.token);
         alert('Signup successful');
-        router.push('/login');
+        router.push('/Login');
       } else {
         setError(data.error || 'Signup failed');
       }
@@ -64,114 +69,113 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 py-8 px-4 flex items-center justify-center overflow-hidden relative">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute top-20 right-0 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-0 left-20 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+    <div className="min-h-screen bg-gradient-to-br from-black via-purple-800 to-indigo-800 py-8 px-4 flex items-center justify-center overflow-hidden relative">
+    {/* Background elements remain same */}
+
+    <div className={`max-w-md w-full transition-all duration-1000 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <div className="text-center mb-8">
+        <button
+          onClick={() => router.push('/')}
+          className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 hover:from-pink-200 hover:to-indigo-200 transition-all duration-300 transform hover:scale-105"
+        >
+        </button>
+        <p className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 hover:from-pink-200 hover:to-indigo-200 transition-all duration-300 transform hover:scale-105">Craft your career story</p>
       </div>
 
-      <div className={`max-w-md w-full transition-all duration-1000 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-        <div className="text-center mb-8">
-          <button
-            onClick={() => router.push('/')}
-            className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 hover:from-pink-200 hover:to-indigo-200 transition-all duration-300 transform hover:scale-105"
-          >
-            Resume Builder
-          </button>
-          <p className="mt-2 text-blue-100 text-lg font-light">Craft your career story</p>
-        </div>
+      <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl border border-white border-opacity-20 p-8 relative overflow-hidden">
+        <h2 className="text-3xl font-bold text-white mb-8 text-center">Create Account</h2>
+        
+        {error && (
+          <div className="mb-6 p-4 bg-red-500 bg-opacity-20 border border-red-400 border-opacity-30 text-red-100 rounded-lg text-center">
+            {error}
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name Input */}
+          <div className="group">
+            <label htmlFor="name" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Full Name
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="Your name"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
+            </div>
+          </div>
 
-        <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl border border-white border-opacity-20 p-8 relative overflow-hidden">
-          {/* Decorative elements */}
-          <div className="absolute -top-6 -right-6 w-20 h-20 bg-purple-500 rounded-full opacity-20"></div>
-          <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-indigo-500 rounded-full opacity-10"></div>
-          
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">Create Account</h2>
-          
-          {error && (
-            <div className="mb-6 p-4 bg-red-500 bg-opacity-20 border border-red-400 border-opacity-30 text-red-100 rounded-lg text-center">
-              {error}
+          {/* Email Input */}
+          <div className="group">
+            <label htmlFor="email" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Email Address
+            </label>
+            <div className="relative">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="you@example.com"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
             </div>
-          )}
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="group">
-              <label htmlFor="name" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
-                Full Name
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
-                  placeholder="Your name"
-                  required
-                  disabled={isLoading}
-                />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
-              </div>
+          </div>
+
+          {/* Password Input */}
+          <div className="group">
+            <label htmlFor="password" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="••••••••"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
             </div>
-            
-            <div className="group">
-              <label htmlFor="email" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
-                Email Address
-              </label>
-              <div className="relative">
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
-                  placeholder="you@example.com"
-                  required
-                  disabled={isLoading}
-                />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
-              </div>
+          </div>
+
+          {/* Confirm Password Input */}
+          <div className="group">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="••••••••"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
             </div>
-            
-            <div className="group">
-              <label htmlFor="password" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type="password"
-                  id="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
-                  placeholder="••••••••"
-                  required
-                  disabled={isLoading}
-                />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
-              </div>
-            </div>
-            
-            <div className="group">
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
-                  placeholder="••••••••"
-                  required
-                  disabled={isLoading}
-                />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
-              </div>
-            </div>
+          </div>
+
             
             <button
               type="submit"

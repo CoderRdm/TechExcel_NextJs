@@ -219,11 +219,11 @@ const handleCreateNew = () => {
       <>
         {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden">
-        <div className="fixed inset-0 -z-10 h-screen w-screen bg-gradient-to-r from-purple-900 via-indigo-800 to-blue-900 opacity-40"></div>
+        <div className="fixed inset-0 -z-10 h-screen w-screen bg-gradient-to-b from-black via-indigo-900 to-black opacity-40"></div>
           
-          <div className="absolute top-0 left-0 w-64 h-64 bg-purple-600 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
-          <div className="absolute top-0 right-0 w-72 h-72 bg-blue-600 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-pink-600 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+          <div className="absolute top-0 left-0 w-64 h-64 bg-black rounded-full filter blur-3xl opacity-20 animate-blob"></div>
+          <div className="absolute top-0 right-0 w-72 h-72 bg-black rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-black rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-3000"></div>
         </div>
         
         <div className="max-w-6xl mx-auto relative z-10">
@@ -231,9 +231,9 @@ const handleCreateNew = () => {
             <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-64 h-64 bg-gradient-to-r from-purple-400 to-pink-600 rounded-full opacity-10 filter blur-2xl"></div>
             
             <h1 className="text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">
-              RESUME UNIVERSE
+              RESUME WIZARD
             </h1>
-            <p className="text-gray-300 max-w-2xl mx-auto text-lg">
+            <p className="text-indigo-900 font-bolder max-w-2xl mx-auto text-lg bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">
               Create mind-blowing profiles that stand out in a digital world
             </p>
             
@@ -276,7 +276,7 @@ const handleCreateNew = () => {
                   onMouseLeave={() => setHoverState({...hoverState, [template.id]: false})}
                 >
                   {/* Neon glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-pink-500/30 via-purple-500/20 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/30 via-purple-500/20 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
                   
                   {/* Floating particles */}
                   {hoverState[template.id] && Array.from({length: 15}).map((_, i) => (
@@ -302,7 +302,6 @@ const handleCreateNew = () => {
                             {template.about || `Template #${template.id}`}
                           </span>
                           <span className="ml-3 text-xs py-1 px-3 rounded-full bg-purple-900 text-purple-200 uppercase tracking-wider">
-                            Premium
                           </span>
                         </h2>
                         <p className="text-gray-400 mt-2">

@@ -14,13 +14,29 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [animate, setAnimate] = useState(false);
-  const [loginMethod, setLoginMethod] = useState('password'); // 'password' or 'otp'
+  const [loginMethod, setLoginMethod] = useState('password');
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
 
   useEffect(() => {
     setAnimate(true);
   }, []);
+
+  // Unified change handler for all inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    
+    if (name === 'otp') {
+      // Handle OTP input separately
+      setOtp(value.replace(/\D/g, '').slice(0, 6));
+    } else {
+      // Handle regular form inputs
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,24 +45,22 @@ const LoginPage = () => {
 
     try {
       if (loginMethod === 'password') {
-        // Password login
+        // Password-based login
         const response = await axios.post('http://localhost:3001/api/auth/login/password', {
           email: formData.email,
           password: formData.password
         });
         handleLoginSuccess(response.data);
       } else {
-        // OTP login
+        // OTP-based login
         if (!otpSent) {
-          // Send OTP
+          // Phase 1: Send OTP
           await axios.post('http://localhost:3001/api/auth/otp/generate', {
             email: formData.email
           });
           setOtpSent(true);
         } else {
-          console.log(formData.email);
-          console.log(otp);
-          // Verify OTP
+          // Phase 2: Verify OTP
           const response = await axios.post('http://localhost:3001/api/auth/otp/verify', {
             email: formData.email,
             code: otp
@@ -59,6 +73,8 @@ const LoginPage = () => {
                           error.message || 
                           'Authentication failed. Please try again.';
       setError(errorMessage);
+      
+      // Reset OTP state if verification fails
       if (loginMethod === 'otp' && otpSent) {
         setOtpSent(false);
         setOtp('');
@@ -69,17 +85,16 @@ const LoginPage = () => {
   };
 
   const handleLoginSuccess = (data) => {
-    const { token, userId, user } = data;
-    localStorage.setItem('token', token);
-    localStorage.setItem('userId', user.id);
-    console.log(userId);
-    console.log(user);
+    // Store authentication tokens
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('userId', data.user.id);
     
-    router.push(`/show`);
+    // Redirect to dashboard
+    router.push('/show');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 py-8 px-4 flex items-center justify-center overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-black via-indigo-800 to-purple-700 py-8 px-4 flex items-center justify-center overflow-hidden relative">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
@@ -110,6 +125,7 @@ const LoginPage = () => {
           )}
           
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Input */}
             <div className="group">
               <label htmlFor="email" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
                 Email Address
@@ -122,15 +138,16 @@ const LoginPage = () => {
                   autoComplete="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={handleChange}
                   className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
                   placeholder="you@example.com"
                   disabled={isLoading || (loginMethod === 'otp' && otpSent)}
                 />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
               </div>
             </div>
 
+            {/* Password Input (only for password login) */}
             {loginMethod === 'password' && (
               <div className="group">
                 <label htmlFor="password" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
@@ -144,7 +161,7 @@ const LoginPage = () => {
                     autoComplete="current-password"
                     required
                     value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    onChange={handleChange}
                     className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
                     placeholder="••••••••"
                     disabled={isLoading}
@@ -156,79 +173,76 @@ const LoginPage = () => {
                   >
                     {showPassword ? 'Hide' : 'Show'}
                   </button>
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
                 </div>
               </div>
             )}
 
-{loginMethod === 'otp' && otpSent && (
-  <div className="group">
-    <label htmlFor="otp" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
-      OTP Code
-    </label>
-    <div className="relative">
-      <input
-        id="otp"
-        name="otp"
-        type="text"
-        inputMode="numeric"
-        autoComplete="one-time-code"
-        required
-        value={otp}
-        onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-        className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
-        placeholder="Enter 6-digit OTP"
-        disabled={isLoading}
-        autoFocus  // Added auto-focus for better UX
-      />
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200"></div>
-    </div>
-    <div className="text-right mt-2">
-      <button
-        type="button"
-        onClick={async () => {
-          try {
-            setIsLoading(true);
-            await axios.post('http://localhost:3001/api/auth/generateOTP', {
-              email: formData.email
-            });
-            setOtp('');
-          } finally {
-            setIsLoading(false);
-          }
-        }}
-        className="text-pink-300 hover:text-pink-200 text-sm"
-        disabled={isLoading}
-      >
-        Resend OTP
-      </button>
-    </div>
-  </div>
-)}
-
-            <div className="flex items-center justify-between">
-              {loginMethod === 'password' && (
-                <div className="flex items-center">
+            {/* OTP Input (only for OTP login after sending) */}
+            {loginMethod === 'otp' && otpSent && (
+              <div className="group">
+                <label htmlFor="otp" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+                  OTP Code
+                </label>
+                <div className="relative">
                   <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-indigo-300 rounded bg-opacity-20 bg-white"
+                    id="otp"
+                    name="otp"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    required
+                    value={otp}
+                    onChange={handleChange}
+                    className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                    placeholder="Enter 6-digit OTP"
+                    disabled={isLoading}
+                    autoFocus
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-indigo-100">
-                    Remember me
-                  </label>
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
                 </div>
-              )}
-              {loginMethod === 'password' && (
-                <div className="text-sm">
-                  <a href="#" className="font-medium text-pink-300 hover:text-pink-200 transition-colors duration-200">
-                    Forgot password?
-                  </a>
+                <div className="text-right mt-2">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        setIsLoading(true);
+                        await axios.post('http://localhost:3001/api/auth/otp/generate', {
+                          email: formData.email
+                        });
+                        setOtp('');
+                      } finally {
+                        setIsLoading(false);
+                      }
+                    }}
+                    className="text-pink-300 hover:text-pink-200 text-sm"
+                    disabled={isLoading}
+                  >
+                    Resend OTP
+                  </button>
                 </div>
-              )}
+              </div>
+            )}
+
+            {/* Login Method Toggle */}
+            <div className="mt-6 text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setLoginMethod(prev => prev === 'password' ? 'otp' : 'password');
+                  setOtpSent(false);
+                  setOtp('');
+                  setError('');
+                }}
+                className="text-pink-300 hover:text-pink-200 font-semibold text-sm"
+              >
+                {loginMethod === 'password' 
+                  ? 'Login with OTP instead' 
+                  : 'Login with password instead'}
+              </button>
             </div>
-            
+
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -254,47 +268,18 @@ const LoginPage = () => {
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <button
-              type="button"
-              onClick={() => {
-                setLoginMethod(prev => prev === 'password' ? 'otp' : 'password');
-                setOtpSent(false);
-                setOtp('');
-                setError('');
-              }}
-              className="text-pink-300 hover:text-pink-200 font-semibold text-sm"
-            >
-              {loginMethod === 'password' 
-                ? 'Login with OTP instead' 
-                : 'Login with password instead'}
-            </button>
-          </div>
-
-          <div className="mt-8">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white border-opacity-10"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-3 bg-white bg-opacity-5 text-indigo-100 rounded-md">Or continue with</span>
-              </div>
-            </div>
-
-            {/* Social login buttons */}
-          </div>
-
-          <p className="mt-10 text-center text-indigo-100">
+          {/* Additional UI elements */}
+          <div className="mt-10 text-center text-indigo-100">
             Don't have an account?{' '}
             <button
               type="button"
-              onClick={() => router.push('/signup')}
+              onClick={() => router.push('/SignUp')}
               className="text-pink-300 hover:text-pink-200 font-semibold ml-1 transition-colors duration-200"
               disabled={isLoading}
             >
               Sign up
             </button>
-          </p>
+          </div>
         </div>
       </div>
     </div>

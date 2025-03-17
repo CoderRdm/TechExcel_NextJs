@@ -4,9 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
-import Particles from "react-tsparticles";
+import Particles from "@tsparticles/react";
 import { loadFull } from "tsparticles";
-
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoverIndex, setHoverIndex] = useState(null);
@@ -65,6 +64,13 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-black overflow-hidden">
       <Head>
+        <Image 
+                  src="/api/placeholder/1920/600" 
+                  alt="Company team working together" 
+                  fill 
+                  className="object-cover" 
+                  priority
+                />
         <title>ResumeWizard - MIND-BLOWING Resume Builder</title>
         <meta name="description" content="AI-powered resume builder with EXTREME magic ✨💥" />
       </Head>
@@ -127,7 +133,7 @@ export default function Home() {
       <div className="fixed inset-0 bg-[url('/noise.png')] opacity-5 z-0 pointer-events-none"></div>
 
       {/* Psychedelic Navbar */}
-      <nav className="backdrop-blur-xl bg-opacity-10 bg-black border-b border-purple-500/50 fixed w-full z-50 animate-pulse">
+      {/* <nav className="backdrop-blur-xl bg-opacity-10 bg-black border-b border-purple-500/50 fixed w-full z-50 animate-pulse">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/" className="text-3xl font-black bg-gradient-to-r from-cyan-400 via-pink-500 to-yellow-500 bg-clip-text text-transparent hover:animate-pulse relative group">
             ResumeWizard 
@@ -148,7 +154,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       {/* HERO SECTION */}
       <header className="relative pt-32 pb-24 md:pt-48 md:pb-32 z-10">
@@ -185,7 +191,7 @@ export default function Home() {
           </div>
 
           <div className="flex justify-center">
-            <Link href="/show" className="px-10 py-6 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/50 hover:shadow-pink-500/50 flex items-center group relative overflow-hidden animate-pulse hover:animate-none">
+            <Link href="/Create-template" className="px-10 py-6 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/50 hover:shadow-pink-500/50 flex items-center group relative overflow-hidden animate-pulse hover:animate-none">
               <span className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 via-white/20 to-cyan-400/0 -translate-x-full group-hover:translate-x-full transition-all duration-1000"></span>
               🧙‍♂️ CREATE YOUR MIND-BENDING RESUME 
               <span className="ml-2 group-hover:rotate-180 transition-transform duration-500">✨</span>
@@ -284,7 +290,7 @@ export default function Home() {
               Join <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">500,000+</span> job seekers who upgraded their resume game with our <span className="font-black">MAGICAL</span> builder!
             </p>
             <div className="flex justify-center">
-              <Link href="/signup" className="px-12 py-6 bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-600 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-xl shadow-pink-500/30 hover:shadow-cyan-500/30 group relative overflow-hidden">
+              <Link href="/SignUp" className="px-12 py-6 bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-600 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-xl shadow-pink-500/30 hover:shadow-cyan-500/30 group relative overflow-hidden">
                 <span className="absolute inset-0 bg-gradient-to-r from-pink-400/0 via-white/20 to-pink-400/0 -translate-x-full group-hover:translate-x-full transition-all duration-1000"></span>
                 GET STARTED FREE 🚀
                 <div className="absolute -top-8 -right-8 text-4xl animate-spin">✨</div>
@@ -305,7 +311,7 @@ export default function Home() {
             <div className="flex justify-center space-x-10">
               <a href="#" className="text-cyan-400 hover:text-pink-400 transition-colors text-lg font-bold hover:scale-110 transform transition-transform">Terms</a>
               <a href="#" className="text-cyan-400 hover:text-pink-400 transition-colors text-lg font-bold hover:scale-110 transform transition-transform">Privacy</a>
-              <a href="#" className="text-cyan-400 hover:text-pink-400 transition-colors text-lg font-bold hover:scale-110 transform transition-transform">Careers</a>
+              <a href="/Reviews" className="text-cyan-400 hover:text-pink-400 transition-colors text-lg font-bold hover:scale-110 transform transition-transform">Careers</a>
             </div>
           </div>
         </div>

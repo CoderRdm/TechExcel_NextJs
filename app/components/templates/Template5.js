@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const Template4 = ({
+const Template5 = ({
   about,
   header,
   experiences = [],
@@ -14,58 +14,43 @@ const Template4 = ({
 }) => {
   // Color theme options
   const colorThemes = {
-    mint: {
-      header: "bg-[#e0eaea]",
-      contactBar: "bg-[#333333]",
+    teal: {
+      contactBar: "bg-[#2c3e50]",
       contactText: "text-white",
-      sectionTitle: "text-[#333333] border-b-[#333333]",
-      highlight: "text-[#333333]",
-      skillBg: "bg-[#e0eaea]",
-      skillText: "text-[#333333]",
+      sectionTitle: "text-[#2c3e50] border-b-[#2c3e50]",
+      highlight: "text-[#2c3e50]",
     },
     blue: {
-      header: "bg-[#e6f0ff]",
-      contactBar: "bg-[#2c5282]",
+      contactBar: "bg-[#1a365d]",
       contactText: "text-white",
-      sectionTitle: "text-[#2c5282] border-b-[#2c5282]",
-      highlight: "text-[#2c5282]",
-      skillBg: "bg-[#e6f0ff]",
-      skillText: "text-[#2c5282]",
-    },
-    teal: {
-      header: "bg-[#e6fffa]",
-      contactBar: "bg-[#285e61]",
-      contactText: "text-white",
-      sectionTitle: "text-[#285e61] border-b-[#285e61]",
-      highlight: "text-[#285e61]",
-      skillBg: "bg-[#e6fffa]",
-      skillText: "text-[#285e61]",
+      sectionTitle: "text-[#1a365d] border-b-[#1a365d]",
+      highlight: "text-[#1a365d]",
     },
     purple: {
-      header: "bg-[#f5f0ff]",
-      contactBar: "bg-[#553c9a]",
+      contactBar: "bg-[#44337a]",
       contactText: "text-white",
-      sectionTitle: "text-[#553c9a] border-b-[#553c9a]",
-      highlight: "text-[#553c9a]",
-      skillBg: "bg-[#f5f0ff]",
-      skillText: "text-[#553c9a]",
+      sectionTitle: "text-[#44337a] border-b-[#44337a]",
+      highlight: "text-[#44337a]",
     },
-    gray: {
-      header: "bg-[#f0f0f0]",
-      contactBar: "bg-[#4a5568]",
+    green: {
+      contactBar: "bg-[#276749]",
       contactText: "text-white",
-      sectionTitle: "text-[#4a5568] border-b-[#4a5568]",
-      highlight: "text-[#4a5568]",
-      skillBg: "bg-[#f0f0f0]",
-      skillText: "text-[#4a5568]",
+      sectionTitle: "text-[#276749] border-b-[#276749]",
+      highlight: "text-[#276749]",
+    },
+    burgundy: {
+      contactBar: "bg-[#742a2a]",
+      contactText: "text-white",
+      sectionTitle: "text-[#742a2a] border-b-[#742a2a]",
+      highlight: "text-[#742a2a]",
     }
   };
 
-  const [activeTheme, setActiveTheme] = useState("mint");
+  const [activeTheme, setActiveTheme] = useState("teal");
   const theme = colorThemes[activeTheme];
 
   return (
-    <div className="max-w-4xl mx-auto shadow-xl rounded-sm font-[Arial] text-gray-700 bg-white">
+    <div className="max-w-4xl mx-auto shadow-xl font-sans text-gray-700 bg-white">
       {/* Color Theme Selector */}
       <div className="flex gap-2 p-2 bg-white">
         {Object.keys(colorThemes).map((color) => (
@@ -73,48 +58,48 @@ const Template4 = ({
             key={color}
             onClick={() => setActiveTheme(color)}
             className={`w-6 h-6 rounded-full ${
-              color === "mint" ? "bg-[#e0eaea] border border-[#333333]" :
-              color === "blue" ? "bg-[#e6f0ff] border border-[#2c5282]" :
-              color === "teal" ? "bg-[#e6fffa] border border-[#285e61]" :
-              color === "purple" ? "bg-[#f5f0ff] border border-[#553c9a]" :
-              "bg-[#f0f0f0] border border-[#4a5568]"
+              color === "teal" ? "bg-[#2c3e50]" :
+              color === "blue" ? "bg-[#1a365d]" :
+              color === "purple" ? "bg-[#44337a]" :
+              color === "green" ? "bg-[#276749]" :
+              "bg-[#742a2a]"
             } ${activeTheme === color ? "ring-2 ring-offset-2 ring-gray-400" : ""}`}
             aria-label={`${color} theme`}
           />
         ))}
       </div>
 
-      {/* Header Section */}
-      <header className={`${theme.header} p-6 text-center`}>
-        <h1 className="text-4xl font-bold text-gray-800 uppercase tracking-wide">{header.name}</h1>
-      </header>
-
       {/* Contact Bar */}
-      <div className={`${theme.contactBar} ${theme.contactText} p-4 flex justify-center flex-wrap gap-8`}>
+      <div className={`${theme.contactBar} ${theme.contactText} p-4 flex justify-center flex-wrap gap-4`}>
         <div className="flex items-center">
-          <span className="mr-2">📧</span>
-          {header.email}
+          <span className="mr-2">📍</span>
+          {header.city}, {header.country} {header.zipcode}
         </div>
         <div className="flex items-center">
           <span className="mr-2">📞</span>
           {header.phone}
         </div>
         <div className="flex items-center">
-          <span className="mr-2">📍</span>
-          {header.city}, {header.country} {header.zipcode}
+          <span className="mr-2">📧</span>
+          {header.email}
         </div>
       </div>
 
+      {/* Header Section */}
+      <div className="py-8 text-center">
+        <h1 className="text-4xl font-bold text-gray-800">{header.name}</h1>
+      </div>
+
       {/* Main Content */}
-      <div className="p-6">
+      <div className="px-8 pb-8">
         {/* Summary */}
-        <Section title="SUMMARY" theme={theme}>
+        <Section title="Summary" theme={theme}>
           <p className="text-gray-600 leading-relaxed">{about}</p>
         </Section>
 
         {/* Skills */}
-        <Section title="SKILLS" theme={theme}>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+        <Section title="Skills" theme={theme}>
+          <div className="grid grid-cols-2 gap-2">
             {skills.map((skill, index) => (
               <div key={index} className="flex items-start">
                 <span className={`mr-2 ${theme.highlight}`}>•</span>
@@ -125,7 +110,7 @@ const Template4 = ({
         </Section>
 
         {/* Experience */}
-        <Section title="EXPERIENCE" theme={theme}>
+        <Section title="Experience" theme={theme}>
           {experiences.map((exp, index) => (
             <ExperienceItem 
               key={index}
@@ -140,7 +125,7 @@ const Template4 = ({
         </Section>
 
         {/* Education */}
-        <Section title="EDUCATION AND TRAINING" theme={theme}>
+        <Section title="Education and Training" theme={theme}>
           {educations.map((edu, index) => (
             <EducationItem
               key={index}
@@ -155,16 +140,11 @@ const Template4 = ({
 
         {/* Certificates */}
         {certificates.length > 0 && (
-          <Section title="CERTIFICATIONS" theme={theme}>
+          <Section title="Certifications" theme={theme}>
             {certificates.map((cert, index) => (
               <div key={index} className="mb-3">
                 <h4 className={`font-medium ${theme.highlight}`}>{cert.name}</h4>
                 {cert.date && <p className="text-sm text-gray-500">{cert.date}</p>}
-                {cert.link && (
-                  <a href={cert.link} className="text-sm text-gray-500 hover:underline">
-                    View Credential
-                  </a>
-                )}
               </div>
             ))}
           </Section>
@@ -172,7 +152,7 @@ const Template4 = ({
 
         {/* Achievements */}
         {achievements.length > 0 && (
-          <Section title="ACHIEVEMENTS" theme={theme}>
+          <Section title="Achievements" theme={theme}>
             {achievements.map((ach, index) => (
               <div key={index} className="mb-3 flex">
                 <span className={`mr-2 ${theme.highlight}`}>•</span>
@@ -180,9 +160,6 @@ const Template4 = ({
                   <span className="font-medium">{ach.title}</span>
                   {ach.description && (
                     <p className="text-gray-600">{ach.description}</p>
-                  )}
-                  {ach.date && (
-                    <p className="text-gray-400 text-sm">{ach.date}</p>
                   )}
                 </div>
               </div>
@@ -192,7 +169,7 @@ const Template4 = ({
 
         {/* Volunteering */}
         {Volunteering.length > 0 && (
-          <Section title="VOLUNTEER EXPERIENCE" theme={theme}>
+          <Section title="Volunteer Experience" theme={theme}>
             {Volunteering.map((vol, index) => (
               <div key={index} className="mb-3">
                 <h4 className="font-medium">{vol.institute}</h4>
@@ -205,12 +182,12 @@ const Template4 = ({
 
         {/* Interests */}
         {interests.length > 0 && (
-          <Section title="INTERESTS" theme={theme}>
+          <Section title="Interests" theme={theme}>
             <div className="flex flex-wrap gap-2">
               {interests.map((interest, index) => (
                 <span 
                   key={index}
-                  className={`${theme.skillBg} ${theme.skillText} text-sm px-3 py-1 rounded-full`}
+                  className={`${theme.contactBar} ${theme.contactText} text-sm px-3 py-1 rounded-full`}
                 >
                   {interest.name}
                 </span>
@@ -226,7 +203,7 @@ const Template4 = ({
 // Reusable Section Component
 const Section = ({ title, children, theme }) => (
   <div className="mb-6">
-    <h2 className={`text-xl font-bold mb-3 ${theme.sectionTitle} border-b pb-1`}>
+    <h2 className={`text-lg font-bold uppercase mb-3 ${theme.sectionTitle} border-b pb-1`}>
       {title}
     </h2>
     {children}
@@ -237,10 +214,10 @@ const Section = ({ title, children, theme }) => (
 const ExperienceItem = ({ title, company, location, duration, description, theme }) => (
   <div className="mb-6">
     <div className="flex justify-between items-start mb-1 flex-wrap">
-      <h3 className="font-medium text-gray-800 italic">{company}, {location}</h3>
+      <h3 className={`font-semibold ${theme.highlight}`}>{title}</h3>
       <span className="text-sm text-gray-600">{duration}</span>
     </div>
-    <p className={`font-semibold ${theme.highlight} mb-2`}>{title}</p>
+    <p className="font-medium text-gray-700 italic mb-2">{company}, {location}</p>
     {description && Array.isArray(description) ? (
       <ul className="list-disc pl-5 text-gray-600 space-y-1">
         {description.map((item, idx) => (
@@ -266,4 +243,4 @@ const EducationItem = ({ year, degree, institution, location, theme }) => (
   </div>
 );
 
-export default Template4;
+export default Template5;

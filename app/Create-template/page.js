@@ -16,8 +16,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import CyberpunkSectionTabs from "../components/CyberpunkSectionTabs";
 import Link from "next/link";
-
-
+import Footer from "../components/Footer";
 const CreateTemplateForm = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("Template1");
 
@@ -283,7 +282,7 @@ const CreateTemplateForm = () => {
         scale: 2,
         logging: true,
         useCORS: true,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "#FFFFF",
         onclone: (clonedDoc) => {
           clonedDoc.body.style.zoom = "100%";
         }
@@ -327,13 +326,9 @@ const CreateTemplateForm = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-indigo-900 relative overflow-hidden">
       {/* Animated Grid Background */}
-      <Link href="/show">
-        <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Show Templates
-        </button>
-      </Link>
+     
       <div className="absolute inset-0 opacity-20" style={{
         backgroundImage: `linear-gradient(to right, rgba(192, 132, 252, 0.1) 1px, transparent 1px),
                         linear-gradient(to bottom, rgba(192, 132, 252, 0.1) 1px, transparent 1px)`,
@@ -345,7 +340,7 @@ const CreateTemplateForm = () => {
         {/* Glowing Header */}
         <div className="text-center mb-16 animate-pulse">
           <h1 className="text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-4">
-            CYBER<span className="text-cyan-400">CV</span>
+            <span className="text-cyan-400"></span>
           </h1>
           <p className="text-xl text-purple-200 font-mono">Forge Your Digital Identity</p>
         </div>
@@ -358,7 +353,7 @@ const CreateTemplateForm = () => {
             
             <div className="mb-8 flex items-center justify-between border-b border-purple-500/30 pb-6">
               <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 font-mono">
-                ⚡ BUILDER CONSOLE
+                ⚡ Details Section
               </h2>
               <div className="flex items-center space-x-3">
                 <div className="h-3 w-3 rounded-full bg-green-400 shadow-green-glow"></div>
@@ -374,7 +369,7 @@ const CreateTemplateForm = () => {
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* About Section */}
               {activeSection === "about" && (
-                <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 hover:border-cyan-400/40 transition-all">
+                <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-indigo-500/20 hover:border-cyan-400/40 transition-all">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <AboutSection about={formData.about} handleChange={handleChange} />
                 </div>
@@ -515,26 +510,26 @@ const CreateTemplateForm = () => {
               )}
               <button
                 type="submit"
-                className="w-full py-4 px-6 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 
+                className="w-full py-4 px-6 bg-gradient-to-r from-lime-600 to-pink-500 hover:from-slate-500 hover:to-black 
                          text-white font-bold rounded-xl transition-all shadow-2xl hover:shadow-purple-500/40 relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 hover:opacity-30 transition-opacity"></div>
                 <span className="relative z-10 flex items-center justify-center text-lg">
-                  💾 Save your data
+                  💾 Save your data with us 
                 </span>
               </button>
             </form>
           </div>
 
           {/* Holographic Preview Panel - Increased width */}
-          <div className="sticky top-8 transform transition-transform hover:scale-[1.005] w-full">
-            <div className="relative bg-gray-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-cyan-400/30 
+          <div className="sticky top-8 transform transition-transform hover:scale-[1.005] w-full ">
+            <div className="relative bg-slate-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-cyan-400/30 
                           shadow-2xl hover:shadow-cyan-400/20 transition-all">
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500/10 to-cyan-500/10"></div>
               
               <div className="relative z-10 flex justify-between items-center mb-8 pb-6 border-b border-cyan-400/30">
                 <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-mono">
-                  HOLO-PREVIEW ™
+                  LIVE-PREVIEW
                 </h2>
                 <button
                 onClick={handleDownload}
@@ -545,11 +540,11 @@ const CreateTemplateForm = () => {
                 <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                 </svg>
-                DOWNLOAD {selectedTemplate.replace("Template", "PROTOCOL ")}
+                DOWNLOAD {selectedTemplate.replace("Template", "Template ")}
               </button>
               </div>
 
-              <div id="resumePreview" className="relative bg-white rounded-none p-6 overflow-y-auto 
+              <div id="resumePreview" className="relative bg-slate-900 rounded-none p-6 overflow-y-auto 
                  scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-100 max-h-[800px] w-full">
                <PreviewSection
                 about={formData.about}
@@ -581,7 +576,7 @@ const CreateTemplateForm = () => {
       </div>
 
       {/* Animated Cyber Grid Overlay */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* <div className="absolute inset-0 pointer-events-none">
         {[...Array(50)].map((_, i) => (
           <div key={i} className="absolute w-0.5 h-0.5 bg-cyan-400 rounded-full animate-flicker"
             style={{
@@ -590,7 +585,7 @@ const CreateTemplateForm = () => {
               animationDelay: `${i * 0.1}s`
             }}></div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

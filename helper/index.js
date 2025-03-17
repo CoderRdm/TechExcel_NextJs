@@ -66,7 +66,7 @@ const TemplateDetail = ({ id }) => {
         
         if (error.response?.status === 401) {
           localStorage.clear();
-          router.push('/login');
+          router.push('/Login');
           return;
         }
 
