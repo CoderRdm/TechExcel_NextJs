@@ -137,7 +137,10 @@ export default function ATSChecker() {
     // Styled version of your component
     return (
         <>
-        <div className="min-h-screen w-full bg-gradient-to-br from-black to-indigo-900">
+        <div className="min-h-screen w-full bg-gradient-to-br from-black to-indigo-900 relative">
+        <div className="absolute inset-0 bg-[url('/favicon.ico')] opacity-5 z-0 pointer-events-none"></div>
+
+          
           <Head>
             <title>Resume ATS Optimizer</title>
             <meta name="description" content="Optimize your resume to beat ATS systems and land more interviews" />
@@ -180,7 +183,69 @@ export default function ATSChecker() {
 
 
       </div>
-    
+
+      <div className="flex items-start p-4 bg-blue-50 rounded-xl">
+        <div className="flex-shrink-0 mt-1 mr-3 text-blue-600">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+        <p className="text-gray-700 text-sm leading-relaxed"> "    "Avoid using tables, headers, footers or graphics in your resume",
+        </p>
+      
+
+
+ 
+ 
+      </div>
+
+      <div className="flex items-start p-4 bg-blue-50 rounded-xl">
+        <div className="flex-shrink-0 mt-1 mr-3 text-blue-600">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+        <p className="text-gray-700 text-sm leading-relaxed">    "Spell out acronyms at least once before abbreviating",
+        </p>
+      
+
+
+      </div>
+      <div className="flex items-start p-4 bg-blue-50 rounded-xl">
+        <div className="flex-shrink-0 mt-1 mr-3 text-blue-600">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+        <p className="text-gray-700 text-sm leading-relaxed">    "Quantify your achievements with numbers when possible",
+        </p>
+      
+
+
+      </div>
+      <div className="flex items-start p-4 bg-blue-50 rounded-xl">
+        <div className="flex-shrink-0 mt-1 mr-3 text-blue-600">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+        <p className="text-gray-700 text-sm leading-relaxed"> "Save your resume as a PDF to maintain formatting",</p>
+      
+
+
+      </div>
+      <div className="flex items-start p-4 bg-blue-50 rounded-xl">
+        <div className="flex-shrink-0 mt-1 mr-3 text-blue-600">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+        <p className="text-gray-700 text-sm leading-relaxed">"Include a skills section with relevant technical competencies"</p>
+      
+
+
+      </div>
+
   </div>
 
   <div className="mt-8 p-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white">
@@ -329,80 +394,82 @@ export default function ATSChecker() {
                   ) : (
                     // Enhanced Results Section
                     <div className="space-y-8">
-                      <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-                        Analysis Results
-                      </h2>
-    
-                      {result.MissingKeywords?.[0] === "Could not parse response" ? (
-                        <div className="bg-red-50 p-6 rounded-xl border border-red-200">
-                          <div className="flex items-center mb-3">
-                            <svg className="w-6 h-6 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <h3 className="text-xl font-semibold text-red-600">Analysis Error</h3>
-                          </div>
-                          <p className="text-gray-700">{result.ProfileSummary}</p>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+                      Analysis Results
+                    </h2>
+              
+                    {result.MissingKeywords?.[0] === "Could not parse response" ? (
+                      <div className="bg-red-50 p-6 rounded-xl border border-red-200">
+                        <div className="flex items-center mb-3">
+                          <svg className="w-6 h-6 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                          <h3 className="text-xl font-semibold text-red-600">Analysis Error</h3>
                         </div>
-                      ) : (
-                        <>
-                          <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-100">
-                            <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                              Match Score: {result['JD Match']}
-                            </h3>
-                            <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                              <div 
-                                className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-1000" 
-                                style={{ width: `${result['JD Match']}%` }}
-                              ></div>
+                        <p className="text-gray-700">{result.ProfileSummary}</p>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-100">
+                          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                            Match Score: {result['JD Match']}
+                          </h3>
+                          <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-1000" 
+                              style={{ width: `${result['JD Match']}%` }}
+                            ></div>
+                          </div>
+                        </div>
+              
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <h4 className="text-lg font-semibold text-gray-800 mb-3">
+                              Missing Keywords
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {result.MissingKeywords?.map((keyword, index) => (
+                                <span 
+                                  key={index}
+                                  className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm"
+                                >
+                                  {keyword}
+                                </span>
+                              ))}
                             </div>
                           </div>
-    
-                          <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                              <h4 className="text-lg font-semibold text-gray-800 mb-3">
-                                Missing Keywords
-                              </h4>
-                              <div className="flex flex-wrap gap-2">
-                                {result.MissingKeywords?.map((keyword, index) => (
-                                  <span 
-                                    key={index}
-                                    className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm"
-                                  >
-                                    {keyword}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-    
-                            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                              <h4 className="text-lg font-semibold text-gray-800 mb-3">
-                                Key Recommendations
-                              </h4>
-                              <div className="space-y-3 text-gray-700">
-                                {result['Profile Summary']?.split('\n').map((line, index) => (
-                                  <div key={index} className="flex items-start">
-                                    <svg className="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                      <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-                                    </svg>
-                                    <p>{line}</p>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-    
-                          <button
-                            onClick={() => {
-                              setResult(null);
-                              setStep(1);
-                            }}
-                            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg"
-                          >
-                            Start New Analysis
-                          </button>
-                        </>
-                      )}
-                    </div>
+              
+                          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+  <h4 className="text-lg font-semibold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-indigo-900">
+    Key Recommendations
+  </h4>
+  <div className="space-y-3">
+    {result['Profile Summary']?.split('\n').map((line, index) => (
+      <div key={index} className="flex items-start">
+        <svg className="w-5 h-5 text-purple-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+        </svg>
+        <p className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-purple-900">
+          {line}
+        </p>
+      </div>
+    ))}
+  </div>
+</div>
+                        </div>
+              
+                        <button
+                          onClick={() => {
+                            setResult(null);
+                            setStep(1);
+                          }}
+                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg"
+                        >
+                          Start New Analysis
+                        </button>
+                      </>
+                    )}
+                  </div>
                   )}
                 </div>
               </div>

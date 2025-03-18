@@ -683,12 +683,12 @@ const UserPage = () => {
               {templates.map((template, index) => (
                 <div
                   key={template.id}
-                  className="relative bg-gray-800/60 rounded-xl p-6 transform transition-all duration-500 shadow-xl hover:shadow-2xl backdrop-blur-md group"
+                  className="relative bg-black rounded-xl p-6 transform transition-all duration-500 shadow-xl hover:shadow-2xl backdrop-blur-md group"
                   style={{
                     animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
                   }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 to-pink-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-xl font-semibold text-white">
@@ -746,7 +746,6 @@ const UserPage = () => {
           </div>
 
         </div>
-          <Footer></Footer>
 
 </>
       );
