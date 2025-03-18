@@ -326,6 +326,7 @@ const CreateTemplateForm = () => {
 
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-indigo-900 relative overflow-hidden">
       {/* Animated Grid Background */}
      
@@ -587,6 +588,9 @@ const CreateTemplateForm = () => {
         ))}
       </div> */}
     </div>
+    <Footer></Footer>
+
+    </>
   );
 };
 

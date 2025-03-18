@@ -6,6 +6,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Particles from "@tsparticles/react";
 import { loadFull } from "tsparticles";
+import Footer from "./components/Footer";
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoverIndex, setHoverIndex] = useState(null);
@@ -62,6 +63,7 @@ export default function Home() {
   };
 
   return (
+    <>
     <div className="min-h-screen flex flex-col bg-black overflow-hidden">
       <Head>
         <Image 
@@ -317,5 +319,8 @@ export default function Home() {
         </div>
       </footer>
     </div>
+    
+      <Footer></Footer>
+    </>
   );
 }

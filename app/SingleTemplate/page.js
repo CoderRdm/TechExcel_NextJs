@@ -3,6 +3,7 @@
 import React from 'react'
 import { useSearchParams } from 'next/navigation';
 import TemplateDetail from '@/helper';
+import Footer from '../components/Footer';
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -11,6 +12,7 @@ const Page = () => {
   const _id = _idtoString ? Number(_idtoString) : null;
   
   return (
+    <>
     <div>
       {id ? (
         <TemplateDetail id={id} />
@@ -22,6 +24,9 @@ const Page = () => {
         </div>
       )}
     </div>
+    <Footer></Footer>
+
+    </>
   )
 }
 

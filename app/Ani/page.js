@@ -9,7 +9,6 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { Trash2, Edit2, Briefcase, GraduationCap, Bookmark, Eye } from "lucide-react";
 import Link from 'next/link';
-import Footer from '../components/Footer';
 
 const WizardBackground = () => {
   const mountRef = useRef(null);
@@ -653,7 +652,6 @@ const UserPage = () => {
   );
 
   return (
-    <>
     <div className="min-h-screen bg-indigo-900 relative">
       <WizardBackground />
       
@@ -744,11 +742,7 @@ const UserPage = () => {
               )}
             </div>
           </div>
-
         </div>
-          <Footer></Footer>
-
-</>
       );
   };
 

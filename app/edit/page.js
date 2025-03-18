@@ -15,6 +15,7 @@ import CyberpunkSectionTabs from "../components/CyberpunkSectionTabs";
 import Link from "next/link";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import Footer from "../components/Footer";
 
 export const dynamic = 'force-dynamic';
 
@@ -249,6 +250,7 @@ const EditTemplatePage = () => {
   }
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 relative overflow-hidden">
       {/* Animated Grid Background */}
       <div className="flex justify-between p-4">
@@ -520,7 +522,9 @@ const EditTemplatePage = () => {
             }}></div>
         ))}
       </div>
+      <Footer></Footer>
     </div>
+    </>
   );
 };
 

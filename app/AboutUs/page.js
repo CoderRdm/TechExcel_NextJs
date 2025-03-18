@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Footer from "../components/Footer";
 
 const AboutUs = () => {
   const teamMembers = [
@@ -17,7 +18,7 @@ const AboutUs = () => {
       name: "Ridam Goyal",
       role: "Developer",
       bio: "Ridam specializes in full-stack development and oversees our agile development processes.",
-      image: "/team/ridam.jpg"
+      image: "/team/ridam.png"
     },
     {
       name: "Tanishk Sharma",
@@ -63,12 +64,13 @@ const AboutUs = () => {
   };
 
   return (
+    <>
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/about-hero.jpg"
+            src="/favicon.ico"
             alt="Team collaboration"
             fill
             className="object-cover"
@@ -135,7 +137,7 @@ const AboutUs = () => {
           </div>
           <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
             <Image
-              src="/office.jpg"
+              src="/favicon.ico"
               alt="Modern workspace"
               fill
               className="object-cover"
@@ -276,7 +278,11 @@ const AboutUs = () => {
         </div>
       </section>
     </div>
-  );
+      <Footer></Footer>
+      </>
+  
+);
+
 };
 
 export default AboutUs;

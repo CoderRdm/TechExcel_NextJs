@@ -31,8 +31,11 @@ const Navbar = () => {
           <a href="/show" className="text-gray-300 hover:text-yellow-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
             <span className="mr-2 animate-pulse">💰</span>Your templates
           </a>
+          <a href="/Ats" className="text-gray-300 hover:text-green-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
+            <span className="mr-2 animate-pulse">📝</span>ATS Checker
+          </a>
           <a href="/AboutUs" className="text-gray-300 hover:text-green-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
-            <span className="mr-2 animate-pulse">📝</span>About Us
+            <span className="mr-2 animate-pulse">📝</span>Get to know Us?
           </a>
         </div>
 
