@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -206,54 +207,22 @@ button:hover {
 .error {
   color: #dc3545;
 }
-
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-/* Custom styles for the TipTap editor */
-.ProseMirror:focus {
-  outline: none;
-}
-
-.ProseMirror h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.ProseMirror h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  color: #4f46e5;
-}
-
-.ProseMirror p {
-  margin-bottom: 0.5rem;
-}
-
-.ProseMirror ul {
-  list-style-type: disc;
-  padding-left: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.ProseMirror ol {
-  list-style-type: decimal;
-  padding-left: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.ProseMirror a {
-  color: #4f46e5;
-  text-decoration: underline;
-}
+ 
+ /* Add these to your global CSS or tailwind config */
+ @keyframes spin-slow {
+   to {
+     transform: rotate(-360deg);
+   }
+ }
+ .animate-spin-slow {
+   animation: spin-slow 3s linear infinite;
+ }
+ 
+ @keyframes spin-reverse {
+   to {
+    transform: rotate(360deg);
+   }
+ }
+ .animate-spin-reverse {
+   animation: spin-reverse 2s linear infinite;
+ }

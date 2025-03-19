@@ -91,8 +91,8 @@ const EducationSection = ({ educations, handleChange, addEducation }) => {
                 <input
                   type="number"
                   id={`education-graduationyear-${index}`}
-                  name="graduationyear"
-                  value={education.graduationyear}
+                  name="graduationYear"
+                  value={education.graduationYear}
                   onChange={(e) => handleChange(e, "educations", index)}
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none

@@ -6,6 +6,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Particles from "@tsparticles/react";
 import { loadFull } from "tsparticles";
+import Footer from "./components/Footer";
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoverIndex, setHoverIndex] = useState(null);
@@ -45,14 +46,14 @@ export default function Home() {
       name: "Sarah Johnson",
       role: "Senior SWE @Google",
       content: "This builder got me 3x more interviews! 🤯 BEST. DECISION. EVER!!!!",
-      image: "/avatar1.png",
+      image: "/avatar.jpeg",
       rotation: "-rotate-3"
     },
     {
       name: "Mike Chen",
       role: "Growth Marketer",
       content: "My resume went from ZERO to HERO in 10 minutes! 🔥🔥🔥",
-      image: "/avatar2.png",
+      image: "/avatar.jpeg",
       rotation: "rotate-3"
     },
   ];
@@ -62,6 +63,7 @@ export default function Home() {
   };
 
   return (
+    <>
     <div className="min-h-screen flex flex-col bg-black overflow-hidden">
       <Head>
         <Image 
@@ -130,7 +132,7 @@ export default function Home() {
       
       {/* Glitchy Overlay Effect */}
       <div className="fixed inset-0 bg-gradient-to-b from-transparent to-purple-900/20 z-0 pointer-events-none"></div>
-      <div className="fixed inset-0 bg-[url('/noise.png')] opacity-5 z-0 pointer-events-none"></div>
+      <div className="fixed inset-0 bg-[url('/favicon.ico')] opacity-5 z-0 pointer-events-none"></div>
 
       {/* Psychedelic Navbar */}
       {/* <nav className="backdrop-blur-xl bg-opacity-10 bg-black border-b border-purple-500/50 fixed w-full z-50 animate-pulse">
@@ -317,5 +319,8 @@ export default function Home() {
         </div>
       </footer>
     </div>
+    
+      <Footer></Footer>
+    </>
   );
 }

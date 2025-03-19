@@ -9,7 +9,6 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { Trash2, Edit2, Briefcase, GraduationCap, Bookmark, Eye } from "lucide-react";
 import Link from 'next/link';
-import Footer from '../components/Footer';
 
 const WizardBackground = () => {
   const mountRef = useRef(null);
@@ -646,182 +645,105 @@ const UserPage = () => {
     </div>
   );
 
-
-
   if (loading) return (
-    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0 z-0">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/avatar.jpeg')", // Replace with your actual image path
-            filter: "blur(8px)"
-          }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/80 to-black/70"></div>
-      </div>
-      
-      {/* Loading content */}
-      <div className="z-10 flex flex-col items-center">
-        {/* Glowing circle container */}
-        <div className="relative h-24 w-24 mb-8">
-          {/* Outer spinning ring with glow */}
-          <div className="absolute inset-0 rounded-full border-4 border-purple-400/30 animate-spin shadow-lg shadow-purple-500/30"></div>
-          
-          {/* Middle spinning ring */}
-          <div className="absolute inset-2 rounded-full border-4 border-t-pink-500 border-r-pink-500 border-b-transparent border-l-transparent animate-spin-slow"></div>
-          
-          {/* Inner spinning ring */}
-          <div className="absolute inset-4 rounded-full border-4 border-t-transparent border-r-transparent border-b-purple-500 border-l-purple-500 animate-spin-reverse"></div>
-          
-          {/* Center gradient circle */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 animate-pulse shadow-lg shadow-purple-500/50"></div>
-          </div>
-        </div>
-      
-        {/* Loading text */}
-        <p className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-400 font-semibold text-xl animate-pulse">
-          Loading your templates...
-        </p>
-        
-        {/* Optional subtlety */}
-        <p className="text-gray-400 text-sm mt-2 max-w-xs text-center">
-          Preparing your creative workspace
-        </p>
-      </div>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
     </div>
   );
-  
-
-
-
-  
-
 
   return (
-    <>
-      <div className="min-h-screen bg-indigo-900 relative">
-        <WizardBackground />
-        
-        <div className="relative z-10 bg-gradient-to-b from-indigo-00/90 to-gray-800/85 min-h-screen backdrop-bl-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="flex justify-between items-center mb-12 p-10 py-40">
-              <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-                My Resume Templates
-              </h1>
+    <div className="min-h-screen bg-indigo-900 relative">
+      <WizardBackground />
+      
+      <div className="relative z-10 bg-gradient-to-b from-indigo-00/90 to-gray-800/85 min-h-screen backdrop-bl-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex justify-between items-center mb-12 p-10">
+            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+              My Resume Templates
+            </h1>
+            <button
+              onClick={handleCreateNew}
+              className="flex items-center bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+            >
+              <span className="mr-2 text-xl">+</span>
+              Create New
+            </button>
+          </div>
+  
+          {templates.length === 0 ? (
+            <div className="text-center py-24">
+              <p className="text-gray-300 text-xl mb-8">
+                No templates found. Create your first resume template!
+              </p>
             </div>
-    
-            {templates.length === 0 ? (
-              <div className="text-center py-24">
-                <p className="text-gray-300 text-xl mb-8">
-                  No templates found. Create your first resume template!
-                </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {templates.map((template, index) => (
                 <div
-                  className="relative bg-gradient-to-br from-purple-900/20 to-pink-800/20 border border-purple-500/30 rounded-xl p-6 transform transition-all duration-500 shadow-xl hover:shadow-2xl backdrop-blur-md group max-w-md mx-auto cursor-pointer hover:scale-105"
-                  onClick={handleCreateNew}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="flex flex-col items-center justify-center py-8">
-                    <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 rounded-full p-5 mb-4 shadow-lg shadow-purple-500/30 group-hover:shadow-purple-500/50 transition-all duration-300 overflow-hidden">
-                      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full"></div>
-                      <span className="text-4xl text-white">+</span>
-                    </div>
-                    <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 group-hover:from-purple-300 group-hover:to-pink-400 transition-all duration-300">Create New Template</h3>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* Create New Template Card */}
-                <div
-                  className="relative bg-gradient-to-br from-purple-900/20 to-pink-800/20 border border-purple-500/30 rounded-xl p-6 transform transition-all duration-500 shadow-xl hover:shadow-purple-500/20 backdrop-blur-md group cursor-pointer hover:scale-105"
-                  onClick={handleCreateNew}
+                  key={template.id}
+                  className="relative bg-gray-800/60 rounded-xl p-6 transform transition-all duration-500 shadow-xl hover:shadow-2xl backdrop-blur-md group"
                   style={{
-                    animation: "fadeInUp 0.6s ease-out 0s both"
+                    animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
                   }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   
-                  <div className="flex flex-col items-center justify-center h-full py-8">
-                    <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 rounded-full p-5 mb-4 shadow-lg shadow-purple-500/30 group-hover:shadow-purple-500/50 transition-all duration-300 overflow-hidden">
-                      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full"></div>
-                      <span className="text-4xl text-white">+</span>
-                    </div>
-                    <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 group-hover:from-purple-300 group-hover:to-pink-400 transition-all duration-300">Create New Template</h3>
-                    <p className="text-gray-400 mt-2 text-center group-hover:text-gray-300 transition-colors duration-300">Start your next masterpiece</p>
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl font-semibold text-white">
+                      {template.about || 'Untitled Template'}
+                    </h3>
+                    <span className="text-sm text-gray-400">
+                      {new Date(template.metadata?.created).toLocaleDateString()}
+                    </span>
                   </div>
-                </div>
-                
-                {/* Template Cards */}
-                {templates.map((template, index) => (
-                  <div
-                    key={template.id}
-                    className="relative bg-black rounded-xl p-6 transform transition-all duration-500 shadow-xl hover:shadow-2xl backdrop-blur-md group"
-                    style={{
-                      animation: `fadeInUp 0.6s ease-out ${(index + 1) * 0.1}s both`
-                    }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-purple-900/30 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center text-gray-300 hover:text-purple-400 transition-colors duration-200">
+                      <Briefcase className="h-5 w-5 mr-2 text-purple-400" />
+                      <span>{template.experiences?.length || 0} Experiences</span>
+                    </div>
                     
-                    <div className="flex justify-between items-start mb-4">
-                      <h3 className="text-xl font-semibold text-white">
-                        {template.about || 'Untitled Template'}
-                      </h3>
-                      <span className="text-sm text-gray-400">
-                        {new Date(template.metadata?.created).toLocaleDateString()}
-                      </span>
+                    <div className="flex items-center text-gray-300 hover:text-blue-400 transition-colors duration-200">
+                      <GraduationCap className="h-5 w-5 mr-2 text-blue-400" />
+                      <span>{template.educations?.length || 0} Education Entries</span>
                     </div>
-    
-                    <div className="space-y-4 mb-6">
-                      <div className="flex items-center text-gray-300 hover:text-purple-400 transition-colors duration-200">
-                        <Briefcase className="h-5 w-5 mr-2 text-purple-400" />
-                        <span>{template.experiences?.length || 0} Experiences</span>
-                      </div>
-                      
-                      <div className="flex items-center text-gray-300 hover:text-blue-400 transition-colors duration-200">
-                        <GraduationCap className="h-5 w-5 mr-2 text-blue-400" />
-                        <span>{template.educations?.length || 0} Education Entries</span>
-                      </div>
-    
-                      <div className="flex items-center text-gray-300 hover:text-green-400 transition-colors duration-200">
-                        <Bookmark className="h-5 w-5 mr-2 text-green-400" />
-                        <span>{template.skills?.length || 0} Skills</span>
-                      </div>
-                    </div>
-    
-                    <div className="flex justify-end space-x-3 border-t border-gray-700 pt-4">
-                      <Link
-                        href={{pathname:"/edit", query:{id:template.id}}}
-                        className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 transform hover:scale-110"
-                      >
-                        <Edit2 className="h-5 w-5 text-blue-400" />
-                      </Link>
-                      
-                      <button
-                        onClick={() => handleDelete(template.id)}
-                        className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 transform hover:scale-110"
-                      >
-                        <Trash2 className="h-5 w-5 text-red-400" />
-                      </button>
-                      
-                      <Link
-                        href={{pathname: "/SingleTemplate", query: {id: template.id}}}
-                        className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 transform hover:scale-110"
-                      >
-                        <Eye className="h-5 w-5 text-purple-400" />
-                      </Link>
+  
+                    <div className="flex items-center text-gray-300 hover:text-green-400 transition-colors duration-200">
+                      <Bookmark className="h-5 w-5 mr-2 text-green-400" />
+                      <span>{template.skills?.length || 0} Skills</span>
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
+  
+                  <div className="flex justify-end space-x-3 border-t border-gray-700 pt-4">
+                    <Link
+                      href={{pathname:"/edit", query:{id:template.id}}}
+                      className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 transform hover:scale-110"
+                    >
+                      <Edit2 className="h-5 w-5 text-blue-400" />
+                    </Link>
+                    
+                    <button
+                      onClick={() => handleDelete(template.id)}
+                      className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 transform hover:scale-110"
+                    >
+                      <Trash2 className="h-5 w-5 text-red-400" />
+                    </button>
+                        
+                        <Link
+                          href={{pathname: "/SingleTemplate", query: {id: template.id}}}
+                          className="p-2 hover:bg-gray-700 rounded-lg transition-colors duration-200 transform hover:scale-110"
+                        >
+                          <Eye className="h-5 w-5 text-purple-400" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      );
   };
 
 

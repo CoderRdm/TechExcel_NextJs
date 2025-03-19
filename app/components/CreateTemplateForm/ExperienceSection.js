@@ -19,8 +19,8 @@ const ExperienceSection = ({ experiences, handleChange, addExperience }) => {
                 <input
                   type="text"
                   id={`experience-jobtitle-${index}`}
-                  name="jobtitle"
-                  value={experience.jobtitle}
+                  name="jobTitle"
+                  value={experience.jobTitle}
                   onChange={(e) => handleChange(e, "experiences", index)}
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none

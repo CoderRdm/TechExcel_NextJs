@@ -228,15 +228,17 @@ const CreateTemplateForm = () => {
   
     // Create optimized print container
     const container = document.createElement("div");
-    container.style.cssText = `
-      position: absolute;
-      left: -9999px;
-      width: 8.5in;
-      min-height: 11in;
-      background: white;
-      font-family: 'Arial', sans-serif;
-      line-height: 1.5;
-    `;
+   // Modify the container style to:
+container.style.cssText = `
+position: absolute;
+left: -9999px;
+width: 8.5in;
+height: auto;
+background: white;
+font-family: 'Arial', sans-serif;
+line-height: 1.5;
+overflow: visible !important;
+`;
   
     // Clone and prepare content
     const clone = templateElement.cloneNode(true);
@@ -260,13 +262,13 @@ const CreateTemplateForm = () => {
       clone.querySelectorAll(selector).forEach(el => el.remove());
     });
   
-    // Convert complex layouts to block format
-    ['flex', 'grid'].forEach(layout => {
-      clone.querySelectorAll(`.${layout}`).forEach(el => {
-        el.style.display = 'block';
-        el.style.gap = '0';
-      });
-    });
+// Instead of converting all flex/grid to block, only remove gaps
+['flex', 'grid'].forEach(layout => {
+  clone.querySelectorAll(`.${layout}`).forEach(el => {
+    el.style.gap = '0';
+    el.style.margin = '0';
+  });
+});
   
     // Force web-safe fonts
     clone.querySelectorAll('*').forEach(el => {
@@ -279,53 +281,64 @@ const CreateTemplateForm = () => {
   
     try {
       const canvas = await html2canvas(clone, {
-        scale: 2,
+        scale: 3,
         logging: true,
         useCORS: true,
-        backgroundColor: "#FFFFF",
+        backgroundColor: "#FFFFFF", // Fixed typo (was "#FFFFF")
+        scrollY: -window.scrollY, // Fix for scroll position
+        windowHeight: clone.scrollHeight ,// Capture full height
+        allowTaint: true,
         onclone: (clonedDoc) => {
-          clonedDoc.body.style.zoom = "100%";
+          clonedDoc.body.style.position = "relative";
+          clonedDoc.body.style.width = "100%";
+          clonedDoc.body.style.height = "auto";
+          clonedDoc.body.style.margin = "0";
+          clonedDoc.body.style.padding = "0";
+          clonedDoc.body.style.overflow = "visible";
         }
       });
-  
+    
+      // Calculate dimensions for PDF
+      const imgWidth = 8.5; // Letter width in inches
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      
+      // Initialize PDF with appropriate size
       const pdf = new jsPDF({
-        orientation: "portrait",
+        orientation:  "portrait",
         unit: "in",
-        format: "letter",
-        hotfixes: ["px_scaling"]
+        format: [9.0,13],
+        compress: true
       });
-  
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgRatio = Math.min(pageWidth / canvas.width, 1);
-  
-      pdf.addImage(canvas, 'PNG', 0, 0, pageWidth, canvas.height * imgRatio);
-      
-      // Handle multi-page content
-      let heightLeft = canvas.height * imgRatio;
-      let position = 0;
-      
-      while (heightLeft > 0) {
-        position = heightLeft - pageHeight;
-        pdf.addPage();
-        pdf.addImage(canvas, 'PNG', 0, -position, pageWidth, canvas.height * imgRatio);
-        heightLeft -= pageHeight;
-      }
-  
-      pdf.deletePage(1); // Remove initial blank page
+    
+      // Handle multi-page content more efficiently
+      const pageHeight = 11; // Letter height in inches
+let position = 0;
+let remainingHeight = imgHeight;
+
+// Add first page
+pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+
+// Add additional pages if needed
+while (remainingHeight > pageHeight) {
+  position -= pageHeight;
+  pdf.addPage();
+  pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+  remainingHeight -= pageHeight;
+}
+    
       pdf.save("professional-resume.pdf");
-  
+    
     } catch (error) {
       console.error("PDF Generation Error:", error);
-      alert("Failed to generate PDF. Please check the console.");
+      alert("Failed to generate PDF. Please try again or check the console for details.");
     } finally {
       document.body.removeChild(container);
-    }
-  };
+    }}
   const [activeSection, setActiveSection] = useState("about");
 
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-indigo-900 relative overflow-hidden">
       {/* Animated Grid Background */}
      
@@ -587,6 +600,9 @@ const CreateTemplateForm = () => {
         ))}
       </div> */}
     </div>
+    <Footer></Footer>
+
+    </>
   );
 };
 

@@ -28,7 +28,6 @@ export default function RootLayout({ children }) {
         <Navbar></Navbar>
         <AuthProvider> {/* Wrap the entire app with AuthProvider */}
           {children}
-          <Footer></Footer>
         </AuthProvider>
       </body>
     </html>

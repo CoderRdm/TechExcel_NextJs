@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-
+import Footer from '../components/Footer';
 const LoginPage = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -94,6 +94,7 @@ const LoginPage = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-black via-indigo-800 to-purple-700 py-8 px-4 flex items-center justify-center overflow-hidden relative">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -283,6 +284,9 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+      <Footer></Footer>
+
+    </>
   );
 };
 

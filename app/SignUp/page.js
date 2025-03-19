@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Footer from '../components/Footer';
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -71,6 +72,7 @@ const SignUpPage = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-black via-purple-800 to-indigo-800 py-8 px-4 flex items-center justify-center overflow-hidden relative">
     {/* Background elements remain same */}
 
@@ -132,6 +134,47 @@ const SignUpPage = () => {
               <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
             </div>
           
+
+          <div className="group">
+            <label htmlFor="name" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              First Name
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                id="fname"
+                name="first name"
+                value={formData.firstname}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="Your name"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
+            </div>
+          </div>
+
+          <div className="group">
+            <label htmlFor="name" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Last Name
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                id="lname"
+                name="last name"
+                value={formData.lastname}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="Your name"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
+            </div>
+          </div>
+
 
           {/* Email Input */}
           <div className="group">
@@ -266,6 +309,9 @@ const SignUpPage = () => {
         </div>
       </div>
     </div>
+          <Footer></Footer>
+
+    </>
   );
 };
 //wjhrf

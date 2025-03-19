@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Footer from "../components/Footer";
 
 const AboutUs = () => {
   const teamMembers = [
@@ -11,19 +12,19 @@ const AboutUs = () => {
       name: "Yug Agarwal",
       role: "Chief Architect",
       bio: "Yug leads our technical strategy with extensive experience in enterprise architecture and cloud solutions.",
-      image: "/team/yug.jpg"
+      image: "/team/yug.jpeg"
     },
     {
       name: "Ridam Goyal",
       role: "Developer",
       bio: "Ridam specializes in full-stack development and oversees our agile development processes.",
-      image: "/team/ridam.jpg"
+      image: "/team/ridam.jpeg"
     },
     {
       name: "Tanishk Sharma",
       role: "Technical Investor",
       bio: "Tanishk bridges the gap between technology and business strategy, ensuring scalable solutions.",
-      image: "/team/tanishk.jpg"
+      image: "/team/tanishk.jpeg"
     }
   ];
 
@@ -63,12 +64,13 @@ const AboutUs = () => {
   };
 
   return (
+    <>
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/about-hero.jpg"
+            src="/favicon.ico"
             alt="Team collaboration"
             fill
             className="object-cover"
@@ -135,7 +137,7 @@ const AboutUs = () => {
           </div>
           <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
             <Image
-              src="/office.jpg"
+              src="/favicon.ico"
               alt="Modern workspace"
               fill
               className="object-cover"
@@ -218,7 +220,7 @@ const AboutUs = () => {
                   src={member.image}
                   alt={member.name}
                   fill
-                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" 
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300" />
@@ -276,7 +278,11 @@ const AboutUs = () => {
         </div>
       </section>
     </div>
-  );
+      <Footer></Footer>
+      </>
+  
+);
+
 };
 
 export default AboutUs;
