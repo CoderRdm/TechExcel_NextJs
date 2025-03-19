@@ -13,11 +13,11 @@ const Page = () => {
   
   return (
     <>
-    <div>
+    <div className=''>
       {id ? (
         <TemplateDetail id={id} />
       ) : (
-        <div>
+        <div className='py-10'>
           <h1>Templates Page</h1>
           <p>Welcome to Templates</p>
           <p>No template selected - Add ID parameter to URL (?id=YOUR_TEMPLATE_ID)</p>

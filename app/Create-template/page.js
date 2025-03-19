@@ -228,15 +228,17 @@ const CreateTemplateForm = () => {
   
     // Create optimized print container
     const container = document.createElement("div");
-    container.style.cssText = `
-      position: absolute;
-      left: -9999px;
-      width: 8.5in;
-      min-height: 11in;
-      background: white;
-      font-family: 'Arial', sans-serif;
-      line-height: 1.5;
-    `;
+   // Modify the container style to:
+container.style.cssText = `
+position: absolute;
+left: -9999px;
+width: 8.5in;
+height: auto;
+background: white;
+font-family: 'Arial', sans-serif;
+line-height: 1.5;
+overflow: visible !important;
+`;
   
     // Clone and prepare content
     const clone = templateElement.cloneNode(true);
@@ -260,13 +262,13 @@ const CreateTemplateForm = () => {
       clone.querySelectorAll(selector).forEach(el => el.remove());
     });
   
-    // Convert complex layouts to block format
-    ['flex', 'grid'].forEach(layout => {
-      clone.querySelectorAll(`.${layout}`).forEach(el => {
-        el.style.display = 'block';
-        el.style.gap = '0';
-      });
-    });
+// Instead of converting all flex/grid to block, only remove gaps
+['flex', 'grid'].forEach(layout => {
+  clone.querySelectorAll(`.${layout}`).forEach(el => {
+    el.style.gap = '0';
+    el.style.margin = '0';
+  });
+});
   
     // Force web-safe fonts
     clone.querySelectorAll('*').forEach(el => {
@@ -279,10 +281,12 @@ const CreateTemplateForm = () => {
   
     try {
       const canvas = await html2canvas(clone, {
-        scale: 2,
-        logging: false,
+        scale: 3,
+        logging: true,
         useCORS: true,
         backgroundColor: "#FFFFFF", // Fixed typo (was "#FFFFF")
+        scrollY: -window.scrollY, // Fix for scroll position
+        windowHeight: clone.scrollHeight ,// Capture full height
         allowTaint: true,
         onclone: (clonedDoc) => {
           clonedDoc.body.style.position = "relative";
@@ -300,28 +304,27 @@ const CreateTemplateForm = () => {
       
       // Initialize PDF with appropriate size
       const pdf = new jsPDF({
-        orientation: imgHeight > 11 ? "portrait" : "portrait",
+        orientation:  "portrait",
         unit: "in",
-        format: "letter",
+        format: [9.0,13],
         compress: true
       });
     
       // Handle multi-page content more efficiently
-      let heightLeft = imgHeight;
-      let position = 0;
-      let pageHeight = 11; // Letter height in inches (8.5 x 11)
-    
-      // Add first page
-      pdf.addImage(canvas, 'PNG', 0, 0, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-      
-      // Add additional pages if content exceeds first page
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
+      const pageHeight = 11; // Letter height in inches
+let position = 0;
+let remainingHeight = imgHeight;
+
+// Add first page
+pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+
+// Add additional pages if needed
+while (remainingHeight > pageHeight) {
+  position -= pageHeight;
+  pdf.addPage();
+  pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+  remainingHeight -= pageHeight;
+}
     
       pdf.save("professional-resume.pdf");
     

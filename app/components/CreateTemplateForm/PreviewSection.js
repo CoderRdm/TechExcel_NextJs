@@ -217,8 +217,7 @@ const PreviewSection = ({
         <div className="relative z-10 p-1">
           <div 
             id="holographic-display"
-            className="bg-gray-900 rounded-xl p-4 shadow-inner-cyber max-h-[700px] overflow-y-auto
-            scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-800"
+            
           >
             {renderSelectedTemplate()}
           </div>

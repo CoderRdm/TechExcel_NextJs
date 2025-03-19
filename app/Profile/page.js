@@ -329,7 +329,7 @@ export default function ProfilePage() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    router.push('/login');
+    router.push('/');
   };
 
   if (loading) {

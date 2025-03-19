@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from 'react'; // Add this import
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import HeaderSection from "../components/CreateTemplateForm/HeaderSection";
@@ -20,6 +21,7 @@ import Footer from "../components/Footer";
 export const dynamic = 'force-dynamic';
 
 const EditTemplatePage = () => {
+  
   const [selectedTemplate, setSelectedTemplate] = useState("Template1");
 
   const handleTemplateChange = (template) => {
@@ -238,6 +240,7 @@ const EditTemplatePage = () => {
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 flex items-center justify-center">
         <div className="text-purple-300 text-xl font-mono animate-pulse">Loading template data...</div>
       </div>
+    
     );
   }
 
@@ -524,7 +527,10 @@ const EditTemplatePage = () => {
       </div>
       <Footer></Footer>
     </div>
+  
     </>
+    
+
   );
 };
 
