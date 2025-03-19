@@ -268,5 +268,6 @@ const SignUpPage = () => {
     </div>
   );
 };
+//wjhrf
 
 export default SignUpPage;
