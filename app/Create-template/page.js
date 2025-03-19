@@ -280,48 +280,57 @@ const CreateTemplateForm = () => {
     try {
       const canvas = await html2canvas(clone, {
         scale: 2,
-        logging: true,
+        logging: false,
         useCORS: true,
-        backgroundColor: "#FFFFF",
+        backgroundColor: "#FFFFFF", // Fixed typo (was "#FFFFF")
+        allowTaint: true,
         onclone: (clonedDoc) => {
-          clonedDoc.body.style.zoom = "100%";
+          clonedDoc.body.style.position = "relative";
+          clonedDoc.body.style.width = "100%";
+          clonedDoc.body.style.height = "auto";
+          clonedDoc.body.style.margin = "0";
+          clonedDoc.body.style.padding = "0";
+          clonedDoc.body.style.overflow = "visible";
         }
       });
-  
+    
+      // Calculate dimensions for PDF
+      const imgWidth = 8.5; // Letter width in inches
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      
+      // Initialize PDF with appropriate size
       const pdf = new jsPDF({
-        orientation: "portrait",
+        orientation: imgHeight > 11 ? "portrait" : "portrait",
         unit: "in",
         format: "letter",
-        hotfixes: ["px_scaling"]
+        compress: true
       });
-  
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgRatio = Math.min(pageWidth / canvas.width, 1);
-  
-      pdf.addImage(canvas, 'PNG', 0, 0, pageWidth, canvas.height * imgRatio);
-      
-      // Handle multi-page content
-      let heightLeft = canvas.height * imgRatio;
+    
+      // Handle multi-page content more efficiently
+      let heightLeft = imgHeight;
       let position = 0;
+      let pageHeight = 11; // Letter height in inches (8.5 x 11)
+    
+      // Add first page
+      pdf.addImage(canvas, 'PNG', 0, 0, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
       
+      // Add additional pages if content exceeds first page
       while (heightLeft > 0) {
-        position = heightLeft - pageHeight;
+        position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(canvas, 'PNG', 0, -position, pageWidth, canvas.height * imgRatio);
+        pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
-  
-      pdf.deletePage(1); // Remove initial blank page
+    
       pdf.save("professional-resume.pdf");
-  
+    
     } catch (error) {
       console.error("PDF Generation Error:", error);
-      alert("Failed to generate PDF. Please check the console.");
+      alert("Failed to generate PDF. Please try again or check the console for details.");
     } finally {
       document.body.removeChild(container);
-    }
-  };
+    }}
   const [activeSection, setActiveSection] = useState("about");
 
 
