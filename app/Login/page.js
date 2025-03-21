@@ -6,7 +6,6 @@ import axios from 'axios';
 import Footer from '../components/Footer';
 const LoginPage = () => {
   const router = useRouter();
-  const { signIn } = useSignIn();
   const [formData, setFormData] = useState({
     email: '',
     password: '',

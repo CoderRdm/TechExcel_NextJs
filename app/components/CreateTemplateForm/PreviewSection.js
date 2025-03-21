@@ -130,7 +130,7 @@
 
 // export default PreviewSection;
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Template1 from "../templates/Template1";
 import Template2 from "../templates/Template2";
 import Template3 from "../templates/Template3";
@@ -233,23 +233,6 @@ const PreviewSection = ({
           <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             WARNING: Template modification may affect neural compatibility
           </span>
-        </div>
-
-        {/* Download Button */}
-        <div className="mt-4">
-          <button
-            onClick={handleDownload}
-            disabled={!isTemplateReady}
-            className={`px-4 py-2 ${
-              isTemplateReady
-                ? "bg-green-500 hover:bg-green-600"
-                : "bg-gray-400 cursor-not-allowed"
-            } text-white rounded`}
-          >
-            {isTemplateReady
-              ? `Download ${selectedTemplate} as PDF`
-              : "Generating Template..."}
-          </button>
         </div>
       </div>
     </div>

@@ -2,11 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSignUp } from '@clerk/nextjs'; // Remove Captcha import
 
 const SignUpPage = () => {
   const router = useRouter();
-  const { signUp } = useSignUp();
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -55,19 +53,14 @@ const SignUpPage = () => {
         credentials: 'include',
       });
 
-      // Prompt the user to enter the OTP
-      const otp = prompt('Enter the OTP sent to your email:');
-      const result = await signUp.attempt({
-        strategy: 'otp',
-        code: otp,
-      });
+      const data = await response.json();
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
         alert('Signup successful');
         router.push('/Login');
       } else {
-        setError('Signup failed');
+        setError(data.error || 'Signup failed');
       }
     } catch (error) {
       console.error('Error:', error.message);
