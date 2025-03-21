@@ -393,25 +393,25 @@ while (remainingHeight > pageHeight) {
       {/* Animated Grid Background */}
      
       <div className="absolute inset-0 opacity-20" style={{
-        backgroundImage: `linear-gradient(to right, rgba(192, 132, 252, 0.1) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(192, 132, 252, 0.1) 1px, transparent 1px)`,
-        backgroundSize: `40px 40px`
-      }}></div>
+          backgroundImage: `linear-gradient(to right, rgba(192, 132, 252, 0.1) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(192, 132, 252, 0.1) 1px, transparent 1px)`,
+          backgroundSize: `40px 40px`
+        }}></div>
 
       {/* Increase container width by changing max-w-7xl to max-w-full with padding */}
-      <div className="max-w-full mx-auto px-8 sm:px-12 lg:px-16 py-12 relative z-10">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-16 py-8 sm:py-12 relative z-10">
         {/* Glowing Header */}
-        <div className="text-center mb-16 animate-pulse">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-8 sm:mb-16 animate-pulse">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-4">
             <span className="text-cyan-400"></span>
           </h1>
-          <p className="text-xl text-purple-200 font-mono">Forge Your Digital Identity</p>
+          <p className="text-lg sm:text-xl text-purple-200 font-mono">Forge Your Digital Identity</p>
         </div>
 
         {/* Increase width of grid components by using lg:grid-cols-2 with more width */}
-        <div className="grid lg:grid-cols-2 gap-12 max-w-[1920px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 max-w-[1920px] mx-auto">
           {/* Builder Panel - Neon Border Effect - Increased width */}
-          <div className="relative bg-gray-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-purple-500/30 shadow-2xl hover:shadow-purple-500/20 transition-all w-full">
+          <div className="relative bg-gray-900/80 backdrop-blur-xl p-4 sm:p-6 lg:p-8 rounded-xl lg:rounded-3xl border-2 border-purple-500/30 shadow-xl lg:shadow-2xl hover:shadow-purple-500/20 transition-all w-full">
             <div className="absolute inset-0 rounded-3xl border-2 border-purple-500/20 animate-border-pulse pointer-events-none"></div>
             
             <div className="mb-8 flex items-center justify-between border-b border-purple-500/30 pb-6">
@@ -424,15 +424,18 @@ while (remainingHeight > pageHeight) {
               </div>
             </div>
             
-            <CyberpunkSectionTabs 
-              activeSection={activeSection} 
-              setActiveSection={setActiveSection} 
-            />
-
-            <form onSubmit={handleSubmit} className="space-y-8">
+           {/* Mobile-optimized section tabs */}
+           <div className="mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-purple-500/30">
+                <CyberpunkSectionTabs 
+                  activeSection={activeSection} 
+                  setActiveSection={setActiveSection} 
+                  isMobile={typeof window !== 'undefined' && window.innerWidth < 1024}
+                />
+              </div>
+            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
               {/* About Section */}
               {activeSection === "about" && (
-                <div className="group relative p-6 bg-gray-800/50 rounded-xl border border-indigo-500/20 hover:border-cyan-400/40 transition-all">
+                <div className="group relative p-4 sm:p-6 bg-gray-800/50 rounded-lg lg:rounded-xl border border-indigo-500/20 hover:border-cyan-400/40 transition-all">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <AboutSection about={formData.about} handleChange={handleChange} />
                 </div>
@@ -448,7 +451,7 @@ while (remainingHeight > pageHeight) {
 
               {/* Experience Section with Glowing Add Button */}
               {activeSection === "experiences" && (
-                <div className="relative p-6 bg-gray-800/50 rounded-xl border border-purple-500/20 group animate-fade-in experience-section">
+                <div className="relative p-4 sm:p-6 bg-gray-800/50 rounded-lg lg:rounded-xl border border-purple-500/20 group">
                   <ExperienceSection
                     experiences={formData.experiences}
                     handleChange={handleChange}
@@ -573,8 +576,8 @@ while (remainingHeight > pageHeight) {
               )}
               <button
                 type="submit"
-                className="w-full py-4 px-6 bg-gradient-to-r from-lime-600 to-pink-500 hover:from-slate-500 hover:to-black 
-                         text-white font-bold rounded-xl transition-all shadow-2xl hover:shadow-purple-500/40 relative overflow-hidden"
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 bg-gradient-to-r from-lime-600 to-pink-500 hover:from-slate-500 hover:to-black 
+                           text-white font-bold rounded-lg lg:rounded-xl transition-all shadow-xl hover:shadow-purple-500/40 relative overflow-hidden text-sm sm:text-base"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 hover:opacity-30 transition-opacity"></div>
                 <span className="relative z-10 flex items-center justify-center text-lg">
@@ -585,10 +588,10 @@ while (remainingHeight > pageHeight) {
           </div>
 
           {/* Holographic Preview Panel - Increased width */}
-          <div className="sticky top-8 transform transition-transform hover:scale-[1.005] w-full ">
-            <div className="relative bg-slate-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-cyan-400/30 
-                          shadow-2xl hover:shadow-cyan-400/20 transition-all">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500/10 to-cyan-500/10"></div>
+          <div className="lg:sticky top-8 transform transition-transform hover:scale-[1.005] w-full mt-8 lg:mt-0 ">
+            <div className="relative bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6 lg:p-8 rounded-xl lg:rounded-3xl border-2 border-cyan-400/30 
+                            shadow-xl lg:shadow-2xl">
+              <div className="relative z-10 flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-cyan-400/30"></div>
               
               <div className="relative z-10 flex justify-between items-center mb-8 pb-6 border-b border-cyan-400/30">
                 <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-mono">
@@ -596,19 +599,19 @@ while (remainingHeight > pageHeight) {
                 </h2>
                 <button
                 onClick={handleDownload}
-                className="bg-gradient-to-r from-cyan-400 to-purple-500 text-gray-900 px-6 py-3 rounded-xl 
-                        font-bold hover:scale-105 transition-transform shadow-lg hover:shadow-cyan-400/30
-                        flex items-center gap-2"
+                className="bg-gradient-to-r from-cyan-400 to-purple-500 text-gray-900 px-4 sm:px-6 py-2 sm:py-3 rounded-lg lg:rounded-xl 
+                            font-bold hover:scale-105 transition-transform shadow-lg hover:shadow-cyan-400/30
+                            flex items-center gap-2 text-sm sm:text-base"
               >
-                <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 animate-bounce  sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                 </svg>
                 DOWNLOAD {selectedTemplate.replace("Template", "Template ")}
               </button>
               </div>
 
-              <div id="resumePreview" className="relative bg-slate-900 rounded-none p-6 overflow-y-auto 
-                 scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-100 max-h-[800px] w-full">
+              <div id="resumePreview" className="relative bg-slate-900 rounded-none p-4 sm:p-6 overflow-y-auto 
+                   scrollbar-thin scrollbar-thumb-cyan-400 scrollbar-track-gray-100 max-h-[600px] sm:max-h-[800px] w-full">
                <PreviewSection
                 about={formData.about}
                 header={formData.header}
@@ -628,9 +631,8 @@ while (remainingHeight > pageHeight) {
             </div>
 
             {/* Cybernetic Enhancement Prompt */}
-            <div className="mt-6 p-4 bg-cyan-900/30 backdrop-blur-sm rounded-xl border border-cyan-500/20 
-                          animate-pulse-slow">
-              <p className="text-sm text-cyan-300 text-center font-mono">
+            <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-cyan-900/30 backdrop-blur-sm rounded-lg lg:rounded-xl border border-cyan-500/20">
+              <p className="text-xs sm:text-sm text-cyan-300 text-center font-mono">
                 ⚠️ WARNING: 98% RECRUITER ENGAGEMENT RATE DETECTED
               </p>
             </div>

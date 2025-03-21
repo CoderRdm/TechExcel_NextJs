@@ -132,11 +132,7 @@ export default function ResumeGenerator() {
   };
 
   return (
-<div className="min-h-screen bg-indigo-900 py-12 relative opacity-90 "  style={{
-          backgroundImage: "url('/Wizard.jpg')", 
-          backgroundSize: "cover",
-          backgroundPosition: "center"
-        }}>
+<div className="min-h-screen bg-gradient-to-r from-indigo-900 to-black  py-12 relative opacity-90 "  >
       
       <Head>
         <title>AI Resume Generator</title>
@@ -145,7 +141,7 @@ export default function ResumeGenerator() {
 
       <main className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-12 p-10">
-          <h1 className="text-4xl font-bold text-yellow-900 mb-3">AI Resume Generator</h1>
+          <h1 className="text-4xl font-bold text-white mb-3">AI Resume Generator</h1>
           <p className="text-slate-100 max-w-2xl mx-auto p-10">
             Create a professional resume in minutes. Fill in your details, and our AI will help you craft a compelling resume tailored to your target role.
           </p>
@@ -164,12 +160,12 @@ export default function ResumeGenerator() {
         )}
 
         {!resumeSections ? (
-          <div className="bg-indigo-900 rounded-xl shadow-lg p-8 mb-8 transition-all duration-300 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold mb-6 text-white border-b pb-3">Enter Your Details</h2>
+          <div className="bg-gradient-to-r from-blue-600 to-purple-500   rounded-xl shadow-lg p-8 mb-8 transition-all duration-300 hover:shadow-xl">
+            <h2 className="text-2xl font-extrabold mb-6 text-slate-900 border-b pb-3">Enter Your Details</h2>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="name" className="block text-sm font-medium text-black">
                     Full Name
                   </label>
                   <input
@@ -185,7 +181,7 @@ export default function ResumeGenerator() {
                 </div>
                 
                 <div className="space-y-2">
-                  <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="role" className="block text-sm font-medium text-black">
                     Target Role
                   </label>
                   <input
@@ -203,7 +199,7 @@ export default function ResumeGenerator() {
 
               <div className="space-y-6 mt-8">
                 <div className="space-y-2">
-                  <label htmlFor="education" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="education" className="block text-sm font-medium text-black">
                     Education
                   </label>
                   <textarea
@@ -219,7 +215,7 @@ export default function ResumeGenerator() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="skills" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="skills" className="block text-sm font-medium text-black">
                     Skills
                   </label>
                   <textarea
@@ -235,7 +231,7 @@ export default function ResumeGenerator() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="projects" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="projects" className="block text-sm font-medium text-black">
                     Projects
                   </label>
                   <textarea
@@ -251,7 +247,7 @@ export default function ResumeGenerator() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="certifications" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="certifications" className="block text-sm font-medium text-black">
                     Certifications
                   </label>
                   <textarea
@@ -267,7 +263,7 @@ export default function ResumeGenerator() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="additional" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="additional" className="block text-sm font-medium text-black">
                     Additional Information
                   </label>
                   <textarea
@@ -284,24 +280,40 @@ export default function ResumeGenerator() {
               </div>
 
               <div className="mt-10">
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 flex items-center justify-center"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Generating...
-                    </>
-                  ) : (
-                    <>Generate Resume</>
-                  )}
-                </button>
-              </div>
+  <button
+    type="submit"
+    className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold rounded-xl shadow-lg hover:shadow-purple-500/40 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 transition-all duration-300 flex items-center justify-center relative overflow-hidden group"
+    disabled={isLoading}
+  >
+    {/* Animated glowing border effect */}
+    <span className="absolute inset-0 border-2 border-purple-500/30 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"></span>
+    
+    {/* Hover overlay effect */}
+    <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-30 transition-opacity"></div>
+    
+    {isLoading ? (
+      <div className="flex items-center justify-center text-lg relative z-10">
+        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span className="font-mono">GENERATING...</span>
+      </div>
+    ) : (
+      <div className="flex items-center justify-center text-lg relative z-10">
+        <span className="font-mono mr-2">⚡</span>
+        <span className="font-mono">GENERATE RESUME</span>
+      </div>
+    )}
+    
+    {/* Animated tech dots for cyberpunk effect */}
+    <div className="absolute right-4 top-0 bottom-0 flex items-center space-x-1">
+      <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></div>
+      <div className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" style={{ animationDelay: "0.2s" }}></div>
+      <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" style={{ animationDelay: "0.4s" }}></div>
+    </div>
+  </button>
+</div>
             </form>
           </div>
         ) : (

@@ -812,11 +812,11 @@ const handleDelete = async (templateId) => {
         
         <div className="relative z-10 bg-gradient-to-b from-indigo-00/90 to-gray-800/85 min-h-screen backdrop-bl-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="flex justify-between items-center mb-12 p-10 py-40">
+            {/* <div className="flex justify-between items-center mb-12 p-10 py-40">
               <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
                 My Resume Templates
               </h1>
-            </div>
+            </div> */}
     
             {templates.length === 0 ? (
               <div className="text-center py-24">

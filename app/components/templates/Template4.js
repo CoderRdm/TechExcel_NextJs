@@ -90,7 +90,7 @@ const Template1 = ({
           <Section title="Certifications">
             {certificates.map((cert, index) => (
               <div key={index} className="mb-3">
-                <h4 className="font-semibold text-blue-700">{cert.name}</h4>
+                <h4 className="font-semibold text-black">{cert.name}</h4>
                 <a href={cert.link} className="text-sm text-gray-500 hover:underline">
                   View Credential
                 </a>

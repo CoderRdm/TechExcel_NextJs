@@ -51,7 +51,7 @@ export default function Home() {
     },
     {
       name: "Tanishk Sharma",
-      role: "Growth Marketer",
+      role: "Investment Banker @Mckinsey&Co",
       content: "My resume went from ZERO to HERO in 10 minutes! 🔥🔥🔥",
       image: "/team/tanishk.jpeg",
       rotation: "rotate-3"
@@ -166,7 +166,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-purple-800/30 via-transparent to-cyan-800/30 rounded-3xl animate-pulse"></div>
             
             <h1 className="text-6xl md:text-8xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-yellow-400 leading-tight animate-pulse relative">
-              RESUME<span className="animate-spin inline-block ml-2">✨</span>MAGIC
+              RESUME MAGIC
               <div className="absolute -top-5 -right-5 text-5xl animate-bounce">🚀</div>
             </h1>
             
@@ -184,21 +184,21 @@ export default function Home() {
               <div className="flex justify-center">
             <Link href="/GenerateRes" className="px-10 py-6 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/50 hover:shadow-pink-500/50 flex items-center group relative overflow-hidden animate-pulse hover:animate-none">
               <span className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 via-white/20 to-cyan-400/0 -translate-x-full group-hover:translate-x-full transition-all duration-1000"></span>
-              🧙‍♂️ CREATE YOUR MIND-BENDING AI GENERATED RESUME 
+              🧙‍♂️ Click Me For AI GENERATED RESUME 
               <span className="ml-2 group-hover:rotate-180 transition-transform duration-500">✨</span>
             </Link>
           </div>
             </div>
           </div>
 
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <Link href="/Create-template" className="px-10 py-6 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/50 hover:shadow-pink-500/50 flex items-center group relative overflow-hidden animate-pulse hover:animate-none">
               <span className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 via-white/20 to-cyan-400/0 -translate-x-full group-hover:translate-x-full transition-all duration-1000"></span>
-              🧙‍♂️ CREATE YOUR MIND-BENDING RESUME 
+              🧙‍♂️ CREATE  RESUME 
               <span className="ml-2 group-hover:rotate-180 transition-transform duration-500">✨</span>
             </Link>
           </div>
-          
+           */}
           
         </div>
       </header>
@@ -290,7 +290,7 @@ export default function Home() {
             <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-float"></div>
             
             <h2 className="text-4xl md:text-6xl font-black text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400 leading-tight">
-              READY TO <span className="animate-pulse">TRANSFORM</span> YOUR CAREER?
+              READY TO BOOST YOUR CAREER?
             </h2>
             <p className="text-2xl text-center text-white mb-10 max-w-3xl mx-auto">
               Join <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">our community</span> job seekers who upgraded their resume game with our <span className="font-black">MAGICAL</span> builder!

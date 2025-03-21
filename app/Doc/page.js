@@ -75,7 +75,7 @@ export default function ResumeVerification() {
        <div 
         className="absolute inset-0 z-0 bg-cover bg-center" 
         style={{
-          backgroundImage: "url('/avatar.jpeg')", 
+          backgroundImage: "url('/')", 
           backgroundSize: "cover",
           backgroundPosition: "center"
         }}

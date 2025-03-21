@@ -228,7 +228,7 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-4">
+            {/* <div className="mt-8 grid grid-cols-2 gap-4">
               <button 
                 type="button"
                 className="group relative w-full px-4 py-3 border border-white border-opacity-20 rounded-xl text-white hover:bg-white hover:bg-opacity-5 transition flex items-center justify-center overflow-hidden"
@@ -249,7 +249,7 @@ const SignUpPage = () => {
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </button>
-            </div>
+            </div> */}
           </div>
 
           <p className="mt-10 text-center text-indigo-100">
