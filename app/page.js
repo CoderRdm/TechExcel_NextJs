@@ -43,17 +43,17 @@ export default function Home() {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Yug Agarwal",
       role: "Senior SWE @Google",
       content: "This builder got me 3x more interviews! 🤯 BEST. DECISION. EVER!!!!",
-      image: "/avatar.jpeg",
+      image: "/team/yug.jpeg",
       rotation: "-rotate-3"
     },
     {
-      name: "Mike Chen",
+      name: "Tanishk Sharma",
       role: "Growth Marketer",
       content: "My resume went from ZERO to HERO in 10 minutes! 🔥🔥🔥",
-      image: "/avatar.jpeg",
+      image: "/team/tanishk.jpeg",
       rotation: "rotate-3"
     },
   ];
@@ -67,7 +67,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-black overflow-hidden">
       <Head>
         <Image 
-                  src="/api/placeholder/1920/600" 
+                  src="/Wizard.jpg" 
                   alt="Company team working together" 
                   fill 
                   className="object-cover" 
@@ -179,16 +179,15 @@ export default function Home() {
           <div className="max-w-3xl mx-auto mb-12 transform rotate-1 hover:rotate-0 transition-all duration-500">
             <div className="bg-gradient-to-r from-purple-900/40 via-black/50 to-blue-900/40 backdrop-blur-lg rounded-2xl p-8 border-2 border-cyan-400/50 shadow-2xl shadow-cyan-500/30 hover:shadow-pink-500/30 transition-all">
               <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400 font-black mb-6 tracking-widest">
-                "USED BY 500K+ PROFESSIONALS TO EXPLODE CAREER GROWTH 🚀💥"
+                "USED BY MANY PROFESSIONALS TO EXPLODE CAREER GROWTH 🚀💥"
               </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 p-4 rounded-xl rotate-3 animate-float border border-pink-500/30 transform hover:scale-110 transition-transform">
-                  <span className="text-xl font-black">📈 +87% INTERVIEWS</span>
-                </div>
-                <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-4 rounded-xl -rotate-3 animate-float border border-cyan-500/30 transform hover:scale-110 transition-transform">
-                  <span className="text-xl font-black">⏱️ 10min MAKEOVER</span>
-                </div>
-              </div>
+              <div className="flex justify-center">
+            <Link href="/GenerateRes" className="px-10 py-6 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/50 hover:shadow-pink-500/50 flex items-center group relative overflow-hidden animate-pulse hover:animate-none">
+              <span className="absolute inset-0 bg-gradient-to-r from-cyan-400/0 via-white/20 to-cyan-400/0 -translate-x-full group-hover:translate-x-full transition-all duration-1000"></span>
+              🧙‍♂️ CREATE YOUR MIND-BENDING AI GENERATED RESUME 
+              <span className="ml-2 group-hover:rotate-180 transition-transform duration-500">✨</span>
+            </Link>
+          </div>
             </div>
           </div>
 
@@ -199,6 +198,8 @@ export default function Home() {
               <span className="ml-2 group-hover:rotate-180 transition-transform duration-500">✨</span>
             </Link>
           </div>
+          
+          
         </div>
       </header>
 
@@ -259,11 +260,14 @@ export default function Home() {
                       className="object-cover group-hover:scale-110 transition-transform"
                     />
                   </div>
+                  
                   <div className="ml-6">
                     <h4 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">{testimonial.name}</h4>
                     <p className="text-purple-300 font-bold">{testimonial.role}</p>
                   </div>
+                  
                 </div>
+       
                 {/* <p className="text-2xl text-white font-bold relative pl-8 before:content-'"' before:text-8xl before:absolute before:-left-2 before:-top-4 before:text-pink-400/30 before:transform before:rotate-12 before:transition-transform group-hover:before:-rotate-12">
                   {testimonial.content}
                 </p> */}
@@ -289,7 +293,7 @@ export default function Home() {
               READY TO <span className="animate-pulse">TRANSFORM</span> YOUR CAREER?
             </h2>
             <p className="text-2xl text-center text-white mb-10 max-w-3xl mx-auto">
-              Join <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">500,000+</span> job seekers who upgraded their resume game with our <span className="font-black">MAGICAL</span> builder!
+              Join <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-cyan-400">our community</span> job seekers who upgraded their resume game with our <span className="font-black">MAGICAL</span> builder!
             </p>
             <div className="flex justify-center">
               <Link href="/SignUp" className="px-12 py-6 bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-600 rounded-full text-2xl font-black text-white hover:scale-110 transition-all duration-300 shadow-xl shadow-pink-500/30 hover:shadow-cyan-500/30 group relative overflow-hidden">
@@ -317,10 +321,11 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <Footer></Footer>
+
       </footer>
     </div>
     
-      <Footer></Footer>
     </>
   );
 }

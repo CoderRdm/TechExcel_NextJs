@@ -25,15 +25,16 @@ const Navbar = () => {
           <a href="/Create-template" className="text-gray-300 hover:text-cyan-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
             <span className="mr-2 animate-pulse">✨</span>Create
           </a>
-          <a href="/Reviews" className="text-gray-300 hover:text-pink-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
-            <span className="mr-2 animate-pulse">🌟</span>Reviews
+          <a href="/Doc" className="text-gray-300 hover:text-pink-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
+            <span className="mr-2 animate-pulse">💥</span>Document Verification
           </a>
           <a href="/show" className="text-gray-300 hover:text-yellow-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
             <span className="mr-2 animate-pulse">💰</span>Your templates
           </a>
           <a href="/Ats" className="text-gray-300 hover:text-green-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
-            <span className="mr-2 animate-pulse">📝</span>ATS Checker
+            <span className="mr-2 animate-pulse">🚀</span>ATS Checker
           </a>
+         
           <a href="/AboutUs" className="text-gray-300 hover:text-green-400 transition-all duration-300 hover:scale-110 hover:font-black hover:tracking-widest">
             <span className="mr-2 animate-pulse">📝</span>Get to know Us?
           </a>
@@ -71,17 +72,17 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-black/80 backdrop-blur-xl border-b border-purple-500/50">
           <div className="px-2 pt-2 pb-4 space-y-1">
-            <a href="#features" className="block px-3 py-2 text-gray-300 hover:text-cyan-400 transition-all duration-300 hover:translate-x-2 font-medium">
-              <span className="mr-2 animate-pulse">✨</span>Features
+            <a href="/" className="block px-3 py-2 text-gray-300 hover:text-cyan-400 transition-all duration-300 hover:translate-x-2 font-medium">
+              <span className="mr-2 animate-pulse">✨</span>Create
             </a>
-            <a href="#testimonials" className="block px-3 py-2 text-gray-300 hover:text-pink-400 transition-all duration-300 hover:translate-x-2 font-medium">
-              <span className="mr-2 animate-pulse">🌟</span>Reviews
+            <a href="/Doc" className="block px-3 py-2 text-gray-300 hover:text-pink-400 transition-all duration-300 hover:translate-x-2 font-medium">
+              <span className="mr-2 animate-pulse">🌟</span>Document Verification
             </a>
-            <a href="#pricing" className="block px-3 py-2 text-gray-300 hover:text-yellow-400 transition-all duration-300 hover:translate-x-2 font-medium">
-              <span className="mr-2 animate-pulse">💰</span>Pricing
+            <a href="/Ats" className="block px-3 py-2 text-gray-300 hover:text-yellow-400 transition-all duration-300 hover:translate-x-2 font-medium">
+              <span className="mr-2 animate-pulse">💰</span>Ats
             </a>
-            <a href="#blog" className="block px-3 py-2 text-gray-300 hover:text-green-400 transition-all duration-300 hover:translate-x-2 font-medium">
-              <span className="mr-2 animate-pulse">📝</span>Blog
+            <a href="/show" className="block px-3 py-2 text-gray-300 hover:text-green-400 transition-all duration-300 hover:translate-x-2 font-medium">
+              <span className="mr-2 animate-pulse">📝</span>Your Tempaltes
             </a>
             <div className="pt-4 px-3">
               <Link href="/Profile" className="block w-full px-4 py-2 text-center rounded-full bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-500 hover:from-purple-700 hover:to-yellow-600 text-white font-black shadow-lg shadow-purple-500/50 hover:shadow-pink-500/50 transition-all duration-300 transform hover:scale-105 animate-pulse hover:animate-none">

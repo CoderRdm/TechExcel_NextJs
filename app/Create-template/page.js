@@ -176,9 +176,57 @@ const CreateTemplateForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Flash message function
+function showFlashMessage(message, type) {
+  // Create flash message element
+  const flashMessage = document.createElement("div");
+  flashMessage.className = `flash-message ${type}`;
+  
+  // Create message content
+  const content = document.createElement("div");
+  content.className = "flash-content";
+  
+  // Add icon based on type
+  const icon = document.createElement("span");
+  icon.className = "flash-icon";
+  icon.innerHTML = type === "success" 
+    ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
+    : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+  
+  // Add message text
+  const text = document.createElement("span");
+  text.textContent = message;
+  
+  // Assemble flash message
+  content.appendChild(icon);
+  content.appendChild(text);
+  flashMessage.appendChild(content);
+  
+  // Add close button
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "flash-close";
+  closeBtn.innerHTML = '&times;';
+  closeBtn.onclick = () => document.body.removeChild(flashMessage);
+  flashMessage.appendChild(closeBtn);
+  
+  // Add to DOM
+  document.body.appendChild(flashMessage);
+  
+  // Auto-remove after 5 seconds
+  setTimeout(() => {
+    if (document.body.contains(flashMessage)) {
+      flashMessage.classList.add("fade-out");
+      setTimeout(() => {
+        if (document.body.contains(flashMessage)) {
+          document.body.removeChild(flashMessage);
+        }
+      }, 300);
+    }
+  }, 5000);
+}
   
     try {
-      const response = await fetch("http://localhost:3001/api/templates/createtemplate", {
+      const response = await fetch("http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/templates/createtemplate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -189,15 +237,17 @@ const CreateTemplateForm = () => {
   
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to create template");
+        throw new Error(errorData.error || "Failed to create template");//in production will have to chang ethe errordata.error 
       }
   
       const data = await response.json();
-      alert("Template created successfully!");
-    } catch (error) {
-      console.error("Error:", error.message || error);
-      alert("An error occurred: " + error.message);
-    }
+      showFlashMessage("Template created successfully!", "success");
+} catch (error) {
+  console.error("Error:", error.message || error);
+  
+  // Error flash message
+  showFlashMessage("An error occurred: " + error.message, "error");
+}
   };
 
   // Helper function to format months into years and months

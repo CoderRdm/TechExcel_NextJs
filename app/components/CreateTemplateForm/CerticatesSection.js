@@ -1,26 +1,60 @@
-"use client";
-import React, { useState } from "react";
-import { CheckCircle } from "lucide-react";
+import React, { useState } from 'react';
+import { CheckCircle } from 'lucide-react';
 
 const CertificatesSection = ({ certificates, handleChange, addCertificate }) => {
   // Track verification status for each certificate
-  const [verifiedStatus, setVerifiedStatus] = useState({});
+  const [verificationState, setVerificationState] = useState({});
+  
 
-  // Handle verification process
-  const verifyDocument = (index) => {
-    // Simulate verification process with timeout
-    setVerifiedStatus(prev => ({
+  // Handle verification process with actual backend API
+  const verifyDocument = async (index, url) => {
+    // Set status to verifying
+    setVerificationState(prev => ({
       ...prev,
       [index]: { status: "verifying" }
     }));
     
-    // Simulate API call with timeout
-    setTimeout(() => {
-      setVerifiedStatus(prev => ({
+   // In your verifyDocument function:
+try {
+  const response = await fetch('http://3.108.59.60/verify-url', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url })
+  });
+  
+  const data = await response.json();
+  console.log(data);
+  
+  if (data.success === true) {
+    // Set verified status based on the API response
+    setVerificationState(prev => ({
+      ...prev,
+      [index]: { 
+        status: "verified",
+        details: data.certificate
+      }
+    }));
+  } else {
+    // Handle error from API - this part needs to be updated
+    setVerificationState(prev => ({
+      ...prev,
+      [index]: { 
+        status: "error",
+        message: data.certificate.error || "Not a valid certificate"
+      }
+    }));
+  }
+} 
+ catch (error) {
+      // Handle network or other errors
+      setVerificationState(prev => ({
         ...prev,
-        [index]: { status: "verified" }
+        [index]: { 
+          status: "error",
+          message: "Connection error. Please try again." 
+        }
       }));
-    }, 1500);
+    }
   };
 
   return (
@@ -58,8 +92,8 @@ const CertificatesSection = ({ certificates, handleChange, addCertificate }) => 
                 <input
                   type="text"
                   id={`certificate-link-${index}`}
-                  name="link"
-                  value={certificate.link}
+                  name="credentialUrl"
+                  value={certificate.credentialUrl}
                   onChange={(e) => handleChange(e, "certificates", index)}
                   className="w-full bg-gray-900/80 backdrop-blur-sm px-4 py-3 border-l-4 border-cyan-400/60 
                            text-cyan-200 font-mono placeholder-gray-500 focus:outline-none
@@ -75,21 +109,21 @@ const CertificatesSection = ({ certificates, handleChange, addCertificate }) => 
             {/* Verification Button and Status */}
             <div className="flex items-center mt-2">
               <button
-                onClick={() => verifyDocument(index)}
-                disabled={verifiedStatus[index]?.status === "verifying" || verifiedStatus[index]?.status === "verified"}
+                onClick={() => verifyDocument(index, certificate.credentialUrl)}
+                disabled={verificationState[index]?.status === "verifying" || verificationState[index]?.status === "verified"}
                 className={`px-4 py-2 rounded-md text-sm font-mono flex items-center gap-2 transition-all
-                          ${verifiedStatus[index]?.status === "verified" 
+                          ${verificationState[index]?.status === "verified" 
                             ? "bg-green-500/20 text-green-300 border border-green-500/40" 
-                            : verifiedStatus[index]?.status === "verifying"
+                            : verificationState[index]?.status === "verifying"
                               ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/40"
                               : "bg-purple-500/20 text-purple-300 border border-purple-500/40 hover:bg-purple-500/30"}`}
               >
-                {verifiedStatus[index]?.status === "verified" ? (
+                {verificationState[index]?.status === "verified" ? (
                   <>
                     <CheckCircle size={16} className="text-green-400" />
                     VERIFIED
                   </>
-                ) : verifiedStatus[index]?.status === "verifying" ? (
+                ) : verificationState[index]?.status === "verifying" ? (
                   <>
                     <span className="inline-block w-4 h-4 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin"></span>
                     VERIFYING...
@@ -99,10 +133,38 @@ const CertificatesSection = ({ certificates, handleChange, addCertificate }) => 
                 )}
               </button>
               
-              {verifiedStatus[index]?.status === "verified" && (
+              {verificationState[index]?.status === "verified" && (
                 <span className="ml-3 text-xs text-green-300 font-mono">Document authenticity confirmed</span>
               )}
+              
+              {verificationState[index]?.status === "error" && (
+                <span className="ml-3 text-xs text-red-300 font-mono">
+                  {verificationState[index].message}
+                </span>
+              )}
             </div>
+
+            {/* Display Provider and Title after verification */}
+            {verificationState[index]?.status === "verified" && verificationState[index]?.details && (
+              <div className="mt-4 p-3 rounded-lg border border-green-500/30 bg-green-900/20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex flex-col">
+                    <span className="text-xs text-green-300 font-mono mb-1">PROVIDER</span>
+                    <span className="text-sm text-cyan-200 font-mono">
+                      {verificationState[index].details.provider ? 
+                       verificationState[index].details.provider.toUpperCase() : 
+                       'N/A'}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-green-300 font-mono mb-1">TITLE</span>
+                    <span className="text-sm text-cyan-200 font-mono">
+                      {verificationState[index].details.title || 'N/A'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Cybernetic Pattern */}
             <div className="absolute inset-0 opacity-20 pointer-events-none" style={{

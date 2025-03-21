@@ -113,7 +113,7 @@ export default function ProfilePage() {
   const [formErrors, setFormErrors] = useState({});
 
   // Configuration
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001';
+  const API_BASE_URL = 'http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com';
   const API_PATHS = ['/api/user/me'];
   const AUTH_METHOD = 'token';
 

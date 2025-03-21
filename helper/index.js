@@ -54,7 +54,7 @@ const TemplateDetail = ({ id }) => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No authentication found');
 
-        const response = await axios.get(`http://localhost:3001/api/templates/${id}`, {
+        const response = await axios.get(`http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/templates/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -108,7 +108,7 @@ const TemplateDetail = ({ id }) => {
   }
   console.log(template.skills[0]);
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 relative overflow-hidden p-10">
       {/* Animated Grid Background */}
       <div className="absolute inset-0 opacity-20" style={{
         backgroundImage: `linear-gradient(to right, rgba(192, 132, 252, 0.1) 1px, transparent 1px),
@@ -123,7 +123,7 @@ const TemplateDetail = ({ id }) => {
               ← BACK TO TEMPLATES
             </button>
           </Link>
-          <button
+          {/* <button
             onClick={handleDownload}
             className="bg-gradient-to-r from-cyan-400 to-purple-500 text-gray-900 px-6 py-3 rounded-xl 
                      font-bold hover:scale-105 transition-transform shadow-lg hover:shadow-cyan-400/30
@@ -133,11 +133,11 @@ const TemplateDetail = ({ id }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
             DOWNLOAD .CYBER
-          </button>
+          </button> */}
         </div>
 
         {/* Preview Panel */}
-        <div className="relative bg-gray-900/80 backdrop-blur-xl p-8 rounded-3xl border-2 border-cyan-400/30 shadow-2xl">
+        <div className="relative bg-gradient-to-br from-indigo-900/50 via-pink-900 to-lime-500 backdrop-blur-xl p-8 rounded-3xl border-2 border-cyan-400/30 shadow-2xl">
           <div className="mb-8 border-b border-cyan-400/30 pb-6">
             <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-mono">
               TEMPLATE PREVIEW - ID: {template.id}
@@ -163,9 +163,9 @@ const TemplateDetail = ({ id }) => {
           <div className="p-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {/* Header Section */}
-                      <div className="bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30 hover:-translate-y-1">
-                        <h3 className="font-bold text-gray-100 mb-4 flex items-center text-lg">
-                          <Camera className="h-5 w-5 mr-2 text-pink-400" />
+                      <div className="bg-gray-800 hover:bg-pink-500 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30 hover:-translate-y-1">
+                        <h3 className="font-bold text-white mb-4 flex items-center text-lg">
+                          <Camera className="h-5 w-5 mr-2 text-white" />
                           Personal Information
                         </h3>
                         {template.header ? (
@@ -181,7 +181,7 @@ const TemplateDetail = ({ id }) => {
   
                       {/* Skills Section */}
                       <div className="bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30 hover:-translate-y-1">
-                        <h3 className="font-bold text-gray-100 mb-4 flex items-center text-lg">
+                        <h3 className="font-bold text-white mb-4 flex items-center text-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                           </svg>
@@ -205,7 +205,7 @@ const TemplateDetail = ({ id }) => {
                       {/* Experiences Section */}
                       {template.experiences?.length > 0 && (
                         <div className="col-span-2 bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30">
-                          <h3 className="font-bold text-gray-100 mb-6 flex items-center text-lg">
+                          <h3 className="font-bold text-white mb-6 flex items-center text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
@@ -235,7 +235,7 @@ const TemplateDetail = ({ id }) => {
                       {/* Education Section */}
                       {template.educations?.length > 0 && (
                         <div className="col-span-2 bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30">
-                          <h3 className="font-bold text-gray-100 mb-6 flex items-center text-lg">
+                          <h3 className="font-bold text-blue-100 mb-6 flex items-center text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path d="M12 14l9-5-9-5-9 5 9 5z" />
                               <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -272,7 +272,7 @@ const TemplateDetail = ({ id }) => {
 {/* Achievements Section */}
 {template.achievements?.length > 0 && (
   <div className="col-span-2 bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30">
-    <h3 className="font-bold text-gray-100 mb-6 flex items-center text-lg">
+    <h3 className="font-bold text-yellow-200 mb-6 flex items-center text-lg">
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
@@ -294,7 +294,7 @@ const TemplateDetail = ({ id }) => {
 {/* Certificates Section */}
 {template.certificates?.length > 0 && (
   <div className="col-span-2 bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30">
-    <h3 className="font-bold text-gray-100 mb-6 flex items-center text-lg">
+    <h3 className="font-bold text-white mb-6 flex items-center text-lg">
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
@@ -332,7 +332,7 @@ const TemplateDetail = ({ id }) => {
 {/* Interests Section */}
 {template.interests?.length > 0 && (
   <div className="col-span-2 bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30">
-    <h3 className="font-bold text-gray-100 mb-6 flex items-center text-lg">
+    <h3 className="font-bold text-red-400 mb-6 flex items-center text-lg">
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
       </svg>
@@ -354,8 +354,8 @@ const TemplateDetail = ({ id }) => {
 {/* Volunteering Section */}
 {template.volunteering?.length > 0 && (
   <div className="col-span-2 bg-gray-800 bg-opacity-60 p-6 rounded-2xl shadow-md backdrop-filter backdrop-blur-sm border border-gray-700 transform transition-all hover:shadow-purple-500/30">
-    <h3 className="font-bold text-gray-100 mb-6 flex items-center text-lg">
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <h3 className="font-bold text-purple-400 mb-6 flex items-center text-lg">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 11V9a2 2 0 00-2-2m2 4v4a2 2 0 104 0v-1m-4-3H9m2 0h4m6 1a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       Volunteering

@@ -46,7 +46,7 @@ const LoginPage = () => {
     try {
       if (loginMethod === 'password') {
         // Password-based login
-        const response = await axios.post('http://localhost:3001/api/auth/login/password', {
+        const response = await axios.post('http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/auth/login/password', {
           email: formData.email,
           password: formData.password
         });
@@ -55,13 +55,13 @@ const LoginPage = () => {
         // OTP-based login
         if (!otpSent) {
           // Phase 1: Send OTP
-          await axios.post('http://localhost:3001/api/auth/otp/generate', {
+          await axios.post('http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/auth/otp/generate', {
             email: formData.email
           });
           setOtpSent(true);
         } else {
           // Phase 2: Verify OTP
-          const response = await axios.post('http://localhost:3001/api/auth/otp/verify', {
+          const response = await axios.post('http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/auth/otp/verify', {
             email: formData.email,
             code: otp
           });

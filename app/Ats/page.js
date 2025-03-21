@@ -83,7 +83,7 @@ export default function ATSChecker() {
     formData.append('job_description', jobDescription);
     
     try {
-      const response = await fetch('http://localhost:8000/api/analyze', {
+      const response = await fetch('http://3.108.219.98:8000/api/analyze', {
         method: 'POST',
         body: formData,
       });
@@ -138,7 +138,7 @@ export default function ATSChecker() {
     return (
         <>
         <div className="min-h-screen w-full bg-gradient-to-br from-black to-indigo-900 relative">
-        <div className="absolute inset-0 bg-[url('/favicon.ico')] opacity-5 z-0 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[url('/ats.png')] opacity-5 z-0 pointer-events-none"></div>
 
           
           <Head>

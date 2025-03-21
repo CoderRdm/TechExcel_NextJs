@@ -591,7 +591,7 @@ const UserPage = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:3001/api/templates/user/${userId}`,
+          `http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/templates/user/${userId}`,
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
 
@@ -611,24 +611,129 @@ const UserPage = () => {
 
     fetchTemplates();
   }, [router]);
+  // Flash message function
+function showFlashMessage(message, type) {
+  // Create flash message element
+  const flashMessage = document.createElement("div");
+  flashMessage.className = `flash-message ${type}`;
+  
+  // Create message content
+  const content = document.createElement("div");
+  content.className = "flash-content";
+  
+  // Add icon based on type
+  const icon = document.createElement("span");
+  icon.className = "flash-icon";
+  icon.innerHTML = type === "success" 
+    ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
+    : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+  
+  // Add message text
+  const text = document.createElement("span");
+  text.textContent = message;
+  
+  // Assemble flash message
+  content.appendChild(icon);
+  content.appendChild(text);
+  flashMessage.appendChild(content);
+  
+  // Add close button
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "flash-close";
+  closeBtn.innerHTML = '&times;';
+  closeBtn.onclick = () => document.body.removeChild(flashMessage);
+  flashMessage.appendChild(closeBtn);
+  
+  // Add to DOM
+  document.body.appendChild(flashMessage);
+  
+  // Auto-remove after 5 seconds
+  setTimeout(() => {
+    if (document.body.contains(flashMessage)) {
+      flashMessage.classList.add("fade-out");
+      setTimeout(() => {
+        if (document.body.contains(flashMessage)) {
+          document.body.removeChild(flashMessage);
+        }
+      }, 300);
+    }
+  }, 5000);
+}
+function showConfirmDialog(title, message, onConfirm) {
+  // Create overlay
+  const overlay = document.createElement("div");
+  overlay.className = "confirm-overlay";
+  
+  // Create dialog
+  const dialog = document.createElement("div");
+  dialog.className = "confirm-dialog";
+  
+  // Create title
+  const dialogTitle = document.createElement("h3");
+  dialogTitle.className = "confirm-title";
+  dialogTitle.textContent = title;
+  
+  // Create message
+  const dialogMessage = document.createElement("p");
+  dialogMessage.className = "confirm-message";
+  dialogMessage.textContent = message;
+  
+  // Create buttons container
+  const buttonContainer = document.createElement("div");
+  buttonContainer.className = "confirm-buttons";
+  
+  // Create cancel button
+  const cancelButton = document.createElement("button");
+  cancelButton.className = "confirm-button cancel";
+  cancelButton.textContent = "Cancel";
+  cancelButton.onclick = () => document.body.removeChild(overlay);
+  
+  // Create confirm button
+  const confirmButton = document.createElement("button");
+  confirmButton.className = "confirm-button confirm";
+  confirmButton.textContent = "Delete";
+  confirmButton.onclick = () => {
+    document.body.removeChild(overlay);
+    onConfirm();
+  };
+  
+  // Assemble dialog
+  buttonContainer.appendChild(cancelButton);
+  buttonContainer.appendChild(confirmButton);
+  dialog.appendChild(dialogTitle);
+  dialog.appendChild(dialogMessage);
+  dialog.appendChild(buttonContainer);
+  overlay.appendChild(dialog);
+  
+  // Add to DOM
+  document.body.appendChild(overlay);
+}
 
-  const handleDelete = async (templateId) => {
-    if (window.confirm('Are you sure you want to delete this template?')) {
+
+const handleDelete = async (templateId) => {
+  // Show custom confirmation dialog instead of window.confirm
+  showConfirmDialog(
+    "Delete Template", 
+    "Are you sure you want to delete this template?",
+    async () => {
       try {
         const token = localStorage.getItem('token');
         await axios.delete(
-          `http://localhost:3001/api/templates/deletetemplate/${templateId}`,
+          `http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/templates/deletetemplate/${templateId}`,
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
 
         setTemplates(prev => prev.filter(t => t.id !== templateId));
-        alert("Template deleted successfully");
+        
+        // Show success flash message
+        showFlashMessage("Template deleted successfully", "success");
       } catch (error) {
-        alert(`Deletion failed: ${error.response?.data?.detail || error.message}`);
+        // Show error flash message
+        showFlashMessage(`Deletion failed: ${error.response?.data?.detail || error.message}`, "error");
       }
     }
-  };
-
+  );
+};
   const handleCreateNew = () => router.push('/Create-template');
 
   if (error) return (

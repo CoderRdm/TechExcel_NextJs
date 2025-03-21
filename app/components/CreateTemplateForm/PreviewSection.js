@@ -191,7 +191,7 @@ const PreviewSection = ({
       <div className="mb-6 relative group">
         <div className="absolute inset-0 bg-indigo-500/10 blur-xl rounded-xl animate-pulse-slow"></div>
         <div className="relative z-10 p-1 rounded-xl bg-gradient-to-r from-indigo-900/50 to-cyan-900/50 border border-slate-500/30">
-          <div className="flex flex-wrap gap-2 p-2 bg-indigo-900/80 rounded-lg backdrop-blur-sm">
+          <div className="flex flex-wrap justify-around gap-2 p-2 bg-indigo-900/80 rounded-lg backdrop-blur-sm">
             {["Template1", "Template2", "Template3","Template4","Template5","Template6"].map((template) => (
               <button
                 key={template}

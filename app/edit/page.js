@@ -53,7 +53,7 @@ const EditTemplatePage = () => {
       setLoading(true);
       const token = localStorage.getItem('token');
       try {
-        const res = await fetch(`http://localhost:3001/api/templates/${id}`, {
+        const res = await fetch(`http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/templates/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -178,7 +178,7 @@ const EditTemplatePage = () => {
         throw new Error("Not authenticated. Please log in.");
       }
       
-      const response = await fetch(`http://localhost:3001/api/templates/update/${id}`, {
+      const response = await fetch(`http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/templates/update/${id}`, {
         method: "PUT", // Use PUT for updating
         headers: {
           "Content-Type": "application/json",
@@ -534,4 +534,12 @@ const EditTemplatePage = () => {
   );
 };
 
-export default EditTemplatePage;
+const EditTemplate = () => {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <EditTemplatePage />
+    </Suspense>
+  );
+};
+
+export default EditTemplate;

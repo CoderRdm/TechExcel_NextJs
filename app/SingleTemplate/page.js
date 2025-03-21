@@ -1,5 +1,5 @@
 'use client';
-
+import { Suspense } from 'react';
 import React from 'react'
 import { useSearchParams } from 'next/navigation';
 import TemplateDetail from '@/helper';
@@ -29,5 +29,12 @@ const Page = () => {
     </>
   )
 }
+const SingleTemplate = () => {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <Page />
+    </Suspense>
+  );
+};
 
-export default Page
+export default SingleTemplate;

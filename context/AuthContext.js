@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   // Simulate login (replace with actual API call to your Express backend)
   const login = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const response = await fetch('http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     if (token) {
       // Fetch user data using the token (replace with your API)
-      fetch('http://localhost:3001/api/user/me', {
+      fetch('http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/user/me', {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
