@@ -1,6 +1,6 @@
-"use client"; // Mark as a Client Component
+"use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSignUp } from '@clerk/nextjs'; // Remove Captcha import
 
@@ -8,20 +8,34 @@ const SignUpPage = () => {
   const router = useRouter();
   const { signUp } = useSignUp();
   const [formData, setFormData] = useState({
-    name: '',
+    firstname: '',
+    lastname: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
+
+  // Unified handleChange function
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
-    // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       setIsLoading(false);
@@ -29,11 +43,16 @@ const SignUpPage = () => {
     }
 
     try {
-      // Start the OTP sign-up process
-      await signUp.create({
-        emailAddress: formData.email, // Use email for OTP
-        password: formData.password,
-        firstName: formData.name, // Optional: Add first name
+      const response = await fetch('http://ec2-13-203-197-138.ap-south-1.compute.amazonaws.com/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstname: formData.firstname,
+          lastname: formData.lastname,
+          email: formData.email,
+          password: formData.password,
+        }),
+        credentials: 'include',
       });
 
       // Prompt the user to enter the OTP
@@ -43,145 +62,209 @@ const SignUpPage = () => {
         code: otp,
       });
 
-      if (result.status === 'complete') {
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
         alert('Signup successful');
-        router.push('/login'); // Redirect to login page
+        router.push('/Login');
       } else {
         setError('Signup failed');
       }
-    } catch (err) {
-      console.error('Error:', err);
-      setError(err.errors?.[0]?.message || 'An error occurred during signup');
+    } catch (error) {
+      console.error('Error:', error.message);
+      setError('An error occurred during signup');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-600 to-indigo-600 py-16 px-4">
-      <div className="max-w-md mx-auto">
-        <div className="text-center mb-8">
-          <button
-            onClick={() => router.push('/')}
-            className="text-3xl font-bold text-white hover:text-blue-100 transition"
-          >
-            Resume Builder
-          </button>
-          <p className="mt-2 text-blue-100">Create your account to get started</p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-black via-purple-800 to-indigo-800 py-8 px-4 flex items-center justify-center overflow-hidden relative">
+    {/* Background elements remain same */}
 
-        <div className="bg-white rounded-xl shadow-xl p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Sign Up</h2>
-          
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-              {error}
-            </div>
-          )}
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
-              </label>
+    <div className={`max-w-md w-full transition-all duration-1000 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <div className="text-center mb-8">
+        <button
+          onClick={() => router.push('/')}
+          className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 hover:from-pink-200 hover:to-indigo-200 transition-all duration-300 transform hover:scale-105"
+        >
+        </button>
+        <p className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 hover:from-pink-200 hover:to-indigo-200 transition-all duration-300 transform hover:scale-105">Craft your career story</p>
+      </div>
+
+      <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl border border-white border-opacity-20 p-8 relative overflow-hidden">
+        <h2 className="text-3xl font-bold text-white mb-8 text-center">Create Account</h2>
+        
+        {error && (
+          <div className="mb-6 p-4 bg-red-500 bg-opacity-20 border border-red-400 border-opacity-30 text-red-100 rounded-lg text-center">
+            {error}
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name Input */}
+          <div className="group">
+            <label htmlFor="name" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              First Name
+            </label>
+            <div className="relative">
               <input
                 type="text"
-                id="name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                id="firstname"
+                name="firstname"
+                value={formData.firstname}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="Your name"
                 required
                 disabled={isLoading}
               />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
             </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
+          </div>
+          <label htmlFor="name" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Last Name
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                id="lastname"
+                name="lastname"
+                value={formData.lastname}
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="Your name"
+                required
+                disabled={isLoading}
+              />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
+            </div>
+          
+
+          {/* Email Input */}
+          <div className="group">
+            <label htmlFor="email" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Email Address
+            </label>
+            <div className="relative">
               <input
                 type="email"
                 id="email"
+                name="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="you@example.com"
                 required
                 disabled={isLoading}
               />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
             </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
+          </div>
+
+          {/* Password Input */}
+          <div className="group">
+            <label htmlFor="password" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Password
+            </label>
+            <div className="relative">
               <input
                 type="password"
                 id="password"
+                name="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="••••••••"
                 required
                 disabled={isLoading}
               />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
             </div>
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Confirm Password
-              </label>
+          </div>
+
+          {/* Confirm Password Input */}
+          <div className="group">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-indigo-100 mb-2 ml-1">
+              Confirm Password
+            </label>
+            <div className="relative">
               <input
                 type="password"
                 id="confirmPassword"
+                name="confirmPassword"
                 value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onChange={handleChange}
+                className="w-full px-5 py-3 bg-white bg-opacity-10 border border-indigo-300 border-opacity-30 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-indigo-200 placeholder-opacity-60 transition duration-200"
+                placeholder="••••••••"
                 required
                 disabled={isLoading}
               />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition duration-200 pointer-events-none"></div>
             </div>
+          </div>
 
+            
             <button
               type="submit"
-              className={`w-full bg-blue-600 text-white py-3 rounded-lg font-semibold ${
-                isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-blue-700'
-              } transition`}
+              className={`w-full mt-8 bg-gradient-to-r from-purple-600 to-pink-600 py-4 px-6 rounded-xl text-white font-bold text-lg shadow-lg transform transition-all duration-300 ${
+                isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:from-purple-700 hover:to-pink-700 hover:shadow-xl hover:-translate-y-1'
+              }`}
               disabled={isLoading}
             >
-              {isLoading ? 'Creating Account...' : 'Create Account'}
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Creating Account...
+                </div>
+              ) : (
+                'Join Resume Builder'
+              )}
             </button>
           </form>
 
-          <div className="mt-6">
+          <div className="mt-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-white border-opacity-10"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-3 bg-white bg-opacity-5 text-indigo-100 rounded-md">Or continue with</span>
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-4">
+            <div className="mt-8 grid grid-cols-2 gap-4">
               <button 
                 type="button"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center justify-center"
+                className="group relative w-full px-4 py-3 border border-white border-opacity-20 rounded-xl text-white hover:bg-white hover:bg-opacity-5 transition flex items-center justify-center overflow-hidden"
                 disabled={isLoading}
               >
-                <span className="mr-2">G</span> Google
+                <span className="relative z-10 flex items-center">
+                  <span className="mr-2 text-lg font-bold">G</span> Google
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </button>
               <button 
                 type="button"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center justify-center"
+                className="group relative w-full px-4 py-3 border border-white border-opacity-20 rounded-xl text-white hover:bg-white hover:bg-opacity-5 transition flex items-center justify-center overflow-hidden"
                 disabled={isLoading}
               >
-                <span className="mr-2">f</span> Facebook
+                <span className="relative z-10 flex items-center">
+                  <span className="mr-2 text-lg font-bold">f</span> Facebook
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </button>
             </div>
           </div>
 
-          <p className="mt-8 text-center text-sm text-gray-600">
+          <p className="mt-10 text-center text-indigo-100">
             Already have an account?{' '}
             <button
               type="button"
               onClick={() => router.push('/Login')}
-              className="text-blue-600 hover:text-blue-500 font-semibold"
+              className="text-pink-300 hover:text-pink-200 font-semibold ml-1 transition-colors duration-200"
               disabled={isLoading}
             >
               Sign in

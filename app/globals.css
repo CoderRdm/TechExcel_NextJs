@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,4 +19,376 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+@keyframes border-pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+@keyframes flicker {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  20% { opacity: 0.3; }
+  30% { opacity: 0.8; }
+  40% { opacity: 0.2; }
+  50% { opacity: 1; }
+  60% { opacity: 0; }
+  70% { opacity: 0.6; }
+  80% { opacity: 0.3; }
+  90% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+.animate-border-pulse {
+  animation: border-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-flicker {
+  animation: flicker 2s infinite;
+}
+
+.neon-box {
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 
+              inset 0 0 15px rgba(34, 211, 238, 0.1);
+}
+
+.shadow-green-glow {
+  box-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
+}
+@keyframes flicker {
+  0% { opacity: 0.8; }
+  20% { opacity: 0.5; }
+  40% { opacity: 0.9; }
+  60% { opacity: 0.4; }
+  80% { opacity: 0.7; }
+  100% { opacity: 0.8; }
+}
+
+.shadow-cyber {
+  box-shadow: 0 0 15px rgba(192, 132, 252, 0.4),
+              0 0 30px rgba(192, 132, 252, 0.2);
+}
+
+.shadow-cyber-hover {
+  box-shadow: 0 0 20px rgba(192, 132, 252, 0.6),
+              0 0 40px rgba(192, 132, 252, 0.3);
+}
+
+.shadow-cyber-lg {
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.3),
+              0 0 60px rgba(192, 132, 252, 0.2);
+}
+
+.shadow-inner-cyber {
+  box-shadow: inset 0 0 20px rgba(34, 211, 238, 0.1),
+              inset 0 0 40px rgba(192, 132, 252, 0.05);
+}
+
+.animate-flicker {
+  animation: flicker 2s infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out;
+}
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  padding: 1rem;
+  background: #ffe6e6;
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  border-radius: 4px;
+  margin: 1rem;
+}
+
+
+.profile-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.profile-field {
+  margin-bottom: 1.5rem;
+}
+
+.profile-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.profile-field p {
+  margin: 0;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+}
+
+.delete-btn:hover {
+  background-color: #bb2d3b;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #dc3545;
+}
+
+ 
+ /* Add these to your global CSS or tailwind config */
+ @keyframes spin-slow {
+   to {
+     transform: rotate(-360deg);
+   }
+ }
+ .animate-spin-slow {
+   animation: spin-slow 3s linear infinite;
+ }
+ 
+ @keyframes spin-reverse {
+   to {
+    transform: rotate(360deg);
+   }
+ }
+ .animate-spin-reverse {
+   animation: spin-reverse 2s linear infinite;
+ }
+ /* Flash message styles */
+.flash-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 300px;
+  max-width: 500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: slide-in 0.3s ease-out;
+}
+
+.flash-message.success {
+  background-color: #10B981;
+  color: white;
+  border-left: 5px solid #059669;
+}
+
+.flash-message.error {
+  background-color: #EF4444;
+  color: white;
+  border-left: 5px solid #B91C1C;
+}
+
+.flash-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.flash-icon {
+  display: flex;
+  align-items: center;
+}
+
+.flash-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.flash-close:hover {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* delete */
+/* Confirmation dialog styles */
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  animation: fade-in 0.2s ease-out;
+}
+
+.confirm-dialog {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: scale-in 0.2s ease-out;
+}
+
+.confirm-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1F2937;
+  margin: 0 0 16px 0;
+}
+
+.confirm-message {
+  font-size: 16px;
+  color: #4B5563;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.confirm-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.confirm-button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.confirm-button.cancel {
+  background-color: #F3F4F6;
+  color: #4B5563;
+  border: 1px solid #E5E7EB;
+}
+
+.confirm-button.cancel:hover {
+  background-color: #E5E7EB;
+}
+
+.confirm-button.confirm {
+  background-color: #EF4444;
+  color: white;
+  border: none;
+}
+
+.confirm-button.confirm:hover {
+  background-color: #DC2626;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

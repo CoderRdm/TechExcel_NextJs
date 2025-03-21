@@ -1,494 +1,269 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
-const Template1 = ({
+const Template4 = ({
   about,
   header,
   experiences = [],
   educations = [],
-  Volunterring = [],
+  Volunteering = [],
   achievements = [],
-  Interests = [],
+  interests = [],
   skills = [],
-  Certificates = [],
+  certificates = [],
 }) => {
+  // Color theme options
+  const colorThemes = {
+    mint: {
+      header: "bg-[#e0eaea]",
+      contactBar: "bg-[#333333]",
+      contactText: "text-white",
+      sectionTitle: "text-[#333333] border-b-[#333333]",
+      highlight: "text-[#333333]",
+      skillBg: "bg-[#e0eaea]",
+      skillText: "text-[#333333]",
+    },
+    blue: {
+      header: "bg-[#e6f0ff]",
+      contactBar: "bg-[#2c5282]",
+      contactText: "text-white",
+      sectionTitle: "text-[#2c5282] border-b-[#2c5282]",
+      highlight: "text-[#2c5282]",
+      skillBg: "bg-[#e6f0ff]",
+      skillText: "text-[#2c5282]",
+    },
+    teal: {
+      header: "bg-[#e6fffa]",
+      contactBar: "bg-[#285e61]",
+      contactText: "text-white",
+      sectionTitle: "text-[#285e61] border-b-[#285e61]",
+      highlight: "text-[#285e61]",
+      skillBg: "bg-[#e6fffa]",
+      skillText: "text-[#285e61]",
+    },
+    purple: {
+      header: "bg-[#f5f0ff]",
+      contactBar: "bg-[#553c9a]",
+      contactText: "text-white",
+      sectionTitle: "text-[#553c9a] border-b-[#553c9a]",
+      highlight: "text-[#553c9a]",
+      skillBg: "bg-[#f5f0ff]",
+      skillText: "text-[#553c9a]",
+    },
+    gray: {
+      header: "bg-[#f0f0f0]",
+      contactBar: "bg-[#4a5568]",
+      contactText: "text-white",
+      sectionTitle: "text-[#4a5568] border-b-[#4a5568]",
+      highlight: "text-[#4a5568]",
+      skillBg: "bg-[#f0f0f0]",
+      skillText: "text-[#4a5568]",
+    }
+  };
+
+  const [activeTheme, setActiveTheme] = useState("mint");
+  const theme = colorThemes[activeTheme];
+
   return (
-    <div className="resume-wrapper">
-      <section className="profile section-padding">
-        <div className="container">
-          {/* Profile Picture Section */}
-          <div className="picture-resume-wrapper">
-            <div className="picture-resume">
-              <span>
-                <img
-                  src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg"
-                  alt="Profile"
-                />
-              </span>
-              <svg version="1.1" viewBox="0 0 350 350">
-                <defs>
-                  <filter id="goo">
-                    <feGaussianBlur
-                      in="SourceGraphic"
-                      stdDeviation="8"
-                      result="blur"
-                    />
-                    <feColorMatrix
-                      in="blur"
-                      mode="matrix"
-                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -9"
-                      result="cm"
-                    />
-                  </filter>
-                </defs>
+    <div className="max-w-4xl mx-auto shadow-xl rounded-sm font-[Arial] text-gray-700 bg-white">
+      {/* Color Theme Selector */}
+      <div className="flex gap-2 p-2 bg-white">
+        {Object.keys(colorThemes).map((color) => (
+          <button
+            key={color}
+            onClick={() => setActiveTheme(color)}
+            className={`w-6 h-6 rounded-full ${
+              color === "mint" ? "bg-[#e0eaea] border border-[#333333]" :
+              color === "blue" ? "bg-[#e6f0ff] border border-[#2c5282]" :
+              color === "teal" ? "bg-[#e6fffa] border border-[#285e61]" :
+              color === "purple" ? "bg-[#f5f0ff] border border-[#553c9a]" :
+              "bg-[#f0f0f0] border border-[#4a5568]"
+            } ${activeTheme === color ? "ring-2 ring-offset-2 ring-gray-400" : ""}`}
+            aria-label={`${color} theme`}
+          />
+        ))}
+      </div>
 
-                <g filter="url(#goo)">
-                  <circle
-                    id="main_circle"
-                    className="st0"
-                    cx="171.5"
-                    cy="175.6"
-                    r="130"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble0 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble1 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble2 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble3 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble4 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble5 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble6 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble7 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble8 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble9 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                  <circle
-                    id="circle"
-                    className="bubble10 st1"
-                    cx="171.5"
-                    cy="175.6"
-                    r="122.7"
-                  />
-                </g>
-              </svg>
-            </div>
-            <div className="clearfix"></div>
-          </div>
+      {/* Header Section */}
+      <header className={`${theme.header} p-6 text-center`}>
+        <h1 className="text-4xl font-bold text-gray-800 uppercase tracking-wide">{header.name}</h1>
+      </header>
 
-          {/* Name Section */}
-          <div className="name-wrapper">
-            <h1>
-              {header?.name?.split(" ")[0]} <br />
-              {header?.name?.split(" ").slice(1).join(" ")}
-            </h1>
-          </div>
-          <div className="clearfix"></div>
-
-          {/* Contact Information */}
-          <div className="contact-info clearfix">
-            <ul className="list-titles">
-              <li>Call</li>
-              <li>Mail</li>
-              <li>Web</li>
-              <li>Home</li>
-            </ul>
-            <ul className="list-content">
-              <li>{header?.phone}</li>
-              <li>{header?.email}</li>
-              <li>
-                <a href={header?.website}>{header?.website?.replace("https://", "")}</a>
-              </li>
-              <li>
-                {header?.city}, {header?.country}
-              </li>
-            </ul>
-          </div>
-
-          {/* About Section */}
-          <div className="contact-presentation">
-            <p>{about}</p>
-          </div>
-
-          {/* Social Links */}
-          <div className="contact-social clearfix">
-            <ul className="list-titles">
-              <li>Twitter</li>
-              <li>Dribbble</li>
-              <li>Codepen</li>
-            </ul>
-            <ul className="list-content">
-              <li>
-                <a href="#">@{header?.name?.toLowerCase().replace(" ", "")}</a>
-              </li>
-              <li>
-                <a href="#">{header?.name?.toLowerCase().replace(" ", "")}</a>
-              </li>
-              <li>
-                <a href="#">{header?.name?.toLowerCase().replace(" ", "")}</a>
-              </li>
-            </ul>
-          </div>
+      {/* Contact Bar */}
+      <div className={`${theme.contactBar} ${theme.contactText} p-4 flex justify-center flex-wrap gap-8`}>
+        <div className="flex items-center">
+          <span className="mr-2">📧</span>
+          {header.email}
         </div>
-      </section>
+        <div className="flex items-center">
+          <span className="mr-2">📞</span>
+          {header.phone}
+        </div>
+        <div className="flex items-center">
+          <span className="mr-2">📍</span>
+          {header.city}, {header.country} {header.zipcode}
+        </div>
+      </div>
 
-      {/* Experience Section */}
-      <section className="experience section-padding">
-        <div className="container">
-          <h3 className="experience-title">Experience</h3>
+      {/* Main Content */}
+      <div className="p-6">
+        {/* Summary */}
+        <Section title="SUMMARY" theme={theme}>
+          <p className="text-gray-600 leading-relaxed">{about}</p>
+        </Section>
 
-          <div className="experience-wrapper">
-            {experiences.map((exp, index) => (
-              <React.Fragment key={index}>
-                <div className="company-wrapper clearfix">
-                  <div className="experience-title">{exp.company}</div>
-                  <div className="time">{exp.months}</div>
-                </div>
-
-                <div className="job-wrapper clearfix">
-                  <div className="experience-title">{exp.jobtitle}</div>
-                  <div className="company-description">
-                    <p>{exp.description}</p>
-                  </div>
-                </div>
-              </React.Fragment>
+        {/* Skills */}
+        <Section title="SKILLS" theme={theme}>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+            {skills.map((skill, index) => (
+              <div key={index} className="flex items-start">
+                <span className={`mr-2 ${theme.highlight}`}>•</span>
+                <span>{skill.name}</span>
+              </div>
             ))}
           </div>
+        </Section>
 
-          {/* Skills Section */}
-          <div className="section-wrapper clearfix">
-            <h3 className="section-title">Skills</h3>
-            <ul>
-              {skills.map((skill, index) => (
-                <li key={index} className="skill-percentage">
-                  {skill.name}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* Experience */}
+        <Section title="EXPERIENCE" theme={theme}>
+          {experiences.map((exp, index) => (
+            <ExperienceItem 
+              key={index}
+              title={exp.jobtitle}
+              company={exp.company}
+              location={exp.country}
+              duration={`${exp.startDate} - ${exp.endDate || 'Present'}`}
+              description={exp.description}
+              theme={theme}
+            />
+          ))}
+        </Section>
 
-          {/* Hobbies Section */}
-          <div className="section-wrapper clearfix">
-            <h3 className="section-title">Hobbies</h3>
-            <p>
-              {Interests.map((interest, index) => (
-                <span key={index}>
-                  {interest.interests}
-                  {index < Interests.length - 1 ? ", " : ""}
+        {/* Education */}
+        <Section title="EDUCATION AND TRAINING" theme={theme}>
+          {educations.map((edu, index) => (
+            <EducationItem
+              key={index}
+              year={edu.graduationyear}
+              degree={`${edu.degree} in ${edu.field}`}
+              institution={edu.institute}
+              location={edu.location}
+              theme={theme}
+            />
+          ))}
+        </Section>
+
+        {/* Certificates */}
+        {certificates.length > 0 && (
+          <Section title="CERTIFICATIONS" theme={theme}>
+            {certificates.map((cert, index) => (
+              <div key={index} className="mb-3">
+                <h4 className={`font-medium ${theme.highlight}`}>{cert.name}</h4>
+                {cert.date && <p className="text-sm text-gray-500">{cert.date}</p>}
+                {cert.link && (
+                  <a href={cert.link} className="text-sm text-gray-500 hover:underline">
+                    View Credential
+                  </a>
+                )}
+              </div>
+            ))}
+          </Section>
+        )}
+
+        {/* Achievements */}
+        {achievements.length > 0 && (
+          <Section title="ACHIEVEMENTS" theme={theme}>
+            {achievements.map((ach, index) => (
+              <div key={index} className="mb-3 flex">
+                <span className={`mr-2 ${theme.highlight}`}>•</span>
+                <div>
+                  <span className="font-medium">{ach.title}</span>
+                  {ach.description && (
+                    <p className="text-gray-600">{ach.description}</p>
+                  )}
+                  {ach.date && (
+                    <p className="text-gray-400 text-sm">{ach.date}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </Section>
+        )}
+
+        {/* Volunteering */}
+        {Volunteering.length > 0 && (
+          <Section title="VOLUNTEER EXPERIENCE" theme={theme}>
+            {Volunteering.map((vol, index) => (
+              <div key={index} className="mb-3">
+                <h4 className="font-medium">{vol.institute}</h4>
+                <p className="text-sm text-gray-600">{vol.location}</p>
+                <p className="text-sm text-gray-500">{vol.duration}</p>
+              </div>
+            ))}
+          </Section>
+        )}
+
+        {/* Interests */}
+        {interests.length > 0 && (
+          <Section title="INTERESTS" theme={theme}>
+            <div className="flex flex-wrap gap-2">
+              {interests.map((interest, index) => (
+                <span 
+                  key={index}
+                  className={`${theme.skillBg} ${theme.skillText} text-sm px-3 py-1 rounded-full`}
+                >
+                  {interest.name}
                 </span>
               ))}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <div className="clearfix"></div>
-
-      {/* CSS for the resume template */}
-      <style jsx>{`
-        @import url(https://fonts.googleapis.com/css?family=Varela+Round);
-        @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
-
-        *,
-        *::after,
-        *::before {
-          box-sizing: border-box;
-        }
-
-        html,
-        body {
-          height: 100%;
-        }
-
-        body {
-          font-family: 'Open Sans', sans-serif;
-          font-size: 16px;
-          line-height: 1.5em;
-        }
-
-        a {
-          color: #66cc99;
-          text-decoration: none;
-        }
-
-        .clearfix::after {
-          content: "";
-          display: table;
-          clear: both;
-        }
-
-        .bold {
-          font-weight: 700;
-        }
-
-        .resume-wrapper {
-          position: relative;
-          text-align: center;
-          height: 100%;
-        }
-
-        .container {
-          min-height: 600px;
-        }
-
-        .profile {
-          background: #fff;
-          width: 40%;
-          float: left;
-          color: #9099a0;
-        }
-
-        .profile .name-wrapper {
-          float: left;
-          width: 60%;
-        }
-
-        .profile h1 {
-          font-size: 2.5em;
-          text-align: left;
-          font-family: 'Varela Round', sans-serif;
-          color: #4a4e51;
-          text-transform: uppercase;
-          line-height: 1em;
-          padding-top: 40px;
-        }
-
-        .profile .picture-resume-wrapper {
-          width: 40%;
-          display: block;
-          float: left;
-        }
-
-        .profile .picture-resume {
-          width: 220px;
-          height: 220px;
-          background-size: cover;
-          border-radius: 50%;
-          margin-right: 0px;
-          display: table;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .profile .picture-resume span {
-          display: table-cell;
-          vertical-align: middle;
-          position: relative;
-          margin: 0 auto;
-          z-index: 10;
-          text-align: center;
-        }
-
-        .profile .picture-resume img {
-          border-radius: 50%;
-          width: 130px;
-        }
-
-        .profile .contact-info {
-          margin-top: 100px;
-          font-weight: 300;
-        }
-
-        .profile .list-titles {
-          float: left;
-          text-align: left;
-          font-weight: 600;
-          width: 40%;
-          color: #4a4e51;
-        }
-
-        .profile .list-content {
-          float: left;
-          width: 60%;
-          text-align: left;
-          font-weight: 300;
-        }
-
-        .profile .contact-presentation {
-          text-align: left;
-          font-weight: 300;
-          margin-top: 100px;
-          margin-bottom: 100px;
-        }
-
-        .profile svg {
-          width: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-        }
-
-        .profile .st0,
-        .profile .st1 {
-          fill: #66cc99;
-        }
-
-        .experience {
-          background: #3d3e42;
-          width: 60%;
-          float: left;
-          position: relative;
-          color: #9099a0;
-          font-weight: 300;
-          min-height: 100%;
-          min-height: 100vh;
-        }
-
-        .experience h3.experience-title {
-          color: #66cc99;
-          text-align: left;
-          text-transform: uppercase;
-          font-size: 1.2em;
-          margin-bottom: 20px;
-          font-weight: 400;
-        }
-
-        .experience .company-wrapper {
-          width: 30%;
-          float: left;
-          text-align: left;
-          padding-right: 5%;
-          margin-bottom: 60px;
-        }
-
-        .experience .job-wrapper {
-          width: 70%;
-          float: left;
-          text-align: left;
-          padding-right: 5%;
-          margin-bottom: 60px;
-        }
-
-        .experience .experience-title {
-          color: white;
-          margin-bottom: 15px;
-        }
-
-        .section-padding {
-          padding: 60px 60px 40px 40px;
-        }
-
-        .section-wrapper {
-          width: 100%;
-          float: left;
-          text-align: left;
-          color: #9099a0;
-          font-weight: 300;
-          margin-bottom: 20px;
-        }
-
-        .section-wrapper:last-child {
-          margin-bottom: 0;
-        }
-
-        .section-title {
-          color: #66cc99;
-          text-transform: uppercase;
-          font-size: 1.2em;
-          margin-bottom: 20px;
-          font-weight: 400;
-        }
-
-        .skill-percentage {
-          margin-bottom: 10px;
-          position: relative;
-        }
-
-        .skill-percentage::after {
-          content: "";
-          width: 100%;
-          height: 6px;
-          background: #4a4e51;
-          display: block;
-          margin-top: 3px;
-        }
-
-        .skill-percentage::before {
-          content: "";
-          height: 6px;
-          background: #66cc99;
-          position: absolute;
-          margin-top: 3px;
-          bottom: 0;
-          width: 0%;
-        }
-
-        @media (max-width: 850px) {
-          .profile,
-          .experience {
-            width: 100%;
-          }
-          
-          .profile .name-wrapper {
-            float: none;
-            width: 100%;
-          }
-          
-          .profile .picture-resume-wrapper {
-            float: none;
-            width: 100%;
-          }
-        }
-      `}</style>
+            </div>
+          </Section>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Template1;
+// Reusable Section Component
+const Section = ({ title, children, theme }) => (
+  <div className="mb-6">
+    <h2 className={`text-xl font-bold mb-3 ${theme.sectionTitle} border-b pb-1`}>
+      {title}
+    </h2>
+    {children}
+  </div>
+);
+
+// Experience Item Component
+const ExperienceItem = ({ title, company, location, duration, description, theme }) => (
+  <div className="mb-6">
+    <div className="flex justify-between items-start mb-1 flex-wrap">
+      <h3 className="font-medium text-gray-800 italic">{company}, {location}</h3>
+      <span className="text-sm text-gray-600">{duration}</span>
+    </div>
+    <p className={`font-semibold ${theme.highlight} mb-2`}>{title}</p>
+    {description && Array.isArray(description) ? (
+      <ul className="list-disc pl-5 text-gray-600 space-y-1">
+        {description.map((item, idx) => (
+          <li key={idx}>{item}</li>
+        ))}
+      </ul>
+    ) : description ? (
+      <p className="text-gray-600">{description}</p>
+    ) : null}
+  </div>
+);
+
+// Education Item Component
+const EducationItem = ({ year, degree, institution, location, theme }) => (
+  <div className="mb-5">
+    <div className="flex justify-between items-start mb-1 flex-wrap">
+      <div>
+        <p className={`font-medium ${theme.highlight}`}>{degree}</p>
+        <p className="text-sm text-gray-600 italic">{institution}{location ? `, ${location}` : ''}</p>
+      </div>
+      <span className="text-sm text-gray-600">{year}</span>
+    </div>
+  </div>
+);
+
+export default Template4;

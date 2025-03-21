@@ -1,0 +1,399 @@
+"use client";
+
+import React, { useState } from "react";
+import HeaderSection from "../components/CreateTemplateForm/HeaderSection";
+import EducationSection from "../components/CreateTemplateForm/EducationSection";
+import ExperienceSection from "../components/CreateTemplateForm/ExperienceSection";
+import AboutSection from "../components/CreateTemplateForm/AboutSection";
+import PreviewSection from "../components/CreateTemplateForm/PreviewSection";
+import VolunterringSection from "../components/CreateTemplateForm/VolunteeringSection";
+import AchievementsSection from "../components/CreateTemplateForm/AchievementsSection";
+import InterestsSection from "../components/CreateTemplateForm/InterestsSection";
+import CertificatesSection from "../components/CreateTemplateForm/CerticatesSection";
+import SkillsSection from "../components/CreateTemplateForm/SkillsSection";
+import Header from "../components/constants/Header";
+import { useAuth } from "@clerk/clerk-react"; // Import useAuth from Clerk
+
+const CreateTemplateForm = () => {
+  const { userId: clerkUserId } = useAuth(); // Get the authenticated user's ID
+  const [activeTab, setActiveTab] = useState("about");
+  const [formData, setFormData] = useState({
+    about: "",
+    header: {
+      name: "",
+      city: "",
+      country: "",
+      phone: "",
+      email: "",
+    },
+    experiences: [
+      {
+        jobtitle: "",
+        company: "",
+        country: "",
+        months: 0,
+      },
+    ],
+    educations: [
+      {
+        institute: "",
+        location: "",
+        degree: "",
+        field: "",
+        graduationyear: "",
+      },
+    ],
+    Volunterring: [
+      {
+        institute: "",
+        location: "",
+        duration: "",
+      },
+    ],
+    achievements: [
+      {
+        name: "",
+      },
+    ],
+    Interests: [
+      {
+        interests: "",
+      },
+    ],
+    Certificates: [
+      {
+        name: "",
+        link: "",
+      },
+    ],
+    skills: [{ name: "" }],
+  });
+
+  const handleChange = (e, section, index) => {
+    const { name, value } = e.target;
+
+    if (section) {
+      if (Array.isArray(formData[section])) {
+        const updatedSection = [...formData[section]];
+        updatedSection[index][name] = value;
+        setFormData({ ...formData, [section]: updatedSection });
+      } else {
+        setFormData({
+          ...formData,
+          [section]: {
+            ...formData[section],
+            [name]: value,
+          },
+        });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const addExperience = () => {
+    setFormData({
+      ...formData,
+      experiences: [
+        ...formData.experiences,
+        { jobtitle: "", company: "", country: "", months: 0 },
+      ],
+    });
+  };
+
+  const addEducation = () => {
+    setFormData({
+      ...formData,
+      educations: [
+        ...formData.educations,
+        { institute: "", location: "", degree: "", field: "", graduationyear: "" },
+      ],
+    });
+  };
+
+  const addVolunterring = () => {
+    setFormData({
+      ...formData,
+      Volunterring: [
+        ...formData.Volunterring,
+        { institute: "", location: "", duration: "" },
+      ],
+    });
+  };
+
+  const addAchievement = () => {
+    setFormData({
+      ...formData,
+      achievements: [
+        ...formData.achievements,
+        { name: "" },
+      ],
+    });
+  };
+
+  const addCertificates = () => {
+    setFormData({
+      ...formData,
+      Certificates: [
+        ...formData.Certificates,
+        { name: "", link: "" },
+      ],
+    });
+  };
+
+  const addInterests = () => {
+    setFormData({
+      ...formData,
+      Interests: [
+        ...formData.Interests,
+        { interests: "" },
+      ],
+    });
+  };
+
+  const addSkill = () => {
+    setFormData({
+      ...formData,
+      skills: [...formData.skills, { name: "" }],
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:3000/api/templates/createtemplate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData, // Include all form data
+          clerkUserId, // Add the authenticated user's Clerk ID
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to create template");
+      }
+
+      const data = await response.json();
+      alert("Resume created successfully!");
+    } catch (error) {
+      alert("An error occurred: " + error.message);
+    }
+  }; // Added missing closing brace for handleSubmit
+
+  const formatDuration = (months) => {
+    if (!months) return "0 months";
+
+    const years = Math.floor(months / 12);
+    const remainingMonths = months % 12;
+
+    let result = "";
+    if (years > 0) {
+      result += `${years} year${years > 1 ? "s" : ""}`;
+    }
+    if (remainingMonths > 0) {
+      result += `${years > 0 ? " " : ""}${remainingMonths} month${remainingMonths > 1 ? "s" : ""}`;
+    }
+
+    return result;
+  };
+
+  // Navigation tabs for the form sections
+  const navTabs = [
+    { id: "about", icon: "📝", label: "About" },
+    { id: "header", icon: "👤", label: "Contact" },
+    { id: "experiences", icon: "💼", label: "Work" },
+    { id: "educations", icon: "🎓", label: "Education" },
+    { id: "skills", icon: "🔧", label: "Skills" },
+    { id: "achievements", icon: "🏆", label: "Achievements" },
+    { id: "Volunterring", icon: "🤝", label: "Volunteer" },
+    { id: "Certificates", icon: "📜", label: "Certificates" },
+    { id: "Interests", icon: "⭐", label: "Interests" },
+  ];
+
+  return (
+    <>
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-8 px-4 sm:px-6 lg:px-8 text-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 mb-2">
+              Resume Builder Pro
+            </h1>
+            <p className="text-gray-300 text-lg">Create a stunning professional resume in minutes</p>
+          </div>
+
+          {/* Main content container */}
+          <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+            <div className="flex flex-col lg:flex-row">
+              {/* Form Section */}
+              <div className="w-full lg:w-1/2 border-r border-gray-700">
+                {/* Grid-based Tab Navigation */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 p-4 bg-gray-900">
+                  {navTabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex flex-col items-center justify-center p-4 rounded-lg transition-all duration-200 ${
+                        activeTab === tab.id
+                          ? "bg-indigo-600 shadow-lg transform scale-105"
+                          : "bg-gray-800 hover:bg-gray-700"
+                      }`}
+                    >
+                      <span className="text-xl mb-2">{tab.icon}</span>
+                      <span className="text-sm">{tab.label}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Form content */}
+                <form onSubmit={handleSubmit} className="p-6">
+                  <div className="space-y-6">
+                    {activeTab === "about" && <AboutSection about={formData.about} handleChange={handleChange} />}
+                    {activeTab === "header" && <HeaderSection header={formData.header} handleChange={handleChange} />}
+                    {activeTab === "experiences" && (
+                      <ExperienceSection
+                        experiences={formData.experiences}
+                        handleChange={handleChange}
+                        addExperience={addExperience}
+                      />
+                    )}
+                    {activeTab === "educations" && (
+                      <EducationSection
+                        educations={formData.educations}
+                        handleChange={handleChange}
+                        addEducation={addEducation}
+                      />
+                    )}
+                    {activeTab === "Volunterring" && (
+                      <VolunterringSection
+                        volunteering={formData.Volunterring}
+                        handleChange={handleChange}
+                        addVolunteering={addVolunterring}
+                      />
+                    )}
+                    {activeTab === "achievements" && (
+                      <AchievementsSection
+                        achievements={formData.achievements}
+                        handleChange={handleChange}
+                        addAchievement={addAchievement}
+                      />
+                    )}
+                    {activeTab === "Interests" && (
+                      <InterestsSection
+                        interests={formData.Interests}
+                        handleChange={handleChange}
+                        addInterest={addInterests}
+                      />
+                    )}
+                    {activeTab === "skills" && (
+                      <SkillsSection
+                        skills={formData.skills}
+                        handleChange={handleChange}
+                        addCertificate={addSkill}
+                      />
+                    )}
+                    {activeTab === "Certificates" && (
+                      <CertificatesSection
+                        certificates={formData.Certificates}
+                        handleChange={handleChange}
+                        addCertificate={addCertificates}
+                      />
+                    )}
+                  </div>
+
+                  <div className="mt-8">
+                    <button
+                      type="submit"
+                      className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 hover:shadow-xl"
+                    >
+                      Generate My Resume
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Preview Section */}
+              <div className="w-full lg:w-3/5 bg-gray-900 p-6">
+                <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+                  <div className="p-6">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                      <span className="mr-2">👁️</span> Live Preview
+                    </h2>
+                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <PreviewSection
+  about={formData.about}
+  header={formData.header}
+  experiences={formData.experiences}
+  educations={formData.educations}
+  Volunterring={formData.Volunterring}
+  achievements={formData.achievements}
+  Interests={formData.Interests}
+  Certificates={formData.Certificates}
+  skills={formData.skills}
+  clerkUserId={clerkUserId} // Pass the authenticated user's Clerk ID
+  formatDuration={formatDuration}
+/>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Template selection or additional controls */}
+                <div className="mt-6 flex justify-between bg-gray-800 p-4 rounded-lg">
+                  <div>
+                    <h3 className="text-gray-300 font-medium mb-2">Choose Template</h3>
+                    <div className="flex space-x-2">
+                      <button className="w-10 h-10 bg-indigo-600 rounded-md flex items-center justify-center">1</button>
+                      <button className="w-10 h-10 bg-gray-700 rounded-md hover:bg-gray-600 transition-colors duration-200 flex items-center justify-center">2</button>
+                      <button className="w-10 h-10 bg-gray-700 rounded-md hover:bg-gray-600 transition-colors duration-200 flex items-center justify-center">3</button>
+                    </div>
+                  </div>
+                  <div>
+                    <button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 transition-colors duration-200 rounded-md flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 mr-2"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                        />
+                      </svg>
+                      Download PDF
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer with additional information */}
+          <div className="mt-12 text-center text-gray-400">
+            <p>Build professional resumes that stand out from the crowd</p>
+            <div className="mt-4 flex justify-center space-x-6">
+              <span className="flex items-center">
+                <span className="mr-2">✨</span> Modern Templates
+              </span>
+              <span className="flex items-center">
+                <span className="mr-2">🔄</span> Real-time Preview
+              </span>
+              <span className="flex items-center">
+                <span className="mr-2">📱</span> Mobile Friendly
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CreateTemplateForm;
